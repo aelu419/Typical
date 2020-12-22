@@ -1,0 +1,5 @@
+<L 1 2/>
+Lorem Ipsum <L/>
+Lorem Ipsum <I>Dolor Sit Amet</I>
+<B
+><I>Lorem</I></B> Ipsum Dolor Sit Amet

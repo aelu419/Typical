@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Reading : MonoBehaviour
+public class ReadingDeprecated: MonoBehaviour
 {
     //for saving user progress
     public string section;
