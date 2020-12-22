@@ -7,9 +7,20 @@ using UnityEngine;
 
 public class ReadingManager: MonoBehaviour
 {
+    public GameObject text_holder_prefab;
     private TextAsset script; //the entire script
     private Word[] words;
     public string script_name;
+
+    private VisualManager vManager;
+    private int upcoming;
+
+    private List<GameObject> loaded_words;
+
+    private void Awake()
+    {
+        upcoming = 0;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -18,12 +29,79 @@ public class ReadingManager: MonoBehaviour
         Debug.Log("Text Loaded as follows:\n" + script.text);
 
         words = parseScript(script.text);
+
+        //connect to rest of components
+        vManager = GetComponent<VisualManager>();
+
+        Vector2 cursor = new Vector2(0, 0);
+        //load words, by default load the first 30
+        loaded_words = new List<GameObject>();
+        (Vector2 cursor, GameObject go) word_loader_temp;
+        for (int i = 0; i < Mathf.Min(30, words.Length); i++)
+        {
+            word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
+            cursor = word_loader_temp.cursor; //update cursor
+            loaded_words.Add(word_loader_temp.go);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        /*
+        GameObject last_loaded_word = loaded_words[loaded_words.Count - 1];
+        GameObject first_loaded_word = loaded_words[0];
+
+        // when current last loaded word's end enters the right buffer, load the next word from back
+        if ((last_loaded_word.transform as RectTransform).rect.xMax
+            < (vManager.CAM.xMax + vManager.BUFFER_SIZE))
+        {
+            int i = int.Parse(last_loaded_word.tag.Substring(1));
+            i++;
+            if(i < words.Length)
+            {
+                //load word at i
+                (Vector2 cursor, GameObject go) word_loader_temp =
+                    words[i].ToPrefab(text_holder_prefab, words[i-1].R, "W" + i.ToString());
+
+                loaded_words.Add(word_loader_temp.go);
+                last_loaded_word = word_loader_temp.go;
+            }
+            else
+            {
+                Debug.Log("End of script is reached, a portal should be spawn to quit the current story");
+            }
+        }
+
+        // when current last loaded word exists the right buffer,
+        // load the word before the current first loaded word,
+        // but don't unload the last loaded word as we expect it to come back to view soon
+        if((last_loaded_word.transform as RectTransform).rect.xMin
+            > (vManager.CAM.xMax + vManager.BUFFER_SIZE)){
+            int i = int.Parse(first_loaded_word.tag.Substring(1));
+            i--;
+            if(i >= 0)
+            {
+                //load word at i to the beginning of loaded_words
+                //the word itself should already have been loaded, so the LR are alreaady set
+                //load word at i
+                (Vector2 cursor, GameObject go) word_loader_temp =
+                    words[i].ToPrefab(text_holder_prefab, words[i].L, "W" + i.ToString());
+
+                loaded_words.Insert(0, word_loader_temp.go);
+            }
+            else
+            {
+                Debug.Log("Beginning of script reached");
+            }
+        }
+
+        // when current first loaded word exists the left buffer, unload it
+        if ((first_loaded_word.transform as RectTransform).rect.xMax
+            < (vManager.CAM.xMin - vManager.BUFFER_SIZE)){
+            loaded_words.RemoveAt(0);
+            Destroy(first_loaded_word);
+        }*/
     }
 
     //parse the script

@@ -45,6 +45,6 @@ public class Tag
         {
             param += specs[i] + " ";
         }
-        return type + "with specs: "+param;
+        return type + " with specs: "+param;
     }
 }
