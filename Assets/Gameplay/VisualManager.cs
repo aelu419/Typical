@@ -5,7 +5,6 @@ using UnityEngine;
 public class VisualManager : MonoBehaviour
 {
     [ReadOnly]public Vector2 CAM_VIEW_SIZE; //size of the visible range of the world, in world units
-    public float bufferSize = 0.5f; //size of the buffer area around the visible range, in world units
 
     private Camera cam;
 
@@ -13,6 +12,8 @@ public class VisualManager : MonoBehaviour
     void Start()
     {
         //fetch main camera and get settings
+        cam = Camera.main;
+        CAM_VIEW_SIZE = new Vector2(2f * cam.orthographicSize * cam.aspect, 2f * cam.orthographicSize);
     }
 
     // Update is called once per frame
