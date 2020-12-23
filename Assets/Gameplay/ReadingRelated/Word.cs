@@ -12,6 +12,7 @@ public class Word
     [ReadOnly] public Vector2 L, R; //left and right positions of the cursor associated with this word
     [ReadOnly] public float top;
     [ReadOnly] public float slope;
+    [ReadOnly] public int index;
 
     public enum WORD_TYPES
     {
@@ -20,11 +21,12 @@ public class Word
         reflecting
     }
 
-    public Word(Tag[] tags, string content, float slope)
+    public Word(Tag[] tags, string content, float slope, int index)
     {
         this.tags = tags;
         this.content = content;
         this.slope = slope;
+        this.index = index;
     }
 
     //instantiate a prefab that holds the current words

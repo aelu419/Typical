@@ -38,10 +38,10 @@ public class ReadingManager: MonoBehaviour
         vManager = GetComponent<VisualManager>();
 
         Vector2 cursor = new Vector2(0, 0);
-        //load words, by default load the first 30
+        //load words, by default load the first 10
         loaded_words = new List<GameObject>();
         (Vector2 cursor, GameObject go) word_loader_temp;
-        for (int i = 0; i < Mathf.Min(30, words.Length); i++)
+        for (int i = 0; i < Mathf.Min(10, words.Length); i++)
         {
             word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
             cursor = word_loader_temp.cursor; //update cursor
@@ -55,21 +55,22 @@ public class ReadingManager: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
         GameObject last_loaded_word = loaded_words[loaded_words.Count - 1];
         GameObject first_loaded_word = loaded_words[0];
 
         // when current last loaded word's end enters the right buffer, load the next word from back
-        if ((last_loaded_word.transform as RectTransform).rect.xMax
+        Debug.Log(last_loaded_word.GetComponent<TextHolderBehavior>().content.R.x);
+        if (last_loaded_word.GetComponent<TextHolderBehavior>().content.R.x
             < (vManager.CAM.xMax + vManager.BUFFER_SIZE))
         {
-            int i = int.Parse(last_loaded_word.tag.Substring(1));
+            Debug.Log("load from right");
+            int i = last_loaded_word.GetComponent<TextHolderBehavior>().content.index;
             i++;
             if(i < words.Length)
             {
                 //load word at i
                 (Vector2 cursor, GameObject go) word_loader_temp =
-                    words[i].ToPrefab(text_holder_prefab, words[i-1].R, "W" + i.ToString());
+                    words[i].ToPrefab(text_holder_prefab, words[i-1].R);
 
                 loaded_words.Add(word_loader_temp.go);
                 last_loaded_word = word_loader_temp.go;
@@ -83,9 +84,11 @@ public class ReadingManager: MonoBehaviour
         // when current last loaded word exists the right buffer,
         // load the word before the current first loaded word,
         // but don't unload the last loaded word as we expect it to come back to view soon
-        if((last_loaded_word.transform as RectTransform).rect.xMin
-            > (vManager.CAM.xMax + vManager.BUFFER_SIZE)){
-            int i = int.Parse(first_loaded_word.tag.Substring(1));
+        if(last_loaded_word.GetComponent<TextHolderBehavior>().content.L.x
+            > (vManager.CAM.xMax + vManager.BUFFER_SIZE))
+        {
+            Debug.Log("load from left");
+            int i = first_loaded_word.GetComponent<TextHolderBehavior>().content.index;
             i--;
             if(i >= 0)
             {
@@ -93,22 +96,22 @@ public class ReadingManager: MonoBehaviour
                 //the word itself should already have been loaded, so the LR are alreaady set
                 //load word at i
                 (Vector2 cursor, GameObject go) word_loader_temp =
-                    words[i].ToPrefab(text_holder_prefab, words[i].L, "W" + i.ToString());
+                    words[i].ToPrefab(text_holder_prefab, words[i].L);
 
                 loaded_words.Insert(0, word_loader_temp.go);
             }
             else
             {
-                Debug.Log("Beginning of script reached");
+               // Debug.Log("Beginning of script reached");
             }
         }
 
         // when current first loaded word exists the left buffer, unload it
-        if ((first_loaded_word.transform as RectTransform).rect.xMax
+        if (first_loaded_word.GetComponent<TextHolderBehavior>().content.R.x
             < (vManager.CAM.xMin - vManager.BUFFER_SIZE)){
-            loaded_words.RemoveAt(0);
+            loaded_words.Remove(first_loaded_word);
             Destroy(first_loaded_word);
-        }*/
+        }
     }
 
     //get slope of some word by index
@@ -128,7 +131,7 @@ public class ReadingManager: MonoBehaviour
         List<Word> words = new List<Word>();
 
         //starting block
-        words.Add(new Word(new Tag[] { }, "###", GetSlope(0)));
+        words.Add(new Word(new Tag[] { }, "###", GetSlope(0), 0));
 
         Regex tag = new Regex(@"<\s*(\/?)(\s*\w)+\s*(\/?)\s*>");
 
@@ -175,7 +178,7 @@ public class ReadingManager: MonoBehaviour
             if(raw[cursor]==' ')
             {
                 //terminate cached word and add it to the list
-                words.Add(new Word(hanging_tags.ToArray(), hanging_word, GetSlope(words.Count)));
+                words.Add(new Word(hanging_tags.ToArray(), hanging_word, GetSlope(words.Count), words.Count));
                 hanging_word = "";
             }
 
@@ -250,7 +253,7 @@ public class ReadingManager: MonoBehaviour
 
                     case Tag.TagAppearanceType.self_closing:
                         //deal with self closing tag: append empty word with this tag
-                        Word empty = new Word(new Tag[] { this_tag }, "", GetSlope(words.Count));
+                        Word empty = new Word(new Tag[] { this_tag }, "", GetSlope(words.Count), words.Count);
                         words.Add(empty);
                         break;
 

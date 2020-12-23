@@ -23,6 +23,13 @@ public class VisualManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float cam_h = 2f * cam.orthographicSize;
+        float cam_w = cam_h * cam.aspect;
+
+        CAM = new Rect(
+            cam.transform.position.x - cam_w / 2f, 
+            cam.transform.position.y - cam_h / 2f,
+            cam_w, cam_h);
 
         Vector3 cam_translation = new Vector3(
             Input.GetAxis("Horizontal") * CAM_SPEED * Time.deltaTime,
