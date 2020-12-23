@@ -20,7 +20,8 @@ public class PlayerControl : MonoBehaviour
 
     private Vector3 destination;
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
-        //sign change means the player has either arrived or rushed pass the destination
+                                                       //sign change means the player has either arrived or rushed pass the destination
+    private VisualManager vManager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,7 @@ public class PlayerControl : MonoBehaviour
 
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        vManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<VisualManager>();
 
         word_blocks_in_contact = new List<GameObject>();
 
@@ -45,6 +47,15 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //freeze the character if it is not inside camera range
+        if (transform.position.x < vManager.CAM.xMin
+            || transform.position.x > vManager.CAM.xMax)
+        {
+            //Debug.Log("outside camera scope");
+            rigid.velocity = Vector2.zero;
+            return;
+        }
+
         Vector3 relation_temp = new Vector3(
             relation_to_destination.x,
             relation_to_destination.y,

@@ -13,6 +13,7 @@ public class Word
     [ReadOnly] public float top;
     [ReadOnly] public float slope;
     [ReadOnly] public int index;
+    [ReadOnly] public Sprite cover;
 
     public enum WORD_TYPES
     {
@@ -61,7 +62,25 @@ public class Word
         L = new Vector2(lCursor.x, lCursor.y);
         top = lCursor.y + tmp.GetPreferredValues().y / 2f;
 
-        //TODO: handle coverers
+        //handle objects that cover the word
+        if (content.Length == 0 && (tags.Length == 1 && tags[0].type.Equals("O")))
+        {
+            if(tags[0].specs.Length == 0)
+            {
+                //use default object
+                cover = Resources.Load("default") as Sprite;
+            }
+            else
+            {
+                string cover_object_name = tags[0].specs[0];
+                cover = Resources.Load(cover_object_name) as Sprite;
+                if(cover == null)
+                {
+                    throw new System.Exception(cover_object_name + " cannot be found");
+                }
+            }
+
+        }
 
         return (new Vector2(R.x, R.y), go);
     }

@@ -59,11 +59,10 @@ public class ReadingManager: MonoBehaviour
         GameObject first_loaded_word = loaded_words[0];
 
         // when current last loaded word's end enters the right buffer, load the next word from back
-        Debug.Log(last_loaded_word.GetComponent<TextHolderBehavior>().content.R.x);
         if (last_loaded_word.GetComponent<TextHolderBehavior>().content.R.x
             < (vManager.CAM.xMax + vManager.BUFFER_SIZE))
         {
-            Debug.Log("load from right");
+            //Debug.Log("load from right");
             int i = last_loaded_word.GetComponent<TextHolderBehavior>().content.index;
             i++;
             if(i < words.Length)
@@ -87,7 +86,7 @@ public class ReadingManager: MonoBehaviour
         if(last_loaded_word.GetComponent<TextHolderBehavior>().content.L.x
             > (vManager.CAM.xMax + vManager.BUFFER_SIZE))
         {
-            Debug.Log("load from left");
+            //Debug.Log("load from left");
             int i = first_loaded_word.GetComponent<TextHolderBehavior>().content.index;
             i--;
             if(i >= 0)
