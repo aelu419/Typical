@@ -10,6 +10,7 @@ public class Word
     public string content;
 
     [ReadOnly] public Vector2 L, R; //left and right positions of the cursor associated with this word
+    [ReadOnly] public float top;
     [ReadOnly] public float slope;
 
     public enum WORD_TYPES
@@ -37,6 +38,7 @@ public class Word
         tmp.text = " "+content;
 
         go.GetComponent<TextHolderBehavior>().content = this;
+        go.tag = "Word Block";
 
         BoxCollider2D col = go.GetComponent<BoxCollider2D>();
         if (col == null) throw new System.Exception("prefab loading error: no collider");
@@ -55,6 +57,8 @@ public class Word
 
         R = new Vector2(lCursor.x + tmp.GetPreferredValues().x, lCursor.y + slope_delta);
         L = new Vector2(lCursor.x, lCursor.y);
+        top = lCursor.y + tmp.GetPreferredValues().y / 2f;
+
         //TODO: handle coverers
 
         return (new Vector2(R.x, R.y), go);
