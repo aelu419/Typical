@@ -9,7 +9,8 @@ public class Word
     public Tag[] tags;
     public string content;
 
-    [ReadOnly]public Vector2 L, R; //left and right positions of the cursor associated with this word
+    [ReadOnly] public Vector2 L, R; //left and right positions of the cursor associated with this word
+    [ReadOnly] public float slope;
 
     public enum WORD_TYPES
     {
@@ -18,10 +19,11 @@ public class Word
         reflecting
     }
 
-    public Word(Tag[] tags, string content)
+    public Word(Tag[] tags, string content, float slope)
     {
         this.tags = tags;
         this.content = content;
+        this.slope = slope;
     }
 
     //instantiate a prefab that holds the current words
@@ -40,7 +42,7 @@ public class Word
         if (col == null) throw new System.Exception("prefab loading error: no collider");
 
         //set left and right boundaries of the word
-        float slope_delta = 0; //TODO: replace this!
+        float slope_delta = slope * tmp.GetPreferredValues().x;
 
         //set collider boundaries
         col.offset = new Vector2(tmp.GetPreferredValues().x / 2f, 0);
@@ -49,7 +51,6 @@ public class Word
         //TODO: handle stylistic/mechanism tags
         for (int i = 0; i < tags.Length; i++)
         {
-            //handle 
         }
 
         R = new Vector2(lCursor.x + tmp.GetPreferredValues().x, lCursor.y + slope_delta);

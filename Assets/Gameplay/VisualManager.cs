@@ -23,19 +23,13 @@ public class VisualManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            cam.transform.position = new Vector3(
-                cam.transform.position.x - Time.deltaTime * CAM_SPEED,
-                cam.transform.position.y,
-                cam.transform.position.z);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            cam.transform.position = new Vector3(
-                cam.transform.position.x + Time.deltaTime * CAM_SPEED,
-                cam.transform.position.y,
-                cam.transform.position.z);
-        }
+
+        Vector3 cam_translation = new Vector3(
+            Input.GetAxis("Horizontal") * CAM_SPEED * Time.deltaTime,
+            Input.GetAxis("Vertical") * CAM_SPEED * Time.deltaTime,
+            0
+            );
+
+        cam.transform.Translate(cam_translation);
     }
 }

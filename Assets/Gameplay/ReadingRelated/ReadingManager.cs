@@ -13,13 +13,17 @@ public class ReadingManager: MonoBehaviour
     public string script_name;
 
     private VisualManager vManager;
-    private int upcoming;
+
+    //slope related
+    public Vector2 slope_min_max;
+    public Perlin perlin_map1, perlin_map2;
 
     private List<GameObject> loaded_words;
 
     private void Awake()
     {
-        upcoming = 0;
+        perlin_map1 = new Perlin(10, 2);
+        perlin_map2 = new Perlin(10, 2);
     }
 
     // Start is called before the first frame update
@@ -28,7 +32,7 @@ public class ReadingManager: MonoBehaviour
         script = Resources.Load(script_name) as TextAsset;
         Debug.Log("Text Loaded as follows:\n" + script.text);
 
-        words = parseScript(script.text);
+        words = ParseScript(script.text);
 
         //connect to rest of components
         vManager = GetComponent<VisualManager>();
@@ -43,6 +47,9 @@ public class ReadingManager: MonoBehaviour
             cursor = word_loader_temp.cursor; //update cursor
             loaded_words.Add(word_loader_temp.go);
         }
+
+        //get root block
+        GameObject root_block = loaded_words[0];
     }
 
     // Update is called once per frame
@@ -104,12 +111,25 @@ public class ReadingManager: MonoBehaviour
         }*/
     }
 
+    //get slope of some word by index
+    private float GetSlope(int index)
+    {
+        if (index == 0) return 0;
+        float n = 0.75f * perlin_map1.Noise(new VecN(3 * index, index / 10f))
+            + 0.25f * perlin_map2.Noise(new VecN(index * 9, index / 30f));
+        return Mathf.Lerp(slope_min_max.x, slope_min_max.y, n);
+    }
+
     //parse the script
     //tags with the format <...></...> and <.../> are handled
     //line breaks and spaces are treated the same way
-    public static Word[] parseScript(string s)
+    public Word[] ParseScript(string s)
     {
         List<Word> words = new List<Word>();
+
+        //starting block
+        words.Add(new Word(new Tag[] { }, "###", GetSlope(0)));
+
         Regex tag = new Regex(@"<\s*(\/?)(\s*\w)+\s*(\/?)\s*>");
 
         Regex open_tag = new Regex(@"<[^\/]+>");
@@ -155,7 +175,7 @@ public class ReadingManager: MonoBehaviour
             if(raw[cursor]==' ')
             {
                 //terminate cached word and add it to the list
-                words.Add(new Word(hanging_tags.ToArray(), hanging_word));
+                words.Add(new Word(hanging_tags.ToArray(), hanging_word, GetSlope(words.Count)));
                 hanging_word = "";
             }
 
@@ -230,7 +250,7 @@ public class ReadingManager: MonoBehaviour
 
                     case Tag.TagAppearanceType.self_closing:
                         //deal with self closing tag: append empty word with this tag
-                        Word empty = new Word(new Tag[] { this_tag }, "");
+                        Word empty = new Word(new Tag[] { this_tag }, "", GetSlope(words.Count));
                         words.Add(empty);
                         break;
 
