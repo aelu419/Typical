@@ -30,6 +30,15 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action OnScriptEndReached;
+    public void RaiseScriptEndReached()
+    {
+        if(OnScriptEndReached != null)
+        {
+            OnScriptEndReached();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

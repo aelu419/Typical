@@ -17,8 +17,9 @@ public class PlayerControl : MonoBehaviour
     public float climb_speed;
     public float accel;
     public float x_vel_max;
+    [ReadOnly] public bool light_toggle;
 
-    private Vector3 destination;
+    [ReadOnly] public Vector3 destination;
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either arrived or rushed pass the destination
     private VisualManager vManager;
@@ -41,6 +42,7 @@ public class PlayerControl : MonoBehaviour
         //TODO: change this to be dependent on the cursor
         destination = new Vector3(50, 0, 0);
         in_climb = false;
+        light_toggle = false;
         UpdateRelativePosition();
     }
 
@@ -146,8 +148,19 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            light_toggle = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            light_toggle = false;
+        }
+
+        //TODO: set light_toggle property; setup different animators
         animator.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
         animator.SetBool("in_climb", in_climb);
+        
     }
 
     private void UpdateRelativePosition() {

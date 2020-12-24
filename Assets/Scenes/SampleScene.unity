@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 318262999}
   - component: {fileID: 318262998}
   - component: {fileID: 318263001}
+  - component: {fileID: 318263002}
   - component: {fileID: 318262997}
   m_Layer: 0
   m_Name: General Manager
@@ -219,6 +220,19 @@ MonoBehaviour:
   text_holder_prefab: {fileID: 5458326794372538523, guid: 1fa3b21f147cb1f42a627f43b85aabc5, type: 3}
   script_name: script
   slope_min_max: {x: -0.2, y: 0.2}
+  cursor_raw: 
+--- !u!114 &318263002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318262996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f90f0d2fe90af64989626f572aa8184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

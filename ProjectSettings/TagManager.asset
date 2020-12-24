@@ -6,6 +6,7 @@ TagManager:
   tags:
   - General Manager
   - Word Block
+  - Cover Object
   layers:
   - Default
   - TransparentFX

@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+using TMPro;
+
 public class ReadingManager: MonoBehaviour
 {
     public GameObject text_holder_prefab;
@@ -13,6 +15,7 @@ public class ReadingManager: MonoBehaviour
     public string script_name;
 
     private VisualManager vManager;
+    private PlayerControl player;
 
     //slope related
     public Vector2 slope_min_max;
@@ -20,10 +23,19 @@ public class ReadingManager: MonoBehaviour
 
     private List<GameObject> loaded_words;
 
+    //cursor related
+    public int[] cursor_raw; //first coordinate is index of the word, 
+                             //second coordinate is index of letter
+    TMP_CharacterInfo cursor_rendered; //the pixel position of the cursor
+                                       //set to the boundaries of the next letter
+    private char next_letter;
+    private bool firstFrame;
+
     private void Awake()
     {
         perlin_map1 = new Perlin(10, 2);
         perlin_map2 = new Perlin(10, 2);
+        firstFrame = true;
     }
 
     // Start is called before the first frame update
@@ -36,6 +48,8 @@ public class ReadingManager: MonoBehaviour
 
         //connect to rest of components
         vManager = GetComponent<VisualManager>();
+        player = GameObject.FindGameObjectWithTag("Player")
+            .GetComponent<PlayerControl>();
 
         Vector2 cursor = new Vector2(0, 0);
         //load words, by default load the first 10
@@ -48,13 +62,42 @@ public class ReadingManager: MonoBehaviour
             loaded_words.Add(word_loader_temp.go);
         }
 
-        //get root block
-        GameObject root_block = loaded_words[0];
+        //search for the first non-empty and non-### word in the script
+        if (loaded_words.Count < 2)
+            throw new System.Exception("No other word in script");
+
+        int j = 1;
+        while(words[j].content.Length <= 0)
+        {
+            j++;
+            if(j == words.Length)
+            {
+                throw new System.Exception("No other word in script");
+            }
+        }
+
+        //update cursor according to the search results from above
+        cursor_raw = new int[] { j, 0 }; //start at second non-empty word (after the "###")
+        UpdateRenderedCursor();
+        next_letter = words[j].content.ToCharArray()[0];
+
+        Debug.Log("starting at " + cursor_raw[0] + "'s " + cursor_raw[1] + "'th letter");
+        Debug.Log("the next letter is: " + next_letter);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //update destination of player on the first frame
+        //this is necessary when readingmanager's start runs after
+        //player control's start method
+        if (firstFrame)
+        {
+            UpdateRenderedCursor();
+            firstFrame = false;
+        }
+
+        //deal with word loading within camera scope + buffer region
         GameObject last_loaded_word = loaded_words[loaded_words.Count - 1];
         GameObject first_loaded_word = loaded_words[0];
 
@@ -110,6 +153,97 @@ public class ReadingManager: MonoBehaviour
             < (vManager.CAM.xMin - vManager.BUFFER_SIZE)){
             loaded_words.Remove(first_loaded_word);
             Destroy(first_loaded_word);
+        }
+
+        // handle input
+        if (Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
+        {
+            EventManager.instance.RaiseCorrectKeyPressed();
+            cursor_raw[1]++; //go to next letter
+
+            //reached the end of the word
+            if(words[cursor_raw[0]].content.Length == cursor_raw[1])
+            {
+                //currently on the last word of the script
+                if(cursor_raw[0] == words.Length-1)
+                {
+                    EventManager.instance.RaiseScriptEndReached();
+                    next_letter = '\0';
+                }
+                //not on the last word of the script
+                else
+                {
+                    cursor_raw[1] = 0;
+                    int i = cursor_raw[0] + 1;
+                    //skip empty words
+                    while (words[i].content.Length <= 0)
+                    {
+                        i++;
+                        if(i == words.Length - 1)
+                        {
+                            //currently on the last word of the script
+                            if (cursor_raw[0] == words.Length - 1)
+                            {
+                                EventManager.instance.RaiseScriptEndReached();
+                                next_letter = '\0';
+                            }
+                            break;
+                        }
+                    }
+                    cursor_raw[0] = i;
+
+                    next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+                }
+            }
+            else
+            {
+                next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+            }
+
+            if (next_letter != '\0')
+            {
+                UpdateRenderedCursor();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            cursor_raw[1]--; //go to last letter
+            //when cursor leaves a word from the left
+            if(cursor_raw[1] < 0)
+            {
+                cursor_raw[0] = Mathf.Max(1, cursor_raw[0]-1);
+                //the last letter of the last word
+                cursor_raw[1] = words[cursor_raw[0]].content.Length-1;
+            }
+
+            UpdateRenderedCursor();
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // see player controller
+        }
+        //any other key is pressed
+        else if (Input.anyKeyDown)
+        {
+            EventManager.instance.RaiseIncorrectKeyPressed();
+        }
+
+    }
+
+    private void UpdateRenderedCursor()
+    {
+        for (int i = 0; i < loaded_words.Count; i++)
+        {
+            Word loaded_temp = loaded_words[i].GetComponent<TextHolderBehavior>().content;
+            if (loaded_temp.index == cursor_raw[0])
+            {
+                Debug.Log("rendered cursor currently on word: " + loaded_temp.content);
+                cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
+                    .textInfo.characterInfo[cursor_raw[1] + 1];
+
+                //update destination based on the cursor position
+                player.destination.x = (cursor_rendered.topLeft + loaded_words[i].transform.position).x;
+            }
         }
     }
 
