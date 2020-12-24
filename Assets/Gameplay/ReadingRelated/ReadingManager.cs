@@ -159,62 +159,80 @@ public class ReadingManager: MonoBehaviour
         if (Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
         {
             EventManager.instance.RaiseCorrectKeyPressed();
-            cursor_raw[1]++; //go to next letter
 
-            //reached the end of the word
-            if(words[cursor_raw[0]].content.Length == cursor_raw[1])
+            do 
             {
-                //currently on the last word of the script
-                if(cursor_raw[0] == words.Length-1)
+                cursor_raw[1]++; //go to next letter
+                //update typed portions of the text
+                words[cursor_raw[0]].typed++;
+                words[cursor_raw[0]].SetCharacterMech();
+
+                //reached the end of the word
+                if (words[cursor_raw[0]].content.Length == cursor_raw[1])
                 {
-                    EventManager.instance.RaiseScriptEndReached();
-                    next_letter = '\0';
+                    //currently on the last word of the script
+                    if (cursor_raw[0] == words.Length - 1)
+                    {
+                        EventManager.instance.RaiseScriptEndReached();
+                        next_letter = '\0';
+                    }
+                    //not on the last word of the script
+                    else
+                    {
+                        cursor_raw[1] = 0;
+                        int i = cursor_raw[0] + 1;
+                        //skip empty words
+                        while (words[i].content.Length <= 0)
+                        {
+                            i++;
+                            if (i == words.Length - 1)
+                            {
+                                //currently on the last word of the script
+                                if (cursor_raw[0] == words.Length - 1)
+                                {
+                                    EventManager.instance.RaiseScriptEndReached();
+                                    next_letter = '\0';
+                                }
+                                break;
+                            }
+                        }
+                        cursor_raw[0] = i;
+
+                        next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+                    }
                 }
-                //not on the last word of the script
                 else
                 {
-                    cursor_raw[1] = 0;
-                    int i = cursor_raw[0] + 1;
-                    //skip empty words
-                    while (words[i].content.Length <= 0)
-                    {
-                        i++;
-                        if(i == words.Length - 1)
-                        {
-                            //currently on the last word of the script
-                            if (cursor_raw[0] == words.Length - 1)
-                            {
-                                EventManager.instance.RaiseScriptEndReached();
-                                next_letter = '\0';
-                            }
-                            break;
-                        }
-                    }
-                    cursor_raw[0] = i;
-
                     next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
                 }
-            }
-            else
-            {
-                next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
-            }
+            } while (cursor_raw[0] < words.Length
+                && !char.IsLetter(next_letter));
 
             if (next_letter != '\0')
             {
+                Debug.Log("next letter is " + next_letter);
                 UpdateRenderedCursor();
             }
         }
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            cursor_raw[1]--; //go to last letter
-            //when cursor leaves a word from the left
-            if(cursor_raw[1] < 0)
+            //skip non-letter puncuations until a letter is met or beginning is reached
+            Word current = words[cursor_raw[0]];
+            do
             {
-                cursor_raw[0] = Mathf.Max(1, cursor_raw[0]-1);
-                //the last letter of the last word
-                cursor_raw[1] = words[cursor_raw[0]].content.Length-1;
+                cursor_raw[1]--;
+                words[cursor_raw[0]].typed--;
+
+                //when cursor leaves a word from the left
+                if (cursor_raw[1] < 0)
+                {
+                    cursor_raw[0] = Mathf.Max(1, cursor_raw[0] - 1);
+                    //the last letter of the last word
+                    cursor_raw[1] = words[cursor_raw[0]].content.Length - 1;
+                }
             }
+            while (cursor_raw[0] > 1
+                && !char.IsLetter(current.content[cursor_raw[1]]));
 
             UpdateRenderedCursor();
         }
@@ -237,14 +255,14 @@ public class ReadingManager: MonoBehaviour
             Word loaded_temp = loaded_words[i].GetComponent<TextHolderBehavior>().content;
             if (loaded_temp.index == cursor_raw[0])
             {
-                Debug.Log("rendered cursor currently on word: " + loaded_temp.content);
+                //Debug.Log("rendered cursor currently on word: " + loaded_temp.content);
                 cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
                     .textInfo.characterInfo[cursor_raw[1] + 1];
 
                 //update destination based on the cursor position
                 player.destination.x = 
                     (cursor_rendered.topLeft + loaded_words[i].transform.position).x
-                    - player.collider_bounds.width/2f;
+                    - player.collider_bounds.width/2f - 0.1f; //0.1 is to prevent collision with next letter
             }
         }
     }
@@ -266,7 +284,7 @@ public class ReadingManager: MonoBehaviour
         List<Word> words = new List<Word>();
 
         //starting block
-        words.Add(new Word(new Tag[] { }, "###", GetSlope(0), 0));
+        words.Add(new Word(new Tag[] { }, "###", GetSlope(0), 0, 3));
 
         Regex tag = new Regex(@"<\s*(\/?)(\s*\w)+\s*(\/?)\s*>");
 
@@ -416,4 +434,5 @@ public class ReadingManager: MonoBehaviour
 
         return words.ToArray();
     }
+
 }

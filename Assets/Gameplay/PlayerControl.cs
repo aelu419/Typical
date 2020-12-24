@@ -21,8 +21,12 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public bool light_toggle;
 
     [ReadOnly] public Vector3 destination;
+    private Vector3 destination_temp;
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either arrived or rushed pass the destination
+    private float climb_extent; //the initial height difference when initiating a climb
+
+    //connect to other game components
     private VisualManager vManager;
 
     // Start is called before the first frame update
@@ -50,6 +54,11 @@ public class PlayerControl : MonoBehaviour
             box.bounds.min,
             box.bounds.size
             );
+
+        destination_temp = new Vector3(
+            destination.x,
+            destination.y,
+            destination.z);
     }
 
     // Update is called once per frame
@@ -85,7 +94,8 @@ public class PlayerControl : MonoBehaviour
             float stopping_distance_x = rigid.velocity.x * rigid.velocity.x / 2 / accel;
 
             //watch for sign change on each axis, or approximate same-ness
-            if(Mathf.Sign(relation_to_destination.x) != Mathf.Sign(relation_temp.x)
+            if(destination_temp.x == destination.x
+                && Mathf.Sign(relation_to_destination.x) != Mathf.Sign(relation_temp.x)
                 || Mathf.Approximately(relation_to_destination.x, 0f))
             {
                 //Debug.Log("reached destination");
@@ -140,6 +150,7 @@ public class PlayerControl : MonoBehaviour
                 in_climb = true;
                 //the 0.1 is to prevent collision detection during overlap
                 destination.y = max_height + charSize / 2f + 0.1f;
+                climb_extent = destination.y - transform.position.y;
             } else
             {
                 destination.y = transform.position.y;
@@ -156,6 +167,7 @@ public class PlayerControl : MonoBehaviour
                 || Mathf.Approximately(relation_to_destination.y, destination.y)) {
 
                 in_climb = false;
+                climb_extent = 0;
                 rigid.velocity = new Vector2(0, 0);
             }
         }
@@ -172,7 +184,13 @@ public class PlayerControl : MonoBehaviour
         //TODO: set light_toggle property; setup different animators
         animator.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
         animator.SetBool("in_climb", in_climb);
-        
+        animator.SetFloat("climb_extent", climb_extent);
+
+        //stash destination state
+        destination_temp = new Vector3(
+            destination.x,
+            destination.y,
+            destination.z);
     }
 
     private void UpdateRelativePosition() {
@@ -219,10 +237,10 @@ public class PlayerControl : MonoBehaviour
 
     private void CorrectKeyPressed()
     {
-        Debug.Log("correct!");
+        //Debug.Log("correct!");
     }
     private void IncorrectKeyPressed()
     {
-        Debug.Log("incorrect!");
+        //Debug.Log("incorrect!");
     }
 }
