@@ -68,13 +68,15 @@ public class Word
             if(tags[0].specs.Length == 0)
             {
                 //use default object
-                cover = Resources.Load("default") as Sprite;
+                cover = Resources.Load<Sprite>("default");
+                Debug.Log("loading " + cover.name + " as sprite");
             }
             else
             {
                 string cover_object_name = tags[0].specs[0];
                 cover = Resources.Load(cover_object_name) as Sprite;
-                if(cover == null)
+                Debug.Log("loading " + cover.name + " as sprite");
+                if (cover == null)
                 {
                     throw new System.Exception(cover_object_name + " cannot be found");
                 }

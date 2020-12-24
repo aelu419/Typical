@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     public float charSize; //the height of the main character, in world units
-    private SpriteRenderer renderer; //the sprite renderer assigned to the main character
+    private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
 
     private Rigidbody2D rigid;
     private Animator animator;
@@ -39,7 +39,7 @@ public class PlayerControl : MonoBehaviour
         word_blocks_in_contact = new List<GameObject>();
 
         //TODO: change this to be dependent on the cursor
-        destination = new Vector3(5, 0, 0);
+        destination = new Vector3(50, 0, 0);
         in_climb = false;
         UpdateRelativePosition();
     }
@@ -173,6 +173,22 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Word Block"))
         {
             word_blocks_in_contact.Remove(collision.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Cover Object"))
+        {
+            Debug.Log("coming into contact with object");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Cover Object"))
+        {
+            Debug.Log("exiting contact with object");
         }
     }
 
