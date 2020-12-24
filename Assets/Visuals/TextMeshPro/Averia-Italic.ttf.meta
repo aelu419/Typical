@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 86e987cdc7110c049af24f55dc84901c
+guid: 112daa3078013be4a9e0b298b8e4a8d2
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -10,9 +10,10 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Averia
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 86e987cdc7110c049af24f55dc84901c, type: 3}
   customCharacters: 
-  fontRenderingMode: 3
+  fontRenderingMode: 0
   ascentCalculationMode: 1
   useLegacyBoundsCalculation: 0
   shouldRoundAdvanceValue: 1
