@@ -463,9 +463,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charSize: 2.5
+  collider_bounds:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   climb_speed: 2
   accel: 10
   x_vel_max: 3
+  light_toggle: 0
+  destination: {x: 0, y: 0, z: 0}
   relation_to_destination: {x: 0, y: 0, z: 0}
 --- !u!50 &1637229262
 Rigidbody2D:

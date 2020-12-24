@@ -257,12 +257,12 @@ public class ReadingManager: MonoBehaviour
             {
                 //Debug.Log("rendered cursor currently on word: " + loaded_temp.content);
                 cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
-                    .textInfo.characterInfo[cursor_raw[1] + 1];
+                    .textInfo.characterInfo[cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)];
 
                 //update destination based on the cursor position
-                player.destination.x = 
+                player.destination.x =
                     (cursor_rendered.topLeft + loaded_words[i].transform.position).x
-                    - player.collider_bounds.width/2f - 0.1f; //0.1 is to prevent collision with next letter
+                    - player.collider_bounds.width / 2f;
             }
         }
     }
