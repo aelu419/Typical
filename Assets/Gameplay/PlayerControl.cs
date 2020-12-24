@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour
 {
     public float charSize; //the height of the main character, in world units
     private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
+    [ReadOnly] public Rect collider_bounds;
 
     private Rigidbody2D rigid;
     private Animator animator;
@@ -39,16 +40,27 @@ public class PlayerControl : MonoBehaviour
 
         word_blocks_in_contact = new List<GameObject>();
 
-        //TODO: change this to be dependent on the cursor
         destination = new Vector3(50, 0, 0);
         in_climb = false;
         light_toggle = false;
         UpdateRelativePosition();
+
+        BoxCollider2D box = GetComponent<BoxCollider2D>();
+        collider_bounds = new Rect(
+            box.bounds.min,
+            box.bounds.size
+            );
     }
 
     // Update is called once per frame
     void Update()
     {
+        BoxCollider2D box = GetComponent<BoxCollider2D>();
+        collider_bounds = new Rect(
+            box.bounds.min,
+            box.bounds.size
+            );
+
         //freeze the character if it is not inside camera range
         if (transform.position.x < vManager.CAM.xMin
             || transform.position.x > vManager.CAM.xMax)

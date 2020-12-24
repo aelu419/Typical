@@ -242,7 +242,9 @@ public class ReadingManager: MonoBehaviour
                     .textInfo.characterInfo[cursor_raw[1] + 1];
 
                 //update destination based on the cursor position
-                player.destination.x = (cursor_rendered.topLeft + loaded_words[i].transform.position).x;
+                player.destination.x = 
+                    (cursor_rendered.topLeft + loaded_words[i].transform.position).x
+                    - player.collider_bounds.width/2f;
             }
         }
     }
