@@ -21,7 +21,7 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public bool light_toggle;
 
     [ReadOnly] public Vector3 destination;
-    private Vector3 destination_temp;
+    [ReadOnly] public Vector3 destination_override;
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either arrived or rushed pass the destination
     private float climb_extent; //the initial height difference when initiating a climb
@@ -55,15 +55,14 @@ public class PlayerControl : MonoBehaviour
             box.bounds.size
             );
 
-        destination_temp = new Vector3(
-            destination.x,
-            destination.y,
-            destination.z);
+        destination_override = new Vector3(-1, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        return;
+
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         collider_bounds = new Rect(
             box.bounds.min,
@@ -93,10 +92,18 @@ public class PlayerControl : MonoBehaviour
             //stopping distance under constant acceleration
             float stopping_distance_x = rigid.velocity.x * rigid.velocity.x / 2 / accel;
 
+            //change of destination by external scripts
+            bool new_order = destination_override.x >= 0;
+            if (new_order)
+            {
+                destination = destination_override;
+                destination_override = new Vector3(-1, 0, 0);
+            }
+
             //watch for sign change on each axis, or approximate same-ness
-            if(destination_temp.x == destination.x
-                && Mathf.Sign(relation_to_destination.x) != Mathf.Sign(relation_temp.x)
-                || Mathf.Approximately(relation_to_destination.x, 0f))
+            if (!new_order
+                && (Mathf.Sign(relation_to_destination.x) != Mathf.Sign(relation_temp.x)
+                || Mathf.Approximately(relation_to_destination.x, 0f)))
             {
                 //Debug.Log("reached destination");
                 //halt and go back to destination if necessary
@@ -186,11 +193,12 @@ public class PlayerControl : MonoBehaviour
         animator.SetBool("in_climb", in_climb);
         animator.SetFloat("climb_extent", climb_extent);
 
+        /*
         //stash destination state
         destination_temp = new Vector3(
             destination.x,
             destination.y,
-            destination.z);
+            destination.z);*/
     }
 
     private void UpdateRelativePosition() {

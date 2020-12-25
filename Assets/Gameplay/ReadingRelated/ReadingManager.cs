@@ -30,6 +30,7 @@ public class ReadingManager: MonoBehaviour
                                        //set to the boundaries of the next letter
     private char next_letter;
     private bool firstFrame;
+    private bool skipped_over_punctuation_last_time;
 
     private void Awake()
     {
@@ -81,8 +82,8 @@ public class ReadingManager: MonoBehaviour
         UpdateRenderedCursor();
         next_letter = words[j].content.ToCharArray()[0];
 
-        Debug.Log("starting at " + cursor_raw[0] + "'s " + cursor_raw[1] + "'th letter");
-        Debug.Log("the next letter is: " + next_letter);
+        //Debug.Log("starting at " + cursor_raw[0] + "'s " + cursor_raw[1] + "'th letter");
+        //Debug.Log("the next letter is: " + next_letter);
     }
 
     // Update is called once per frame
@@ -158,7 +159,30 @@ public class ReadingManager: MonoBehaviour
         // handle input
         if (Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
         {
+            skipped_over_punctuation_last_time = false;
             EventManager.instance.RaiseCorrectKeyPressed();
+
+            // skip unmatching sequence caused by backspacing (see skip_over_puncuation)
+            for(int i = 0; i < loaded_words.Count; i++)
+            {
+                Word this_loaded_word = loaded_words[i].GetComponent<TextHolderBehavior>().content;
+                if(this_loaded_word.index > cursor_raw[0])
+                {
+                    break;
+                }
+                if(this_loaded_word.typed < this_loaded_word.content.Length - 1)
+                {
+                    if(this_loaded_word.index == cursor_raw[0])
+                    {
+                        this_loaded_word.typed = cursor_raw[1];
+                    }
+                    else
+                    {
+                        this_loaded_word.typed = this_loaded_word.content.Length;
+                    }
+                    this_loaded_word.SetCharacterMech();
+                }
+            }
 
             do 
             {
@@ -210,31 +234,104 @@ public class ReadingManager: MonoBehaviour
 
             if (next_letter != '\0')
             {
-                Debug.Log("next letter is " + next_letter);
+                //Debug.Log("next letter is " + next_letter);
                 UpdateRenderedCursor();
             }
         }
+        //going backwards
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            //skip non-letter puncuations until a letter is met or beginning is reached
-            Word current = words[cursor_raw[0]];
+            char next_letter_temp = next_letter;
+            bool skipped_through_punctuation = false;
+
+            int[] cursor_raw_temp = new int[] { cursor_raw[0], cursor_raw[1] };
+
             do
             {
                 cursor_raw[1]--;
-                words[cursor_raw[0]].typed--;
 
-                //when cursor leaves a word from the left
+                //exit from the left
                 if (cursor_raw[1] < 0)
                 {
-                    cursor_raw[0] = Mathf.Max(1, cursor_raw[0] - 1);
-                    //the last letter of the last word
-                    cursor_raw[1] = words[cursor_raw[0]].content.Length - 1;
-                }
-            }
-            while (cursor_raw[0] > 1
-                && !char.IsLetter(current.content[cursor_raw[1]]));
+                    //Debug.Log("cleared word " + cursor_raw[0]);
+                    //clear current word
+                    words[cursor_raw[0]].typed = 0;
+                    words[cursor_raw[0]].SetCharacterMech();
 
-            UpdateRenderedCursor();
+                    //move onto last word
+                    cursor_raw[0]--;
+                    //exit when beginning of script is reached
+                    if (cursor_raw[0] < 2)
+                    {
+                        cursor_raw = new int[] { 2, 0 };
+                        break;
+                    }
+                    else
+                    {
+                        //last word is empty
+                        if (words[cursor_raw[0]].content.Length == 0)
+                        {
+                            next_letter = '\0';
+                        }
+                        else
+                        {
+                            cursor_raw[1] = words[cursor_raw[0]].content.Length - 1;
+
+                            words[cursor_raw[0]].typed = Mathf.Min(
+                                cursor_raw[1],
+                                words[cursor_raw[0]].typed);
+
+                            words[cursor_raw[0]].SetCharacterMech();
+
+                            next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+
+                            skipped_through_punctuation = 
+                                skipped_through_punctuation || !char.IsLetter(next_letter);
+                        }
+                    }
+                }
+                //remain on same word
+                else
+                {
+                    words[cursor_raw[0]].typed = Mathf.Min(
+                        cursor_raw[1],
+                        words[cursor_raw[0]].typed);
+                    words[cursor_raw[0]].SetCharacterMech();
+                    next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+
+                    skipped_through_punctuation =
+                        skipped_through_punctuation || !char.IsLetter(next_letter);
+
+                }
+
+            } while (!char.IsLetter(next_letter));
+
+            //when the sequence skips over non-letter characters
+            //the next letter should be kept the same and the cursor should be moved right by 1
+            if (skipped_through_punctuation && !skipped_over_punctuation_last_time)
+            {
+                //go right by 1
+                cursor_raw[1]++;
+                words[cursor_raw[0]].typed++;
+                words[cursor_raw[0]].SetCharacterMech();
+
+                next_letter = next_letter_temp;
+
+                Debug.Log(cursor_raw[0] + ", " + cursor_raw[1]);
+                //update rendered cursor using the "overshot+1" position
+                UpdateRenderedCursor(cursor_raw);
+
+                cursor_raw = cursor_raw_temp;
+
+                skipped_over_punctuation_last_time = true;
+            }
+            else
+            {
+                //update cursor as normal
+                UpdateRenderedCursor();
+            }
+
+            Debug.Log("backspace sequence ended with " + cursor_raw[0] + ", " + cursor_raw[1]);
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -248,8 +345,11 @@ public class ReadingManager: MonoBehaviour
 
     }
 
-    private void UpdateRenderedCursor()
+    private void UpdateRenderedCursor(int[] cursor_raw)
     {
+
+        Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
+
         for (int i = 0; i < loaded_words.Count; i++)
         {
             Word loaded_temp = loaded_words[i].GetComponent<TextHolderBehavior>().content;
@@ -260,11 +360,20 @@ public class ReadingManager: MonoBehaviour
                     .textInfo.characterInfo[cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)];
 
                 //update destination based on the cursor position
-                player.destination.x =
+                player.destination_override.x =
                     (cursor_rendered.topLeft + loaded_words[i].transform.position).x
                     - player.collider_bounds.width / 2f;
+                //Debug.Log("destination override set to" + player.destination_override.x);
+
+                player.destination_override.y = player.destination.y;
+                player.destination_override.z = player.destination.z;   
             }
         }
+    }
+
+    private void UpdateRenderedCursor()
+    {
+        UpdateRenderedCursor(this.cursor_raw);
     }
 
     //get slope of some word by index
