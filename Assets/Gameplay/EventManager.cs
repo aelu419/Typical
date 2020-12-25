@@ -30,6 +30,15 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action OnCharacterDeleted;
+    public void RaiseCharacterDeleted()
+    {
+        if(OnCharacterDeleted != null)
+        {
+            OnCharacterDeleted();
+        }
+    }
+
     public event Action OnScriptEndReached;
     public void RaiseScriptEndReached()
     {

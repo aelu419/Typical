@@ -318,7 +318,7 @@ public class ReadingManager: MonoBehaviour
 
                 next_letter = next_letter_temp;
 
-                Debug.Log(cursor_raw[0] + ", " + cursor_raw[1]);
+                //Debug.Log(cursor_raw[0] + ", " + cursor_raw[1]);
                 //update rendered cursor using the "overshot+1" position
                 UpdateRenderedCursor(cursor_raw);
 
@@ -332,7 +332,7 @@ public class ReadingManager: MonoBehaviour
                 UpdateRenderedCursor();
             }
 
-            Debug.Log("backspace sequence ended with " + cursor_raw[0] + ", " + cursor_raw[1]);
+            //Debug.Log("backspace sequence ended with " + cursor_raw[0] + ", " + cursor_raw[1]);
         }
         
         //handle lighting
@@ -344,16 +344,48 @@ public class ReadingManager: MonoBehaviour
         //any other key is pressed
         else if (Input.anyKeyDown)
         {
-            EventManager.instance.RaiseIncorrectKeyPressed();
+            if (AnyLetterPressed())
+                EventManager.instance.RaiseIncorrectKeyPressed();
         }
 
+    }
+
+    //determine if a letter is pressed
+    private bool AnyLetterPressed() {
+        return
+            Input.GetKeyDown(KeyCode.A)
+            | Input.GetKeyDown(KeyCode.B)
+            | Input.GetKeyDown(KeyCode.C)
+            | Input.GetKeyDown(KeyCode.D)
+            | Input.GetKeyDown(KeyCode.E)
+            | Input.GetKeyDown(KeyCode.F)
+            | Input.GetKeyDown(KeyCode.G)
+            | Input.GetKeyDown(KeyCode.H)
+            | Input.GetKeyDown(KeyCode.I)
+            | Input.GetKeyDown(KeyCode.J)
+            | Input.GetKeyDown(KeyCode.K)
+            | Input.GetKeyDown(KeyCode.L)
+            | Input.GetKeyDown(KeyCode.M)
+            | Input.GetKeyDown(KeyCode.N)
+            | Input.GetKeyDown(KeyCode.O)
+            | Input.GetKeyDown(KeyCode.P)
+            | Input.GetKeyDown(KeyCode.Q)
+            | Input.GetKeyDown(KeyCode.R)
+            | Input.GetKeyDown(KeyCode.S)
+            | Input.GetKeyDown(KeyCode.T)
+            | Input.GetKeyDown(KeyCode.U)
+            | Input.GetKeyDown(KeyCode.V)
+            | Input.GetKeyDown(KeyCode.W)
+            | Input.GetKeyDown(KeyCode.X)
+            | Input.GetKeyDown(KeyCode.Y)
+            | Input.GetKeyDown(KeyCode.Z);
     }
 
     //update the rendered cursor position on screen according to a given raw cursor unit by char count
     private void UpdateRenderedCursor(int[] cursor_raw)
     {
 
-        Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
+        //Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
 
         for (int i = 0; i < loaded_words.Count; i++)
         {
