@@ -238,6 +238,7 @@ public class ReadingManager: MonoBehaviour
                 UpdateRenderedCursor();
             }
         }
+        
         //going backwards
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
@@ -333,10 +334,13 @@ public class ReadingManager: MonoBehaviour
 
             Debug.Log("backspace sequence ended with " + cursor_raw[0] + ", " + cursor_raw[1]);
         }
+        
+        //handle lighting
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             // see player controller
         }
+        
         //any other key is pressed
         else if (Input.anyKeyDown)
         {
@@ -345,6 +349,7 @@ public class ReadingManager: MonoBehaviour
 
     }
 
+    //update the rendered cursor position on screen according to a given raw cursor unit by char count
     private void UpdateRenderedCursor(int[] cursor_raw)
     {
 

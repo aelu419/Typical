@@ -61,13 +61,21 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        return;
-
+        //basic variables for the rest of the method
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         collider_bounds = new Rect(
             box.bounds.min,
             box.bounds.size
             );
+
+        Vector3 relation_temp = new Vector3(
+            relation_to_destination.x,
+            relation_to_destination.y,
+            relation_to_destination.z);
+
+        UpdateRelativePosition();
+
+        //control the motion of the player:
 
         //freeze the character if it is not inside camera range
         if (transform.position.x < vManager.CAM.xMin
@@ -78,66 +86,73 @@ public class PlayerControl : MonoBehaviour
             return;
         }
 
-        Vector3 relation_temp = new Vector3(
-            relation_to_destination.x,
-            relation_to_destination.y,
-            relation_to_destination.z);
-
-        UpdateRelativePosition();
-
         if (!in_climb)
         {
-            float x_vel = rigid.velocity.x;
-
-            //stopping distance under constant acceleration
-            float stopping_distance_x = rigid.velocity.x * rigid.velocity.x / 2 / accel;
-
-            //change of destination by external scripts
-            bool new_order = destination_override.x >= 0;
-            if (new_order)
+            if (!Mathf.Approximately(relation_to_destination.x, 0))
             {
-                destination = destination_override;
-                destination_override = new Vector3(-1, 0, 0);
-            }
+                float x_vel = rigid.velocity.x;
 
-            //watch for sign change on each axis, or approximate same-ness
-            if (!new_order
-                && (Mathf.Sign(relation_to_destination.x) != Mathf.Sign(relation_temp.x)
-                || Mathf.Approximately(relation_to_destination.x, 0f)))
-            {
-                //Debug.Log("reached destination");
-                //halt and go back to destination if necessary
-                x_vel = 0;
-                transform.position = new Vector3(
-                    destination.x,
-                    transform.position.y,
-                    transform.position.z
-                    );
-            }
-            //decelerate when within stopping distance (according to current velocity)
-            else if (Mathf.Abs(destination.x - transform.position.x) <= stopping_distance_x)
-            {
-                //Debug.Log("decelerating");
-                float original_sign = Mathf.Sign(x_vel);
-                x_vel -= Mathf.Sign(relation_to_destination.x) * -1 * accel * Time.deltaTime;
-                //prevent over-decelerating
-                if(original_sign != Mathf.Sign(x_vel))
+                //stopping distance under constant acceleration
+                float stopping_distance_x = rigid.velocity.x * rigid.velocity.x / 2 / accel;
+
+                //change of destination by external scripts
+                bool new_order = destination_override.x >= 0;
+                if (new_order)
                 {
-                    x_vel = 0;
+                    destination = destination_override;
+                    destination_override = new Vector3(-1, 0, 0);
                 }
+
+                //decide first if should decelerate or accelerate
+                bool should_decel =
+                    //the player is going in the right direction
+                    Mathf.Sign(rigid.velocity.x) != Mathf.Sign(relation_to_destination.x)
+                    //and the destination is within stopping distance
+                    && Mathf.Abs(relation_to_destination.x) <= stopping_distance_x;
+
+                if (should_decel)
+                {
+
+                    //plain decel
+                    //Debug.Log("decelerating");
+                    float original_sign = Mathf.Sign(x_vel);
+                    x_vel -= Mathf.Sign(relation_to_destination.x) * -1 * accel * Time.deltaTime;
+                    //prevent over-decelerating
+                    if (original_sign != Mathf.Sign(x_vel))
+                    {
+                        x_vel = 0;
+                    }
+                }
+                else
+                {
+                    //accelerate accordingly
+                    //Debug.Log("accelerating");
+                    x_vel += Mathf.Sign(relation_to_destination.x) * -1 * accel * Time.deltaTime;
+
+                    //clamp to maximum velocity
+                    x_vel = Mathf.Min(Mathf.Abs(x_vel), x_vel_max) * Mathf.Sign(x_vel);
+                }
+
+                /*
+                //watch for sign change on each axis, or approximate same-ness
+                if (!new_order
+                    && (Mathf.Sign(relation_to_destination.x) != Mathf.Sign(relation_temp.x)
+                    || Mathf.Approximately(relation_to_destination.x, 0f)))
+                {
+                    //Debug.Log("reached destination");
+                    //halt and go back to destination if necessary
+                    x_vel = 0;
+                    transform.position = new Vector3(
+                        destination.x,
+                        transform.position.y,
+                        transform.position.z
+                        );
+                }*/
+
+                rigid.velocity = new Vector2(x_vel, rigid.velocity.y);
             }
-            //accelerate before reaching stopping distance
-            else
-            {
-                //Debug.Log("accelerating");
-                x_vel += Mathf.Sign(relation_to_destination.x) * -1 * accel * Time.deltaTime;
 
-                //clamp to maximum velocity
-                x_vel = Mathf.Min(Mathf.Abs(x_vel), x_vel_max) * Mathf.Sign(x_vel);
-            }
-
-            rigid.velocity = new Vector2(x_vel, rigid.velocity.y);
-
+            //determine if climbing should be initiated
             float max_height = transform.position.y - charSize / 2f;
             bool will_climb = false;
             for (int i = 0; i < word_blocks_in_contact.Count; i++)
@@ -201,8 +216,8 @@ public class PlayerControl : MonoBehaviour
             destination.z);*/
     }
 
+    //update the stored relative position of the player to the cursor
     private void UpdateRelativePosition() {
-        //update relative position
         relation_to_destination = transform.position - destination;
         relation_to_destination.x = Mathf.Approximately(relation_to_destination.x, 0) ? 0 : relation_to_destination.x;
         relation_to_destination.y = Mathf.Approximately(relation_to_destination.y, 0) ? 0 : relation_to_destination.y;
