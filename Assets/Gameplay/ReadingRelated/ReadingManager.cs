@@ -152,6 +152,7 @@ public class ReadingManager: MonoBehaviour
         // when current first loaded word exists the left buffer, unload it
         if (first_loaded_word.GetComponent<TextHolderBehavior>().content.R.x
             < (vManager.CAM.xMin - vManager.BUFFER_SIZE)){
+            Debug.Log("unloading " + first_loaded_word.GetComponent<TextHolderBehavior>().content.content);
             loaded_words.Remove(first_loaded_word);
             Destroy(first_loaded_word);
         }
@@ -385,16 +386,31 @@ public class ReadingManager: MonoBehaviour
     private void UpdateRenderedCursor(int[] cursor_raw)
     {
 
-        //Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
+        Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
 
         for (int i = 0; i < loaded_words.Count; i++)
         {
             Word loaded_temp = loaded_words[i].GetComponent<TextHolderBehavior>().content;
             if (loaded_temp.index == cursor_raw[0])
             {
-                //Debug.Log("rendered cursor currently on word: " + loaded_temp.content);
+                //Debug.Log("\trendered cursor currently on word: " + loaded_temp.content
+                //+"'s " + (cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)) + "'th letter " + 
+                //loaded_words[i].GetComponent<TextMeshPro>().text[
+                //(cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1))]);
+                
+                //reset tmp text to remove tag influence
+                loaded_words[i].GetComponent<TextMeshPro>().text = " " + words[cursor_raw[0]].content;
+
                 cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
                     .textInfo.characterInfo[cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)];
+
+                //add in tags again
+                words[cursor_raw[0]].SetCharacterMech();
+                /*
+                cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
+                    .GetTextInfo(" " + words[cursor_raw[0]].content).characterInfo[
+                        cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)
+                        ];*/
 
                 //update destination based on the cursor position
                 player.destination_override.x =

@@ -233,6 +233,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f90f0d2fe90af64989626f572aa8184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
+  correct_presses: 0
+  incorrect_presses: 0
+  accuracy: 0
+  speed: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +479,7 @@ MonoBehaviour:
   x_vel_max: 3
   light_toggle: 0
   destination: {x: 0, y: 0, z: 0}
+  destination_override: {x: 0, y: 0, z: 0}
   relation_to_destination: {x: 0, y: 0, z: 0}
 --- !u!50 &1637229262
 Rigidbody2D:
