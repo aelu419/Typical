@@ -386,7 +386,7 @@ public class ReadingManager: MonoBehaviour
     private void UpdateRenderedCursor(int[] cursor_raw)
     {
 
-        Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
+        //Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
 
         for (int i = 0; i < loaded_words.Count; i++)
         {

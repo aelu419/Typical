@@ -26,6 +26,12 @@ public class Word
         UNTYPED_HIDDEN_MAT = "Averia-Regular Untyped Hidden",
         UNTYPED_REFLECTOR_MAT = "Averia-Regular Untyped Reflector";
 
+    public static Material
+        TYPED_MAT_,
+        UNTYPED_PLAIN_MAT_,
+        UNTYPED_HIDDEN_MAT_,
+        UNTYPED_REFLECTOR_MAT_;
+
     public enum WORD_TYPES
     {
         plain,
@@ -33,14 +39,17 @@ public class Word
         reflector
     }
 
-    /*
     //load the word materials
     static Word(){
-        TYPED_MAT = Resources.Load("Averia-Regular SDF Typed") as Material;
-        UNTYPED_PLAIN_MAT = Resources.Load("Averia-Regular Untyped Plain") as Material;
-        UNTYPED_HIDDEN_MAT = Resources.Load("Averia-Regular Untyped Hidden") as Material;
-        UNTYPED_REFLECTOR_MAT = Resources.Load("Averia-Regular Untyped Reflector") as Material;
-    }*/
+        TYPED_MAT_ = Resources.Load(
+            "Fonts & Materials/" + TYPED_MAT) as Material;
+        UNTYPED_PLAIN_MAT_ = Resources.Load(
+            "Fonts & Materials/" + UNTYPED_PLAIN_MAT) as Material;
+        UNTYPED_HIDDEN_MAT_ = Resources.Load(
+            "Fonts & Materials/" + UNTYPED_HIDDEN_MAT) as Material;
+        UNTYPED_REFLECTOR_MAT_ = Resources.Load(
+            "Fonts & Materials/" + UNTYPED_REFLECTOR_MAT) as Material;
+    }
 
     public Word(Tag[] tags, string content, float slope, int index, int typed)
     {
@@ -151,6 +160,41 @@ public class Word
 
     public void SetCharacterMech()
     {
+        //the following skips are to make sure the word does not disappear
+        //from the left of the screen before unloading. the exact reason is unknown
+        //but i suspect it's caused by the submeshes TMP generates when material
+        //tags are used within the TMP box
+
+        //skip if none of of the text is typed out
+        if (typed == 0)
+        {
+            tmp.text = " " + content;
+            switch (word_mech)
+            {
+                case WORD_TYPES.plain:
+                    tmp.fontSharedMaterial = UNTYPED_PLAIN_MAT_;
+                    break;
+                case WORD_TYPES.hidden:
+                    tmp.fontSharedMaterial = UNTYPED_HIDDEN_MAT_;
+                    break;
+                case WORD_TYPES.reflector:
+                    tmp.fontSharedMaterial = UNTYPED_REFLECTOR_MAT_;
+                    break;
+                default:
+                    throw new System.Exception("word type not found");
+            }
+            return;
+        }
+
+        //skip if the entire text is typed out
+        if (typed == content.Length)
+        {
+            tmp.text = " " + content;
+            tmp.fontSharedMaterial = TYPED_MAT_;
+            return;
+        }
+
+        //when the word is half typed out
         string txt_temp = "<material=\"" + TYPED_MAT + "\"> " //the space is for left spacing between words
             + content.Substring(0, typed) + "</material>";
         
