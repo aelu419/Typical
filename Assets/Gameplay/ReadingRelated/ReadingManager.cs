@@ -43,9 +43,13 @@ public class ReadingManager: MonoBehaviour
     void Start()
     {
         script = Resources.Load(script_name) as TextAsset;
-        Debug.Log("Text Loaded as follows:\n" + script.text);
 
         words = ParseScript(script.text);
+        Debug.Log("the parsed script is:");
+        for(int i = 0; i < words.Length; i++)
+        {
+            Debug.Log("\t" + words[i]);
+        }
 
         //connect to rest of components
         vManager = GetComponent<VisualManager>();
@@ -235,7 +239,7 @@ public class ReadingManager: MonoBehaviour
 
             if (next_letter != '\0')
             {
-                //Debug.Log("next letter is " + next_letter);
+                Debug.Log("next letter is " + next_letter);
                 UpdateRenderedCursor();
             }
         }
@@ -448,7 +452,7 @@ public class ReadingManager: MonoBehaviour
         //starting block
         words.Add(new Word(new Tag[] { }, "###", GetSlope(0), 0, 3));
 
-        Regex tag = new Regex(@"<\s*(\/?)(\s*\w)+\s*(\/?)\s*>");
+        Regex tag = new Regex(@"<\s*(\/?)(\s*[^>])+\s*(\/?)\s*>");
 
         Regex open_tag = new Regex(@"<[^\/]+>");
         Regex close_tag = new Regex(@"<\s*(\/).*>");
@@ -465,6 +469,8 @@ public class ReadingManager: MonoBehaviour
         //remove redundant white spaces
         s = Regex.Replace(s, @"\s+", " ");
         s = s.Trim();
+
+        Debug.Log(s);
 
         char[] raw = s.ToCharArray();
 
@@ -489,8 +495,9 @@ public class ReadingManager: MonoBehaviour
         //iterate through the script
         for(int cursor = 0; cursor < s.Length; cursor++)
         {
-            //cursor is at white space
-            if(raw[cursor]==' ')
+            Debug.Log("-- " + raw[cursor]);
+            //cursor is at white space, or at last character of the script
+            if(raw[cursor]==' ' || cursor == s.Length-1)
             {
                 //terminate cached word and add it to the list
                 words.Add(new Word(hanging_tags.ToArray(), hanging_word, GetSlope(words.Count), words.Count));

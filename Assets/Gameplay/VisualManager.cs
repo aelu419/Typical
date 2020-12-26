@@ -11,13 +11,14 @@ public class VisualManager : MonoBehaviour
     public float CAM_SPEED;
     private Camera cam;
     private ReadingManager rManager;
+    private GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
         //fetch main camera and get settings
         cam = Camera.main;
-        CAM = cam.rect;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -26,17 +27,23 @@ public class VisualManager : MonoBehaviour
         float cam_h = 2f * cam.orthographicSize;
         float cam_w = cam_h * cam.aspect;
 
+        cam.transform.position = new Vector3(
+            player.transform.position.x,
+            player.transform.position.y,
+            -10);
+
         CAM = new Rect(
             cam.transform.position.x - cam_w / 2f, 
             cam.transform.position.y - cam_h / 2f,
             cam_w, cam_h);
 
+        /*
         Vector3 cam_translation = new Vector3(
             Input.GetAxis("Horizontal") * CAM_SPEED * Time.deltaTime,
             Input.GetAxis("Vertical") * CAM_SPEED * Time.deltaTime,
             0
             );
 
-        cam.transform.Translate(cam_translation);
+        cam.transform.Translate(cam_translation);*/
     }
 }

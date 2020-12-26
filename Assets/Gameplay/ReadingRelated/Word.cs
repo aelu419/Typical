@@ -140,13 +140,13 @@ public class Word
             {
                 //use default object
                 cover = Resources.Load<Sprite>("default");
-                Debug.Log("loading " + cover.name + " as sprite");
+                //Debug.Log("loading " + cover.name + " as sprite");
             }
             else
             {
                 string cover_object_name = tags[0].specs[0];
                 cover = Resources.Load(cover_object_name) as Sprite;
-                Debug.Log("loading " + cover.name + " as sprite");
+                //Debug.Log("loading " + cover.name + " as sprite");
                 if (cover == null)
                 {
                     throw new System.Exception(cover_object_name + " cannot be found");
@@ -187,8 +187,9 @@ public class Word
         }
 
         //skip if the entire text is typed out
-        if (typed == content.Length)
+        if (typed >= content.Length)
         {
+            typed = content.Length;
             tmp.text = " " + content;
             tmp.fontSharedMaterial = TYPED_MAT_;
             return;
