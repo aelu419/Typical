@@ -5,29 +5,37 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     public float charSize; //the height of the main character, in world units
-    private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     [ReadOnly] public Rect collider_bounds;
 
+    //player state machine related 
+    [ReadOnly] public bool in_climb;
+    public float climb_speed, accel, x_vel_max;
+    [ReadOnly] public bool light_toggle;
+    private float climb_extent; //the initial height difference when initiating a climb
+
+    // other flags
+    [ReadOnly] public Vector3 spawn_root;
+
+    //movement related
+    [ReadOnly] public Vector3 destination;
+    [ReadOnly] public Vector3 destination_override;
+    [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
+                                                       //sign change means the player has either 
+                                                       //arrived or rushed pass the destination
+
+    //connect to other game components
+    private VisualManager vManager;
+    private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     private Rigidbody2D rigid;
     private Animator animator;
 
     private List<GameObject> word_blocks_in_contact;
 
-    //player state machine related 
-    private bool in_climb;
-    public float climb_speed;
-    public float accel;
-    public float x_vel_max;
-    [ReadOnly] public bool light_toggle;
-
-    [ReadOnly] public Vector3 destination;
-    [ReadOnly] public Vector3 destination_override;
-    [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
-                                                       //sign change means the player has either arrived or rushed pass the destination
-    private float climb_extent; //the initial height difference when initiating a climb
-
-    //connect to other game components
-    private VisualManager vManager;
+    void Awake()
+    {
+        destination = new Vector3(-1, 0, 0);
+        destination_override = new Vector3(-1, 0, 0);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,17 +44,17 @@ public class PlayerControl : MonoBehaviour
         EventManager.instance.OnIncorrectKeyPressed += IncorrectKeyPressed;
 
         transform.localScale = new Vector3(charSize, charSize, charSize);
-        transform.position = new Vector3(1, 5, 0);
 
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         vManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<VisualManager>();
+        renderer_ = GetComponent<SpriteRenderer>();
 
         word_blocks_in_contact = new List<GameObject>();
 
-        destination = new Vector3(0, 0, 0);
         in_climb = false;
         light_toggle = false;
+
         UpdateRelativePosition();
 
         BoxCollider2D box = GetComponent<BoxCollider2D>();
@@ -55,12 +63,34 @@ public class PlayerControl : MonoBehaviour
             box.bounds.size
             );
 
-        destination_override = new Vector3(-1, 0, 0);
+        renderer_.enabled = false;
+    }
+
+    public void SpawnAtRoot()
+    {
+        Debug.Log("spawned");
+
+        transform.position = new Vector3(
+            spawn_root.x,
+            spawn_root.y + charSize / 2f,
+            0
+            );
+
+        renderer_.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!renderer_.enabled)
+        {
+            if (spawn_root != null)
+            {
+                SpawnAtRoot();
+            }
+            return;
+        }
+
         //basic variables for the rest of the method
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         collider_bounds = new Rect(

@@ -28,15 +28,15 @@ public class ReadingManager: MonoBehaviour
                              //second coordinate is index of letter
     TMP_CharacterInfo cursor_rendered; //the pixel position of the cursor
                                        //set to the boundaries of the next letter
-    private char next_letter;
-    private bool firstFrame;
-    private bool skipped_over_punctuation_last_time;
+
+    [ReadOnly] public char next_letter; //the next letter to be typed out
+    private int first_typable_word; //the first word in the script that contains typable letters
+    private int last_typable_word; //the last word in the script that contains typable letters
 
     private void Awake()
     {
         perlin_map1 = new Perlin(10, 2);
         perlin_map2 = new Perlin(10, 2);
-        firstFrame = true;
     }
 
     // Start is called before the first frame update
@@ -71,24 +71,41 @@ public class ReadingManager: MonoBehaviour
             loaded_words.Add(word_loader_temp.go);
         }
 
-        //search for the first non-empty and non-### word in the script
-        if (loaded_words.Count < 2)
+        if (loaded_words.Count < 3)
             throw new System.Exception("No other word in script");
 
-        int j = 1;
-        while(words[j].content.Length <= 0)
+        //search for the last typable word in script
+        for (int i = words.Length - 1; i >= 0; i--)
         {
-            j++;
-            if(j == words.Length)
+            if (words[i].has_typable)
             {
-                throw new System.Exception("No other word in script");
+                last_typable_word = i;
+                break;
+            }
+            if (i == 0)
+            {
+                throw new System.Exception("No typable word in script");
             }
         }
 
-        //update cursor according to the search results from above
-        cursor_raw = new int[] { j, 0 }; //start at second non-empty word (after the "###")
+        //search for the fist typable word in script
+        for (int i = 0; i < words.Length; i++)
+        {
+            if (words[i].has_typable)
+            {
+                first_typable_word = i;
+                break;
+            }
+        }
+
+        //cursor is initialized to the first typable letter in the first typable word
+        cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
+        next_letter = words[first_typable_word].content[words[first_typable_word].first_typable];
+
+        //update player position
+        player.spawn_root = words[0].GetCharacterInfo(2).topRight;
+
         UpdateRenderedCursor();
-        next_letter = words[j].content.ToCharArray()[0];
 
         //Debug.Log("starting at " + cursor_raw[0] + "'s " + cursor_raw[1] + "'th letter");
         //Debug.Log("the next letter is: " + next_letter);
@@ -97,15 +114,6 @@ public class ReadingManager: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //update destination of player on the first frame
-        //this is necessary when readingmanager's start runs after
-        //player control's start method
-        if (firstFrame)
-        {
-            UpdateRenderedCursor();
-            firstFrame = false;
-        }
-
         //deal with word loading within camera scope + buffer region
         GameObject last_loaded_word = loaded_words[loaded_words.Count - 1];
         GameObject first_loaded_word = loaded_words[0];
@@ -167,20 +175,19 @@ public class ReadingManager: MonoBehaviour
         // handle input
         if (next_letter != '\0' && Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
         {
-            skipped_over_punctuation_last_time = false;
             EventManager.instance.RaiseCorrectKeyPressed();
 
             // skip unmatching sequence caused by backspacing (see skip_over_puncuation)
-            for(int i = 0; i < loaded_words.Count; i++)
+            for (int i = 0; i < loaded_words.Count; i++)
             {
                 Word this_loaded_word = loaded_words[i].GetComponent<TextHolderBehavior>().content;
-                if(this_loaded_word.index > cursor_raw[0])
+                if (this_loaded_word.index > cursor_raw[0])
                 {
                     break;
                 }
-                if(this_loaded_word.typed < this_loaded_word.content.Length - 1)
+                if (this_loaded_word.typed < this_loaded_word.content.Length - 1)
                 {
-                    if(this_loaded_word.index == cursor_raw[0])
+                    if (this_loaded_word.index == cursor_raw[0])
                     {
                         this_loaded_word.typed = cursor_raw[1];
                     }
@@ -192,7 +199,7 @@ public class ReadingManager: MonoBehaviour
                 }
             }
 
-            do 
+            do
             {
                 cursor_raw[1]++; //go to next letter
                 //update typed portions of the text
@@ -203,9 +210,12 @@ public class ReadingManager: MonoBehaviour
                 if (words[cursor_raw[0]].content.Length == cursor_raw[1])
                 {
                     //currently on the last word of the script
-                    if (cursor_raw[0] == words.Length - 1)
+                    if (cursor_raw[0] == last_typable_word)
                     {
-                        cursor_raw[1]--;
+                        //move on to the portal
+                        cursor_raw[0]++;
+                        cursor_raw[1] = 0;
+
                         EventManager.instance.RaiseScriptEndReached();
                         next_letter = '\0';
 
@@ -250,15 +260,130 @@ public class ReadingManager: MonoBehaviour
 
             UpdateRenderedCursor();
         }
-        
+
         //going backwards
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            char next_letter_temp = next_letter;
-            bool skipped_through_punctuation = false;
+            //do not do anything if currently on the first typable letter of the entire script
+            //cursor somehow went beyond the beginning of the typable scripts
+            if (cursor_raw[0] < first_typable_word
+                && cursor_raw[1] <= words[first_typable_word].first_typable)
+            {
+                cursor_raw[0] = first_typable_word;
+                cursor_raw[1] = words[first_typable_word].first_typable;
 
-            int[] cursor_raw_temp = new int[] { cursor_raw[0], cursor_raw[1] };
+                words[first_typable_word].SetCharacterMech(0);
 
+                for (int i = 0; i < first_typable_word; i++)
+                {
+                    words[i].SetCharacterMech(words[i].content.Length);
+                }
+                words[first_typable_word].SetCharacterMech(words[first_typable_word].first_typable);
+            }
+
+            else
+            {
+                int[] cursor_override = new int[] { -1, -1 };
+
+                //in the span of the current word:
+                //skip through the first untypable sequence encountered, 
+                //until first typable letter on the left is reached
+                //or the beginning of the word is reached
+                if (cursor_raw[1] > 0)
+                {
+                    while (cursor_raw[1] > 0)
+                    {
+                        cursor_raw[1]--;
+                        if (char.IsLetter(words[cursor_raw[0]].content[cursor_raw[1]]))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            if (cursor_raw[1] < words[cursor_raw[0]].first_typable ||
+                                cursor_raw[1] <= 0)
+                            {
+                                cursor_raw[1] = -1;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Log("exiting directly off of word beginning");
+                    cursor_raw[1] = -1;
+                }
+
+                //when exiting current word from the left
+                if (cursor_raw[1] < 0)
+                {
+                    Debug.Log("exiting from " + cursor_raw[0]);
+                    //clear current word
+                    words[cursor_raw[0]].SetCharacterMech(0);
+                    //skip through non-typable words
+                    //int[] cursor_temp = new int[] { cursor_raw[0], cursor_raw[1] };
+
+                    while (cursor_raw[0] > 0)
+                    {
+                        cursor_raw[0]--;
+                        if (words[cursor_raw[0]].has_typable)
+                        {
+                            Debug.Log("backspace sequence stops at " + words[cursor_raw[0]]);
+                            break;
+                        }
+                        //clear when skipping through words
+                        words[cursor_raw[0]].SetCharacterMech(0);
+                    }
+
+                    //reached either the start of the script or a typable word:
+                    //for the case of typable word
+                    Word stopped = words[cursor_raw[0]];
+                    if (stopped.has_typable)
+                    {
+                        //if the word block ends with a typable letter,
+                        //then the letter itself is skipped
+                        if (stopped.last_typable == stopped.content.Length - 1)
+                        {
+                            cursor_raw[1] = stopped.last_typable;
+                            next_letter = stopped.content[cursor_raw[1]];
+                            stopped.SetCharacterMech(cursor_raw[1]);
+                        }
+                        //if the word block ends with some punctuation instead
+                        else
+                        {
+                            stopped.SetCharacterMech(stopped.last_typable + 1);
+                            cursor_raw[1] = stopped.last_typable + 1;
+                            //next letter remains unchanged because only punctuations have been escaped
+                        }
+
+                    }
+                }
+                //if cursor does not exit from any word
+                else
+                {
+                    next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+                    words[cursor_raw[0]].SetCharacterMech(cursor_raw[1]);
+                }
+
+                //cursor somehow went beyond the beginning of the typable scripts
+                if (cursor_raw[0] < first_typable_word)
+                {
+                    cursor_raw[0] = first_typable_word;
+                    cursor_raw[1] = words[first_typable_word].first_typable;
+
+                    for (int i = 0; i < first_typable_word; i++)
+                    {
+                        words[i].SetCharacterMech(words[i].content.Length);
+                    }
+                    words[first_typable_word].SetCharacterMech(words[first_typable_word].first_typable);
+                }
+
+                UpdateRenderedCursor();
+            }
+
+
+            /*
             do
             {
                 cursor_raw[1]--;
@@ -342,7 +467,7 @@ public class ReadingManager: MonoBehaviour
             {
                 //update cursor as normal
                 UpdateRenderedCursor();
-            }
+            }*/
 
             //Debug.Log("backspace sequence ended with " + cursor_raw[0] + ", " + cursor_raw[1]);
         }
@@ -396,9 +521,29 @@ public class ReadingManager: MonoBehaviour
     //update the rendered cursor position on screen according to a given raw cursor unit by char count
     private void UpdateRenderedCursor(int[] cursor_raw)
     {
+        Word current = words[cursor_raw[0]];
 
-        Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
+        if (current.L == null)
+        {
+            throw new System.Exception("word is already unloaded!");
+        }
+        else
+        {
+            cursor_rendered = words[cursor_raw[0]].GetCharacterInfo(cursor_raw[1]);
 
+            //update destination based on the cursor position
+            player.destination_override.x =
+                cursor_rendered.topLeft.x + words[cursor_raw[0]].L.x;
+                //- player.collider_bounds.width / 2f;
+
+            Debug.Log(cursor_raw[0] + ", " + cursor_raw[1] + " -- " + player.destination_override.x);
+
+            player.destination_override.y = player.destination.y;
+            player.destination_override.z = player.destination.z;
+        }
+
+        //--------deprecated: raw tmp handling is delegated to the word obj itself
+        /*
         for (int i = 0; i < loaded_words.Count; i++)
         {
             Word loaded_temp = loaded_words[i].GetComponent<TextHolderBehavior>().content;
@@ -417,22 +562,22 @@ public class ReadingManager: MonoBehaviour
 
                 //add in tags again
                 words[cursor_raw[0]].SetCharacterMech();
-                /*
-                cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
-                    .GetTextInfo(" " + words[cursor_raw[0]].content).characterInfo[
-                        cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)
-                        ];*/
+
+                //cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
+                    //.GetTextInfo(" " + words[cursor_raw[0]].content).characterInfo[
+                        //cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)
+                        //];
 
                 //update destination based on the cursor position
                 player.destination_override.x =
-                    (cursor_rendered.topLeft + loaded_words[i].transform.position).x
+                    cursor_rendered.topLeft.x + words[cursor_raw[0]].L.x
                     - player.collider_bounds.width / 2f;
                 Debug.Log("destination override set to " + player.destination_override.x);
 
                 player.destination_override.y = player.destination.y;
                 player.destination_override.z = player.destination.z;   
             }
-        }
+        }*/
     }
 
     private void UpdateRenderedCursor()
@@ -476,6 +621,8 @@ public class ReadingManager: MonoBehaviour
         //remove redundant white spaces
         s = Regex.Replace(s, @"\s+", " ");
         s = s.Trim();
+        //add portal at end
+        s += " <O portal mainmenu/>";
 
         Debug.Log(s);
 

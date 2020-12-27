@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401c526257c38f54c8c5e8f19fbe5381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  script_end_reached: 0
 --- !u!4 &318263000
 Transform:
   m_ObjectHideFlags: 0
@@ -474,6 +475,7 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
+  in_climb: 0
   climb_speed: 2
   accel: 10
   x_vel_max: 3

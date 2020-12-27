@@ -19,6 +19,11 @@ public class Word
     [ReadOnly] public WORD_TYPES word_mech; //the mechanism that the word block follows
 
     [ReadOnly] TextMeshPro tmp;
+    private TMP_CharacterInfo[] char_infos;
+
+    //markers for texual contents of the word block
+    [ReadOnly] public bool has_typable; //if the word has any typable letter in it
+    [ReadOnly] public int first_typable, last_typable;
 
     public static string
         TYPED_MAT = "Averia-Regular SDF Typed",
@@ -58,6 +63,27 @@ public class Word
         this.slope = slope;
         this.index = index;
         this.typed = typed;
+
+        has_typable = false;
+        first_typable = last_typable = -1;
+        for(int i = 0; i < content.Length; i++)
+        {
+            if (char.IsLetter(content[i]))
+            {
+                //when first encountering typed letter:
+                if (!has_typable)
+                {
+                    has_typable = true;
+                    first_typable = i;
+                    last_typable = i;
+                }
+                //for subsequent typed letters
+                else
+                {
+                    last_typable = i;
+                }
+            }
+        }
 
         //figure out what the mechanism of the text is, based on the last hanging tag
         //that is mechanism-related
@@ -147,18 +173,75 @@ public class Word
             }
             else
             {
+                //TODO: remove the default setting below
+                cover = Resources.Load<Sprite>("default");
+
+                //TODO: implement specific cover objects
+                /*
                 string cover_object_name = tags[0].specs[0];
                 cover = Resources.Load(cover_object_name) as Sprite;
                 //Debug.Log("loading " + cover.name + " as sprite");
                 if (cover == null)
                 {
                     throw new System.Exception(cover_object_name + " cannot be found");
-                }
+                }*/
             }
 
         }
 
         return (new Vector2(R.x, R.y), go);
+    }
+
+    public void SetRawText()
+    {
+        if (tmp == null)
+        {
+            throw new System.Exception("Word is not attached to TMP yet, do not call set text!");
+        }
+        else
+        {
+            tmp.text = " " + content;
+            tmp.ForceMeshUpdate();
+        }
+    }
+
+    public TMP_CharacterInfo[] GetCharacterInfos()
+    {
+        if (tmp == null)
+        {
+            throw new System.Exception("Word is not attached to TMP yet, do not call get character info!");
+        }
+        else
+        {
+            //reset tmp text to remove tag influence
+            SetRawText();
+            char_infos = tmp.textInfo.characterInfo;
+
+            //add in tags again
+            SetCharacterMech();
+
+            return char_infos;
+        }
+    }
+
+    public TMP_CharacterInfo GetCharacterInfo(int index)
+    {
+        //fetch character infos if not already available
+        if (char_infos == null) GetCharacterInfos();
+
+        else if (index < 0 || index > content.Length)
+        {
+            throw new System.Exception("index: " + index + " is out of bounds");
+        }
+
+        return char_infos[
+            index == 0 ? 0 : index + 1];
+    }
+
+    public void SetCharacterMech(int index)
+    {
+        typed = index;
+        SetCharacterMech();
     }
 
     public void SetCharacterMech()
@@ -169,8 +252,10 @@ public class Word
         //tags are used within the TMP box
 
         //skip if none of of the text is typed out
-        if (typed == 0)
+        if (typed <= 0)
         {
+            typed = 0;
+
             tmp.text = " " + content;
             switch (word_mech)
             {
