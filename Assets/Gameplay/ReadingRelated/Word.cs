@@ -93,6 +93,9 @@ public class Word
         tmp = go.GetComponent<TextMeshPro>();
         if (tmp == null) throw new System.Exception("prefab loading error: no TMP component");
         tmp.text = " "+content;
+        tmp.ForceMeshUpdate();
+        Vector2 rendered_vals = tmp.GetRenderedValues(false);
+        //Debug.Log("RENDEREDVALUES" + tmp.GetRenderedValues(false).x);
 
         go.GetComponent<TextHolderBehavior>().content = this;
         go.tag = "Word Block";
@@ -101,11 +104,11 @@ public class Word
         if (col == null) throw new System.Exception("prefab loading error: no collider");
 
         //set left and right boundaries of the word
-        float slope_delta = slope * tmp.GetPreferredValues().x;
+        float slope_delta = slope * rendered_vals.x;
 
         //set collider boundaries
-        col.offset = new Vector2(tmp.GetPreferredValues().x / 2f, 0);
-        col.size = tmp.GetPreferredValues();
+        col.offset = new Vector2(rendered_vals.x / 2f, 0);
+        col.size = rendered_vals;
 
         //TODO: handle mechanism tags
         SetCharacterMech();
@@ -129,9 +132,9 @@ public class Word
             (style.IndexOf("B") != -1 ? FontStyles.Bold : FontStyles.Normal);
 
         //store dimensions of the text block
-        R = new Vector2(lCursor.x + tmp.GetPreferredValues().x, lCursor.y + slope_delta);
+        R = new Vector2(lCursor.x + rendered_vals.x, lCursor.y + slope_delta);
         L = new Vector2(lCursor.x, lCursor.y);
-        top = lCursor.y + tmp.GetPreferredValues().y / 2f;
+        top = lCursor.y + rendered_vals.y / 2f;
 
         //handle objects that cover the word
         if (content.Length == 0 && (tags.Length == 1 && tags[0].type.Equals("O")))

@@ -45,12 +45,16 @@ public class ReadingManager: MonoBehaviour
         script = Resources.Load(script_name) as TextAsset;
 
         words = ParseScript(script.text);
+        EventManager.instance.ScriptLoaded();
+
+        
         Debug.Log("the parsed script is:");
         for(int i = 0; i < words.Length; i++)
         {
             Debug.Log("\t" + words[i]);
         }
-
+        
+        
         //connect to rest of components
         vManager = GetComponent<VisualManager>();
         player = GameObject.FindGameObjectWithTag("Player")
@@ -124,7 +128,6 @@ public class ReadingManager: MonoBehaviour
             }
             else
             {
-                Debug.Log("End of script is reached, a portal should be spawn to quit the current story");
             }
         }
 
@@ -162,7 +165,7 @@ public class ReadingManager: MonoBehaviour
         }
 
         // handle input
-        if (Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
+        if (next_letter != '\0' && Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
         {
             skipped_over_punctuation_last_time = false;
             EventManager.instance.RaiseCorrectKeyPressed();
@@ -202,8 +205,11 @@ public class ReadingManager: MonoBehaviour
                     //currently on the last word of the script
                     if (cursor_raw[0] == words.Length - 1)
                     {
+                        cursor_raw[1]--;
                         EventManager.instance.RaiseScriptEndReached();
                         next_letter = '\0';
+
+                        break;
                     }
                     //not on the last word of the script
                     else
@@ -240,8 +246,9 @@ public class ReadingManager: MonoBehaviour
             if (next_letter != '\0')
             {
                 Debug.Log("next letter is " + next_letter);
-                UpdateRenderedCursor();
             }
+
+            UpdateRenderedCursor();
         }
         
         //going backwards
@@ -390,7 +397,7 @@ public class ReadingManager: MonoBehaviour
     private void UpdateRenderedCursor(int[] cursor_raw)
     {
 
-        //Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
+        Debug.Log("setting rendered cursor according to " + cursor_raw[0] + ", " + cursor_raw[1]);
 
         for (int i = 0; i < loaded_words.Count; i++)
         {
@@ -420,7 +427,7 @@ public class ReadingManager: MonoBehaviour
                 player.destination_override.x =
                     (cursor_rendered.topLeft + loaded_words[i].transform.position).x
                     - player.collider_bounds.width / 2f;
-                //Debug.Log("destination override set to" + player.destination_override.x);
+                Debug.Log("destination override set to " + player.destination_override.x);
 
                 player.destination_override.y = player.destination.y;
                 player.destination_override.z = player.destination.z;   
@@ -495,13 +502,17 @@ public class ReadingManager: MonoBehaviour
         //iterate through the script
         for(int cursor = 0; cursor < s.Length; cursor++)
         {
-            Debug.Log("-- " + raw[cursor]);
             //cursor is at white space, or at last character of the script
-            if(raw[cursor]==' ' || cursor == s.Length-1)
+            if(raw[cursor]==' ')
             {
                 //terminate cached word and add it to the list
                 words.Add(new Word(hanging_tags.ToArray(), hanging_word, GetSlope(words.Count), words.Count));
                 hanging_word = "";
+            }
+            else if (cursor == raw.Length - 1)
+            {
+                hanging_word += raw[cursor];
+                words.Add(new Word(hanging_tags.ToArray(), hanging_word, GetSlope(words.Count), words.Count));
             }
 
             //cursor is at beginning of a tag or a close tag

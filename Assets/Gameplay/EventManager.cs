@@ -39,13 +39,21 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public bool script_end_reached = false;
     public event Action OnScriptEndReached;
     public void RaiseScriptEndReached()
     {
-        if(OnScriptEndReached != null)
+        if(OnScriptEndReached != null && !script_end_reached)
         {
+            Debug.Log("End of script is reached, a portal should be spawn to quit the current story");
+            script_end_reached = true;
             OnScriptEndReached();
         }
+    }
+
+    public void ScriptLoaded()
+    {
+        script_end_reached = false;
     }
 
     // Start is called before the first frame update

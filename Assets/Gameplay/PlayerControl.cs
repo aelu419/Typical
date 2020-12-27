@@ -44,7 +44,7 @@ public class PlayerControl : MonoBehaviour
 
         word_blocks_in_contact = new List<GameObject>();
 
-        destination = new Vector3(50, 0, 0);
+        destination = new Vector3(0, 0, 0);
         in_climb = false;
         light_toggle = false;
         UpdateRelativePosition();

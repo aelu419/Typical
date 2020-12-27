@@ -5,23 +5,23 @@ using TMPro;
 
 public class TextHolderBehavior : MonoBehaviour
 {
-    [ReadOnly] public Vector3 size;
-    [ReadOnly] public Rect rect;
+    //[ReadOnly] public Vector3 size;
+    //[ReadOnly] public Rect rect;
     [ReadOnly] public Word content;
-    private TextMeshPro tmp;
+    //private TextMeshPro tmp;
     private Transform cover;
     private SpriteRenderer cover_renderer;
 
-    private bool collider_updated;
+    //private bool collider_updated;
     private BoxCollider2D cover_collider;
 
     // Start is called before the first frame update
     void Start()
     {
-        tmp = GetComponent<TextMeshPro>();
-        rect = (transform as RectTransform).rect;
+        //tmp = GetComponent<TextMeshPro>();
+        //rect = (transform as RectTransform).rect;
 
-        size = new Vector3(rect.width, rect.height, 1);
+        //size = new Vector3(rect.width, rect.height, 1);
 
         //Debug.Log("Instantiated " + tmp.text);
         cover = transform.GetChild(0);
@@ -29,7 +29,7 @@ public class TextHolderBehavior : MonoBehaviour
 
         cover_collider = null;
 
-        collider_updated = false;
+        //collider_updated = false;
     }
 
     // Update is called once per frame
@@ -53,6 +53,7 @@ public class TextHolderBehavior : MonoBehaviour
                 );
         }
 
+        /*
         //update boundaries after rendering, which should shrink by a little
         if(!collider_updated)
         {
@@ -73,6 +74,7 @@ public class TextHolderBehavior : MonoBehaviour
             col.size = rendered_sizes;
 
             collider_updated = true;
-        }
+
+        }*/
     }
 }
