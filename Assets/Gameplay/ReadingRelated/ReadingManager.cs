@@ -533,8 +533,8 @@ public class ReadingManager: MonoBehaviour
 
             //update destination based on the cursor position
             player.destination_override.x =
-                cursor_rendered.topLeft.x + words[cursor_raw[0]].L.x;
-                //- player.collider_bounds.width / 2f;
+                cursor_rendered.topLeft.x + words[cursor_raw[0]].L.x
+                - player.collider_bounds.width / 2f;
 
             Debug.Log(cursor_raw[0] + ", " + cursor_raw[1] + " -- " + player.destination_override.x);
 
