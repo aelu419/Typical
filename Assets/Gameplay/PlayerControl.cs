@@ -36,6 +36,8 @@ public class PlayerControl : MonoBehaviour
 
     private BoxCollider2D box;
 
+    private HeadLightControl head_light_controller;
+
     [ReadOnly] public List<Word> word_blocks_in_contact;
     [ReadOnly] public string word_blocks_in_contact_str;
 
@@ -61,6 +63,8 @@ public class PlayerControl : MonoBehaviour
 
         animator_head = GetComponent<Animator>();
         animator_torso = transform.GetChild(0).gameObject.GetComponent<Animator>();
+
+        head_light_controller = transform.GetChild(1).gameObject.GetComponent<HeadLightControl>();
 
         vManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<VisualManager>();
         rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
@@ -276,6 +280,9 @@ public class PlayerControl : MonoBehaviour
         animator_torso.SetBool("in_climb", in_climb);
         animator_torso.SetFloat("climb_extent", climb_extent);
         animator_torso.SetBool("light_toggle", light_toggle);
+
+        head_light_controller.light = light_toggle;
+        head_light_controller.direction = !renderer_.flipX;
     }
 
 
