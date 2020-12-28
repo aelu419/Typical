@@ -282,6 +282,7 @@ public class ReadingManager: MonoBehaviour
 
             else
             {
+                EventManager.instance.RaiseCharacterDeleted();
                 int[] cursor_override = new int[] { -1, -1 };
 
                 //in the span of the current word:

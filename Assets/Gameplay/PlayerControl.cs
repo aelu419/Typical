@@ -30,7 +30,10 @@ public class PlayerControl : MonoBehaviour
     private ReadingManager rManager;
     private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     private Rigidbody2D rigid;
-    private Animator animator;
+
+    private Animator animator_head;
+    private Animator animator_torso;
+
     private BoxCollider2D box;
 
     [ReadOnly] public List<Word> word_blocks_in_contact;
@@ -51,10 +54,14 @@ public class PlayerControl : MonoBehaviour
         //register events
         EventManager.instance.OnCorrectKeyPressed += CorrectKeyPressed;
         EventManager.instance.OnIncorrectKeyPressed += IncorrectKeyPressed;
+        EventManager.instance.OnCharacterDeleted += OnCharacterDeleted;
 
         //connect to rest of the game
         rigid = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+
+        animator_head = GetComponent<Animator>();
+        animator_torso = transform.GetChild(0).gameObject.GetComponent<Animator>();
+
         vManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<VisualManager>();
         rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
 
@@ -251,19 +258,26 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("light on");
             light_toggle = true;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            Debug.Log("light off");
             light_toggle = false;
         }
 
-        //TODO: set light_toggle property; setup different animators
-        animator.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
-        animator.SetBool("in_climb", in_climb);
-        animator.SetFloat("climb_extent", climb_extent);
+        animator_head.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
+        animator_head.SetBool("in_climb", in_climb);
+        animator_head.SetFloat("climb_extent", climb_extent);
+        animator_head.SetBool("light_toggle", light_toggle);
 
+        animator_torso.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
+        animator_torso.SetBool("in_climb", in_climb);
+        animator_torso.SetFloat("climb_extent", climb_extent);
+        animator_torso.SetBool("light_toggle", light_toggle);
     }
+
 
     //update the stored relative position of the player to the cursor
     private void UpdateRelativePosition() {
@@ -307,8 +321,14 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void OnCharacterDeleted()
+    {
+        renderer_.flipX = true;
+    }
+
     private void CorrectKeyPressed()
     {
+        renderer_.flipX = false;
         //Debug.Log("correct!");
     }
     private void IncorrectKeyPressed()
