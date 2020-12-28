@@ -9,55 +9,71 @@ public class PlayerControl : MonoBehaviour
 
     //player state machine related 
     [ReadOnly] public bool in_climb;
-    public float climb_speed, accel, x_vel_max;
-    [ReadOnly] public bool light_toggle;
+    private bool light_toggle;
     private float climb_extent; //the initial height difference when initiating a climb
 
     // other flags
-    [ReadOnly] public Vector3 spawn_root;
+    [ReadOnly] public Vector3 spawn_root; //.x < 0 means there is no root assigned
 
     //movement related
+    public float climb_speed, accel, x_vel_max;
     [ReadOnly] public Vector3 destination;
     [ReadOnly] public Vector3 destination_override;
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either 
                                                        //arrived or rushed pass the destination
+    private Vector3 relation_temp;
+    private ContactPoint2D[] cp;
 
     //connect to other game components
     private VisualManager vManager;
+    private ReadingManager rManager;
     private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     private Rigidbody2D rigid;
     private Animator animator;
+    private BoxCollider2D box;
 
-    private List<GameObject> word_blocks_in_contact;
+    [ReadOnly] public List<Word> word_blocks_in_contact;
+    [ReadOnly] public string word_blocks_in_contact_str;
+
+    private float stuck_time = 0.0f; //to deal with really weird situations
 
     void Awake()
     {
         destination = new Vector3(-1, 0, 0);
         destination_override = new Vector3(-1, 0, 0);
+        word_blocks_in_contact = new List<Word>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        //register events
         EventManager.instance.OnCorrectKeyPressed += CorrectKeyPressed;
         EventManager.instance.OnIncorrectKeyPressed += IncorrectKeyPressed;
 
-        transform.localScale = new Vector3(charSize, charSize, charSize);
-
+        //connect to rest of the game
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         vManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<VisualManager>();
+        rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
+
         renderer_ = GetComponent<SpriteRenderer>();
+        box = GetComponent<BoxCollider2D>();
 
-        word_blocks_in_contact = new List<GameObject>();
-
+        //set character state
         in_climb = false;
         light_toggle = false;
 
+        //set coordinate related fields
+        transform.localScale = new Vector3(charSize, charSize, charSize);
         UpdateRelativePosition();
-
-        BoxCollider2D box = GetComponent<BoxCollider2D>();
+        relation_temp = new Vector3(
+            relation_to_destination.x,
+            relation_to_destination.y,
+            relation_to_destination.z
+            );
+        
         collider_bounds = new Rect(
             box.bounds.min,
             box.bounds.size
@@ -82,6 +98,8 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool accelerating = false;
+
         if (!renderer_.enabled)
         {
             if (spawn_root != null)
@@ -92,18 +110,25 @@ public class PlayerControl : MonoBehaviour
         }
 
         //basic variables for the rest of the method
-        BoxCollider2D box = GetComponent<BoxCollider2D>();
         collider_bounds = new Rect(
             box.bounds.min,
             box.bounds.size
             );
+        //Debug.Log(collider_bounds.yMin + " to " + collider_bounds.yMax);
 
-        Vector3 relation_temp = new Vector3(
+        relation_temp = new Vector3(
             relation_to_destination.x,
             relation_to_destination.y,
             relation_to_destination.z);
 
         UpdateRelativePosition();
+
+
+        word_blocks_in_contact_str = "";
+        for(int i = 0; i < word_blocks_in_contact.Count; i++)
+        {
+            word_blocks_in_contact_str += i + ": " + word_blocks_in_contact[i].content + " ";
+        }
 
         //control the motion of the player:
 
@@ -156,72 +181,72 @@ public class PlayerControl : MonoBehaviour
                 else
                 {
                     //accelerate accordingly
-                    //Debug.Log("accelerating");
-                    x_vel += Mathf.Sign(relation_to_destination.x) * -1 * accel * Time.deltaTime;
+                    float dvdt = Mathf.Sign(relation_to_destination.x) * -1 * accel * Time.deltaTime;
+                    //Debug.Log("accelerating " + dvdt);
+                    accelerating = true;
+                    x_vel += dvdt;
 
                     //clamp to maximum velocity
                     x_vel = Mathf.Min(Mathf.Abs(x_vel), x_vel_max) * Mathf.Sign(x_vel);
                 }
 
-                /*
-                //watch for sign change on each axis, or approximate same-ness
-                if (!new_order
-                    && (Mathf.Sign(relation_to_destination.x) != Mathf.Sign(relation_temp.x)
-                    || Mathf.Approximately(relation_to_destination.x, 0f)))
-                {
-                    //Debug.Log("reached destination");
-                    //halt and go back to destination if necessary
-                    x_vel = 0;
-                    transform.position = new Vector3(
-                        destination.x,
-                        transform.position.y,
-                        transform.position.z
-                        );
-                }*/
-
                 rigid.velocity = new Vector2(x_vel, rigid.velocity.y);
-            }
 
-            //determine if climbing should be initiated
-            float max_height = transform.position.y - charSize / 2f;
-            bool will_climb = false;
-            for (int i = 0; i < word_blocks_in_contact.Count; i++)
-            {
-                Word curr_word = word_blocks_in_contact[i].GetComponent<TextHolderBehavior>().content;
-                //Debug.Log(curr_word.content + " at height " + curr_word.top);
-
-                if (curr_word.top > max_height)
+                float yMax = transform.position.y - charSize / 2f;
+                for(int i = 0; i < word_blocks_in_contact.Count; i++)
                 {
-                    will_climb = true;
+                    if (word_blocks_in_contact[i].top > yMax)
+                    {
+                        yMax = word_blocks_in_contact[i].top + charSize / 2f + 0.1f;
+                        in_climb = true;
+                    }
                 }
-            }
 
-            //Debug.Log("maximum height at: " + max_height + (will_climb?" will climb":" will not climb"));
-            if (will_climb)
-            {
-                in_climb = true;
-                //the 0.1 is to prevent collision detection during overlap
-                destination.y = max_height + charSize / 2f + 0.1f;
-                climb_extent = destination.y - transform.position.y;
-            } else
-            {
-                destination.y = transform.position.y;
+                if (in_climb)
+                {
+                    destination.y = yMax;
+                    climb_extent = yMax - transform.position.y;
+                }
+                else
+                {
+                    destination.y = transform.position.y;
+                }
             }
         }
         else
         {
             //while climbing:
+
             //set horizontal velocity to 0
-            rigid.velocity = new Vector2(0, Mathf.Sign(relation_to_destination.y) * -1 * climb_speed);
+            rigid.velocity = new Vector2(0, climb_speed);
 
             //stop climbing when destination is reached
-            if (Mathf.Sign(relation_temp.y) != Mathf.Sign(relation_to_destination.y)
-                || Mathf.Approximately(relation_to_destination.y, destination.y)) {
+            if (relation_to_destination.y >= 0) {
 
                 in_climb = false;
                 climb_extent = 0;
                 rigid.velocity = new Vector2(0, 0);
             }
+
+        }
+
+        if (accelerating && relation_temp.x == relation_to_destination.x)
+        {
+            stuck_time += Time.deltaTime;
+            if(stuck_time > 0.5f)
+            {
+                Debug.Log("glitch jumped... couldn't do anything else");
+                //TODO: do a special glitch jump animation :)
+                //animator.SetBool("glitch_jump", true);
+
+                rigid.MovePosition(new Vector2(
+                    rigid.position.x,
+                    rigid.position.y + 0.1f));
+            }
+        }
+        else
+        {
+            stuck_time = 0.0f;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -238,12 +263,6 @@ public class PlayerControl : MonoBehaviour
         animator.SetBool("in_climb", in_climb);
         animator.SetFloat("climb_extent", climb_extent);
 
-        /*
-        //stash destination state
-        destination_temp = new Vector3(
-            destination.x,
-            destination.y,
-            destination.z);*/
     }
 
     //update the stored relative position of the player to the cursor
@@ -260,7 +279,7 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Word Block"))
         {
             //Debug.Log(collision.gameObject.GetComponent<TextHolderBehavior>().content.content);
-            word_blocks_in_contact.Add(collision.gameObject);
+            word_blocks_in_contact.Add(collision.gameObject.GetComponent<TextHolderBehavior>().content);
         }
     }
 
@@ -268,7 +287,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Word Block"))
         {
-            word_blocks_in_contact.Remove(collision.gameObject);
+            word_blocks_in_contact.Remove(collision.gameObject.GetComponent<TextHolderBehavior>().content);
         }
     }
 

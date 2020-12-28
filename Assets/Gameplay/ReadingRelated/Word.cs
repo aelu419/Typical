@@ -121,7 +121,6 @@ public class Word
         tmp.text = " "+content;
         tmp.ForceMeshUpdate();
         Vector2 rendered_vals = tmp.GetRenderedValues(false);
-        //Debug.Log("RENDEREDVALUES" + tmp.GetRenderedValues(false).x);
 
         go.GetComponent<TextHolderBehavior>().content = this;
         go.tag = "Word Block";
@@ -129,7 +128,7 @@ public class Word
         BoxCollider2D col = go.GetComponent<BoxCollider2D>();
         if (col == null) throw new System.Exception("prefab loading error: no collider");
 
-        //set left and right boundaries of the word
+        //set slope
         float slope_delta = slope * rendered_vals.x;
 
         //set collider boundaries

@@ -11,7 +11,7 @@ public class ReadingManager: MonoBehaviour
 {
     public GameObject text_holder_prefab;
     private TextAsset script; //the entire script
-    private Word[] words;
+    public Word[] words;
     public string script_name;
 
     private VisualManager vManager;
@@ -104,7 +104,6 @@ public class ReadingManager: MonoBehaviour
 
         //update player position
         player.spawn_root = words[0].GetCharacterInfo(2).topRight;
-
         UpdateRenderedCursor();
 
         //Debug.Log("starting at " + cursor_raw[0] + "'s " + cursor_raw[1] + "'th letter");
@@ -255,7 +254,7 @@ public class ReadingManager: MonoBehaviour
 
             if (next_letter != '\0')
             {
-                Debug.Log("next letter is " + next_letter);
+                //Debug.Log("next letter is " + next_letter);
             }
 
             UpdateRenderedCursor();
@@ -536,7 +535,7 @@ public class ReadingManager: MonoBehaviour
                 cursor_rendered.topLeft.x + words[cursor_raw[0]].L.x
                 - player.collider_bounds.width / 2f;
 
-            Debug.Log(cursor_raw[0] + ", " + cursor_raw[1] + " -- " + player.destination_override.x);
+            //Debug.Log(cursor_raw[0] + ", " + cursor_raw[1] + " -- " + player.destination_override.x);
 
             player.destination_override.y = player.destination.y;
             player.destination_override.z = player.destination.z;
@@ -583,6 +582,21 @@ public class ReadingManager: MonoBehaviour
     private void UpdateRenderedCursor()
     {
         UpdateRenderedCursor(this.cursor_raw);
+    }
+
+    //return if the marker falls within a word block, horizontally
+    public bool IsBetween(float marker, Word w)
+    {
+        //Debug.Log(marker + " in? " + w.L.x + " to " + w.R.x);
+        return marker >= w.L.x && marker <= w.R.x;
+    }
+
+    //return if the marker falls within bounds 1 and 2
+    public bool IsBetween(float marker, float bound1, float bound2)
+    {
+        float min = Mathf.Min(bound1, bound2);
+        float max = Mathf.Max(bound2, bound1);
+        return marker >= min && marker <= max;
     }
 
     //get slope of some word by index

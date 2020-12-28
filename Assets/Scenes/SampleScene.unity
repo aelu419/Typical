@@ -220,8 +220,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text_holder_prefab: {fileID: 5458326794372538523, guid: 1fa3b21f147cb1f42a627f43b85aabc5, type: 3}
   script_name: script
-  slope_min_max: {x: -0.2, y: 0.2}
+  slope_min_max: {x: -1, y: 1}
   cursor_raw: 
+  next_letter: 0
 --- !u!114 &318263002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,13 +477,14 @@ MonoBehaviour:
     width: 0
     height: 0
   in_climb: 0
+  spawn_root: {x: 0, y: 0, z: 0}
   climb_speed: 2
   accel: 10
   x_vel_max: 3
-  light_toggle: 0
   destination: {x: 0, y: 0, z: 0}
   destination_override: {x: 0, y: 0, z: 0}
   relation_to_destination: {x: 0, y: 0, z: 0}
+  word_blocks_in_contact_str: 
 --- !u!50 &1637229262
 Rigidbody2D:
   serializedVersion: 4
