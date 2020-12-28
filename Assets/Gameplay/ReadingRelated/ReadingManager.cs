@@ -139,10 +139,13 @@ public class ReadingManager: MonoBehaviour
         }
 
         // when current last loaded word exists the right buffer,
+        // or if the first loaded word comes into the screen
         // load the word before the current first loaded word,
         // but don't unload the last loaded word as we expect it to come back to view soon
         if(last_loaded_word.GetComponent<TextHolderBehavior>().content.L.x
-            > (vManager.CAM.xMax + vManager.BUFFER_SIZE))
+            > (vManager.CAM.xMax + vManager.BUFFER_SIZE)
+            || first_loaded_word.GetComponent<TextHolderBehavior>().content.R.x
+            >= vManager.CAM.xMin)
         {
             //Debug.Log("load from left");
             int i = first_loaded_word.GetComponent<TextHolderBehavior>().content.index;
