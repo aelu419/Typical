@@ -5,7 +5,7 @@ using UnityEngine;
 public class HeadLightControl : MonoBehaviour
 {
 
-    public bool light;
+    public bool light_;
 
     //intensity, fall off intensity, inner radius, outer radius
 
@@ -24,7 +24,7 @@ public class HeadLightControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        light = false;
+        light_ = false;
         head_light = GetComponent<UnityEngine.Experimental.Rendering.Universal.Light2D>();
 
         right_direction = new Vector4(
@@ -43,7 +43,7 @@ public class HeadLightControl : MonoBehaviour
     void Update()
     {
         float perturbation;
-        if (light)
+        if (light_)
         {
             perturbation = 0.2f;
             current_setting = light_min_max_on;
