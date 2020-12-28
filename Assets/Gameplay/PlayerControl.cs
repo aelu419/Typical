@@ -281,7 +281,7 @@ public class PlayerControl : MonoBehaviour
         animator_torso.SetFloat("climb_extent", climb_extent);
         animator_torso.SetBool("light_toggle", light_toggle);
 
-        head_light_controller.light = light_toggle;
+        head_light_controller.light_ = light_toggle;
         head_light_controller.direction = !renderer_.flipX;
     }
 
