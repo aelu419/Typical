@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PortalManager : MonoBehaviour
 {
+    [ReadOnly] public Portal[] portals;
+    public GameObject portal_prefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -12,6 +15,7 @@ public class PortalManager : MonoBehaviour
     }
 
     //open portals according to script and location
+    //beginning marks the left middle position of the collection of portal blocks
     private void OnPortalOpen(Vector2 beginning)
     {
 

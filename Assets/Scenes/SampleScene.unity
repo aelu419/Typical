@@ -758,6 +758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6026df7a7248df4f8e9098dd2bab247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  portal_prefab: {fileID: 4443940831122930180, guid: 7bc32ba5156783b4bb8605e3feed3a58, type: 3}
 --- !u!1 &1992400910
 GameObject:
   m_ObjectHideFlags: 0
