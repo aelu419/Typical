@@ -51,6 +51,28 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action<Vector2> OnPortalOpen;
+    public void RaisePortalOpen(Vector2 end)
+    {
+
+        Debug.Log("portals are now available");
+        if (OnPortalOpen != null)
+        {
+            Debug.Log("portals are now available");
+            OnPortalOpen(end);
+        }
+    }
+
+    public event Action OnPortalClose;
+    public void RaisePortalClose()
+    {
+        if (OnPortalClose != null)
+        {
+            Debug.Log("portals are not unavailable");
+            OnPortalClose();
+        }
+    }
+
     public void ScriptLoaded()
     {
         script_end_reached = false;

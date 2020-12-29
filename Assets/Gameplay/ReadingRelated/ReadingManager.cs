@@ -218,7 +218,6 @@ public class ReadingManager: MonoBehaviour
                         cursor_raw[0]++;
                         cursor_raw[1] = 0;
 
-                        EventManager.instance.RaiseScriptEndReached();
                         next_letter = '\0';
 
                         break;
@@ -255,8 +254,10 @@ public class ReadingManager: MonoBehaviour
             } while (cursor_raw[0] < words.Length
                 && !char.IsLetter(next_letter));
 
-            if (next_letter != '\0')
+            if (next_letter == '\0')
             {
+                Debug.Log("portal open");
+                EventManager.instance.RaisePortalOpen(words[words.Length - 1].R);
                 //Debug.Log("next letter is " + next_letter);
             }
 
@@ -285,6 +286,13 @@ public class ReadingManager: MonoBehaviour
 
             else
             {
+                //if currently exiting from the last word on the script (the portal marker)
+                //broadcast event to notice the portal manager
+                if(cursor_raw[0] == words.Length - 1)
+                {
+                    EventManager.instance.RaisePortalClose();
+                }
+
                 EventManager.instance.RaiseCharacterDeleted();
                 int[] cursor_override = new int[] { -1, -1 };
 
