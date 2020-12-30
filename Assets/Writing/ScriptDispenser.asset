@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0008e10d94636dd4b9fb5b9bf66bc473, type: 3}
   m_Name: ScriptDispenser
   m_EditorClassIdentifier: 
+  index: 0
   scripts:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 62bdc81d2fce9284294104f40c734078, type: 2}
+  - {fileID: 11400000, guid: b037b7b8d248ef0409f383105c296995, type: 2}

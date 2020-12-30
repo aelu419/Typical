@@ -42,9 +42,11 @@ public class ReadingManager: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        script = Resources.Load(script_name) as TextAsset;
-
-        words = ParseScript(script.text);
+        words = ParseScript(
+            ScriptDispenser.instance.scripts[
+                ScriptDispenser.instance.index
+                ].Text
+            );
         
         Debug.Log("the parsed script is:");
         for(int i = 0; i < words.Length; i++)

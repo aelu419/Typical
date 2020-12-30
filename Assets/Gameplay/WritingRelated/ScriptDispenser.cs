@@ -6,5 +6,6 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Typical Customs/Create Script Dispenser")]
 public class ScriptDispenser : ScriptableSingleton<ScriptDispenser>
 {
-    public ScriptDispenser[] scripts;
+    public int index;
+    public ScriptObjectScriptable[] scripts;
 }
