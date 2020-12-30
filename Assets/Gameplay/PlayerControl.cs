@@ -246,13 +246,15 @@ public class PlayerControl : MonoBehaviour
             stuck_time += Time.deltaTime;
             if(stuck_time > 0.5f)
             {
+                in_climb = true;
+                destination.y = rigid.position.y + 0.1f;
                 Debug.Log("glitch jumped... couldn't do anything else");
                 //TODO: do a special glitch jump animation :)
                 //animator.SetBool("glitch_jump", true);
 
-                rigid.MovePosition(new Vector2(
-                    rigid.position.x,
-                    rigid.position.y + 0.1f));
+                //rigid.MovePosition(new Vector2(
+                    //rigid.position.x,
+                    //rigid.position.y + 0.1f));
             }
         }
         else

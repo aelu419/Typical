@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text_holder_prefab: {fileID: 5458326794372538523, guid: 1fa3b21f147cb1f42a627f43b85aabc5, type: 3}
   script_name: script
-  slope_min_max: {x: -0.5, y: 0.5}
+  slope_min_max: {x: -0.1, y: 0.1}
   cursor_raw: 
   next_letter: 0
 --- !u!114 &318263002
@@ -468,6 +468,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4406146235997487305, guid: 7bc32ba5156783b4bb8605e3feed3a58, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406146235997487305, guid: 7bc32ba5156783b4bb8605e3feed3a58, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4443940831122930180, guid: 7bc32ba5156783b4bb8605e3feed3a58, type: 3}
       propertyPath: m_Name
       value: Portal
