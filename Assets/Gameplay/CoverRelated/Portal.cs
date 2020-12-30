@@ -22,7 +22,7 @@ public class Portal : MonoBehaviour
         //which is a normal occurrence from the portalcover prefab (not the portal prefab)
         catch(UnityException e)
         {
-            //Debug.LogError(e.StackTrace);
+            Debug.Log(e);
         }
 
         portal_animator = gameObject.GetComponent<Animator>();

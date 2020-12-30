@@ -7,8 +7,23 @@ public class PortalManager : MonoBehaviour
     [ReadOnly] public Portal[] portals;
     public GameObject portal_prefab;
     public RuntimeAnimatorController portal_animator;
+    public static PortalManager instance;
+    public float margin;
 
-    // Start is called before the first frame update
+    private List<System.Tuple<string, string>> destinations;
+    public List<System.Tuple<string, string>> Destinations
+    {
+        get { return destinations; }
+        set { destinations = value; }
+    }
+
+    //portal manager is always initialized to the current portal manager in the scene
+    private void Awake()
+
+    {
+        instance = this;
+    }
+
     void Start()
     {
         EventManager.instance.OnPortalOpen += OnPortalOpen;
@@ -19,11 +34,33 @@ public class PortalManager : MonoBehaviour
     //beginning marks the left middle position of the collection of portal blocks
     private void OnPortalOpen(Vector2 beginning)
     {
+        transform.position = new Vector3(beginning.x, beginning.y, 0);
+        Vector2 s = portal_prefab.GetComponent<SpriteRenderer>().size;
+        s.y += margin * 2;
 
+        for(int i = 0; i < destinations.Count; i++)
+        {
+            float portional_h = i - destinations.Count / 2f + 0.5f;
+            GameObject.Instantiate(
+                portal_prefab,
+                new Vector3(
+                    0,
+                    portional_h * s.y,
+                    0
+                    ),
+                Quaternion.identity,
+                transform);
+        }
     }
 
     //close all portals opened
     private void OnPortalClose()
+    {
+
+    }
+
+    //TODO: implement this and link to portal prefab script
+    private void SceneTransition(string destination)
     {
 
     }

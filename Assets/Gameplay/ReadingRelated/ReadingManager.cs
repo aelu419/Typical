@@ -95,6 +95,8 @@ public class ReadingManager: MonoBehaviour
             }
         }
 
+        //get portals
+
         EventManager.instance.ScriptLoaded();
 
         //cursor is initialized to the first typable letter in the first typable word
@@ -643,6 +645,9 @@ public class ReadingManager: MonoBehaviour
         Regex close_tag = new Regex(@"<\s*(\/).*>");
         Regex self_close_tag = new Regex(@"<.*(\/)>");
 
+        //append lamp at start
+        s = "<O lamp/>" + s;
+
         //remove redundant line swaps
         s = s.Replace('\n', ' ');
         //append extra spaces before and after tags just to make sure
@@ -655,7 +660,7 @@ public class ReadingManager: MonoBehaviour
         s = Regex.Replace(s, @"\s+", " ");
         s = s.Trim();
         //add portal at end
-        s += " <O portal mainmenu/>";
+        s += " <O portal/>";
 
         Debug.Log(s);
 

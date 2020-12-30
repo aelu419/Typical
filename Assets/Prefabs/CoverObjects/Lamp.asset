@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4672c37feec57c5498fa9ff4995f4c28, type: 3}
-  m_Name: CoverDispenser
+  m_Script: {fileID: 11500000, guid: 991233f1c46dc274691a0770ab13d418, type: 3}
+  m_Name: Lamp
   m_EditorClassIdentifier: 
-  cover_objects:
-  - {fileID: 11400000, guid: f6254ec80f18af545944ed3e8f636730, type: 2}
-  - {fileID: 11400000, guid: d6a2221ed4b6fe844a3d18e7678a7590, type: 2}
+  name: lamp
+  prefab: {fileID: 5524102392374116808, guid: 7ce7e24b17970c54db9ba7225ed79d2c, type: 3}
