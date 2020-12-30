@@ -13,12 +13,14 @@ public class Word
     [ReadOnly] public float top;
     [ReadOnly] public float slope;
     [ReadOnly] public int index;
-    [ReadOnly] public Sprite cover;
+    [ReadOnly] public string cover_type;
+    [ReadOnly] public Sprite cover_sprite;
+    private static Sprite default_cover_sprite;
 
     [ReadOnly] public int typed; //number of typed letters in the word
     [ReadOnly] public WORD_TYPES word_mech; //the mechanism that the word block follows
 
-    [ReadOnly] TextMeshPro tmp;
+    [ReadOnly] public TextMeshPro tmp;
     private TMP_CharacterInfo[] char_infos;
 
     //markers for texual contents of the word block
@@ -54,6 +56,8 @@ public class Word
             "Fonts & Materials/" + UNTYPED_HIDDEN_MAT) as Material;
         UNTYPED_REFLECTOR_MAT_ = Resources.Load(
             "Fonts & Materials/" + UNTYPED_REFLECTOR_MAT) as Material;
+
+        default_cover_sprite = Resources.Load("DefaultCoverSprite") as Sprite;
     }
 
     public Word(Tag[] tags, string content, float slope, int index, int typed)
@@ -122,7 +126,7 @@ public class Word
         tmp.ForceMeshUpdate();
         Vector2 rendered_vals = tmp.GetRenderedValues(false);
 
-        go.GetComponent<TextHolderBehavior>().content = this;
+        go.GetComponent<WordBlockBehavior>().content = this;
         go.tag = "Word Block";
 
         BoxCollider2D col = go.GetComponent<BoxCollider2D>();
@@ -162,33 +166,50 @@ public class Word
         top = lCursor.y + rendered_vals.y / 2f;
 
         //handle objects that cover the word
-        if (content.Length == 0 && (tags.Length == 1 && tags[0].type.Equals("O")))
+        cover_type = "";
+        float cover_w = 0;
+        foreach(Tag t in tags)
         {
-            if(tags[0].specs.Length == 0)
+            if (t.type.Equals("O"))
             {
-                //use default object
-                cover = Resources.Load<Sprite>("default");
-                //Debug.Log("loading " + cover.name + " as sprite");
+                FetchCover(t);
+                cover_w = cover_sprite.bounds.size.x;
             }
-            else
-            {
-                //TODO: remove the default setting below
-                cover = Resources.Load<Sprite>("default");
-
-                //TODO: implement specific cover objects
-                /*
-                string cover_object_name = tags[0].specs[0];
-                cover = Resources.Load(cover_object_name) as Sprite;
-                //Debug.Log("loading " + cover.name + " as sprite");
-                if (cover == null)
-                {
-                    throw new System.Exception(cover_object_name + " cannot be found");
-                }*/
-            }
-
         }
+        R.x += cover_w;
 
         return (new Vector2(R.x, R.y), go);
+    }
+
+    //TODO: convert to using json
+    private void FetchCover(Tag t)
+    {
+        cover_type = "default";
+        if (t.specs != null && t.specs.Length > 0)
+        {
+            cover_type = t.specs[0];
+        }
+
+        //fetch sprite for cover object
+        cover_sprite = null;
+        switch (cover_type)
+        {
+            //in the special cases, the asset name is not the type name
+            case ("portal"):
+                cover_sprite = Resources.Load<Sprite>("door_close");
+                //TODO: attach portal behavior script to gameobject
+                break;
+
+            //normally, the asset name is just the type name, like "default"
+            default:
+                cover_sprite = Resources.Load<Sprite>(cover_type);
+                break;
+        }
+        if (cover_sprite == null)
+        {
+            Debug.LogError("cover sprite not found for type: " + cover_type);
+            cover_sprite = default_cover_sprite;
+        }
     }
 
     public void SetRawText()

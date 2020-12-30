@@ -299,8 +299,8 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Word Block"))
         {
-            //Debug.Log(collision.gameObject.GetComponent<TextHolderBehavior>().content.content);
-            word_blocks_in_contact.Add(collision.gameObject.GetComponent<TextHolderBehavior>().content);
+            //Debug.Log(collision.gameObject.GetComponent<WordBlockBehavior>().content.content);
+            word_blocks_in_contact.Add(collision.gameObject.GetComponent<WordBlockBehavior>().content);
         }
     }
 
@@ -308,7 +308,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Word Block"))
         {
-            word_blocks_in_contact.Remove(collision.gameObject.GetComponent<TextHolderBehavior>().content);
+            word_blocks_in_contact.Remove(collision.gameObject.GetComponent<WordBlockBehavior>().content);
         }
     }
 

@@ -9,6 +9,7 @@ public class EventManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Event Manager instantiated");
         instance = this;
     }
 

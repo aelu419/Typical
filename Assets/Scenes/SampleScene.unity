@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text_holder_prefab: {fileID: 5458326794372538523, guid: 1fa3b21f147cb1f42a627f43b85aabc5, type: 3}
   script_name: script
-  slope_min_max: {x: -1, y: 1}
+  slope_min_max: {x: -0.5, y: 0.5}
   cursor_raw: 
   next_letter: 0
 --- !u!114 &318263002
@@ -541,7 +541,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637229258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.24, y: 1.96, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 1992400911}
@@ -573,8 +573,8 @@ MonoBehaviour:
   climb_speed: 2
   accel: 10
   x_vel_max: 3
-  destination: {x: 0, y: 0, z: 0}
-  destination_override: {x: 0, y: 0, z: 0}
+  destination: {x: -1, y: 0, z: 0}
+  destination_override: {x: -1, y: 0, z: 0}
   relation_to_destination: {x: 0, y: 0, z: 0}
   word_blocks_in_contact_str: 
 --- !u!50 &1637229262
@@ -758,7 +758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6026df7a7248df4f8e9098dd2bab247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  portals: []
   portal_prefab: {fileID: 4443940831122930180, guid: 7bc32ba5156783b4bb8605e3feed3a58, type: 3}
+  portal_animator: {fileID: 0}
 --- !u!1 &1992400910
 GameObject:
   m_ObjectHideFlags: 0

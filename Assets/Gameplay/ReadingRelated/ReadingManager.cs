@@ -45,15 +45,12 @@ public class ReadingManager: MonoBehaviour
         script = Resources.Load(script_name) as TextAsset;
 
         words = ParseScript(script.text);
-        EventManager.instance.ScriptLoaded();
-
         
         Debug.Log("the parsed script is:");
         for(int i = 0; i < words.Length; i++)
         {
             Debug.Log("\t" + words[i]);
         }
-        
         
         //connect to rest of components
         vManager = GetComponent<VisualManager>();
@@ -98,6 +95,8 @@ public class ReadingManager: MonoBehaviour
             }
         }
 
+        EventManager.instance.ScriptLoaded();
+
         //cursor is initialized to the first typable letter in the first typable word
         cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
         next_letter = words[first_typable_word].content[words[first_typable_word].first_typable];
@@ -113,16 +112,20 @@ public class ReadingManager: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
+         * code below deal with loading words in both play mode and edit mode
+         */
+
         //deal with word loading within camera scope + buffer region
         GameObject last_loaded_word = loaded_words[loaded_words.Count - 1];
         GameObject first_loaded_word = loaded_words[0];
 
         // when current last loaded word's end enters the right buffer, load the next word from back
-        if (last_loaded_word.GetComponent<TextHolderBehavior>().content.R.x
+        if (last_loaded_word.GetComponent<WordBlockBehavior>().content.R.x
             < (vManager.CAM.xMax + vManager.BUFFER_SIZE))
         {
             //Debug.Log("load from right");
-            int i = last_loaded_word.GetComponent<TextHolderBehavior>().content.index;
+            int i = last_loaded_word.GetComponent<WordBlockBehavior>().content.index;
             i++;
             if(i < words.Length)
             {
@@ -142,13 +145,13 @@ public class ReadingManager: MonoBehaviour
         // or if the first loaded word comes into the screen
         // load the word before the current first loaded word,
         // but don't unload the last loaded word as we expect it to come back to view soon
-        if(last_loaded_word.GetComponent<TextHolderBehavior>().content.L.x
+        if(last_loaded_word.GetComponent<WordBlockBehavior>().content.L.x
             > (vManager.CAM.xMax + vManager.BUFFER_SIZE)
-            || first_loaded_word.GetComponent<TextHolderBehavior>().content.R.x
+            || first_loaded_word.GetComponent<WordBlockBehavior>().content.R.x
             >= vManager.CAM.xMin)
         {
             //Debug.Log("load from left");
-            int i = first_loaded_word.GetComponent<TextHolderBehavior>().content.index;
+            int i = first_loaded_word.GetComponent<WordBlockBehavior>().content.index;
             i--;
             if(i >= 0)
             {
@@ -167,12 +170,16 @@ public class ReadingManager: MonoBehaviour
         }
 
         // when current first loaded word exists the left buffer, unload it
-        if (first_loaded_word.GetComponent<TextHolderBehavior>().content.R.x
+        if (first_loaded_word.GetComponent<WordBlockBehavior>().content.R.x
             < (vManager.CAM.xMin - vManager.BUFFER_SIZE)){
-            Debug.Log("unloading " + first_loaded_word.GetComponent<TextHolderBehavior>().content.content);
+            Debug.Log("unloading " + first_loaded_word.GetComponent<WordBlockBehavior>().content.content);
             loaded_words.Remove(first_loaded_word);
             Destroy(first_loaded_word);
         }
+
+        /*
+         * code from now on deals with player input under play mode
+         */
 
         // handle input
         if (next_letter != '\0' && Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
@@ -182,7 +189,7 @@ public class ReadingManager: MonoBehaviour
             // skip unmatching sequence caused by backspacing (see skip_over_puncuation)
             for (int i = 0; i < loaded_words.Count; i++)
             {
-                Word this_loaded_word = loaded_words[i].GetComponent<TextHolderBehavior>().content;
+                Word this_loaded_word = loaded_words[i].GetComponent<WordBlockBehavior>().content;
                 if (this_loaded_word.index > cursor_raw[0])
                 {
                     break;
@@ -557,7 +564,7 @@ public class ReadingManager: MonoBehaviour
         /*
         for (int i = 0; i < loaded_words.Count; i++)
         {
-            Word loaded_temp = loaded_words[i].GetComponent<TextHolderBehavior>().content;
+            Word loaded_temp = loaded_words[i].GetComponent<WordBlockBehavior>().content;
             if (loaded_temp.index == cursor_raw[0])
             {
                 //Debug.Log("\trendered cursor currently on word: " + loaded_temp.content
