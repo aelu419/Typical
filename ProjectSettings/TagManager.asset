@@ -7,7 +7,6 @@ TagManager:
   - General Manager
   - Word Block
   - Cover Object
-  - Portal Manager
   layers:
   - Default
   - TransparentFX

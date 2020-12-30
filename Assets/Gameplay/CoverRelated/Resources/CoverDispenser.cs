@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [CreateAssetMenu(menuName = "Typical Customs/Create Cover Dispenser")]
-public class CoverDispenser : ScriptableObject
+public class CoverDispenser : ScriptableSingleton<CoverDispenser>
 {
-    public static CoverDispenser instance;
+    [SerializeField]
     public CoverObjectScriptable[] cover_objects;
-
-    private void OnEnable()
-    {
-        instance = this;
-    }
 }

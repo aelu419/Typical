@@ -6,6 +6,5 @@ using UnityEngine;
 public class CoverObjectScriptable : ScriptableObject
 {
     public string name;
-    [SerializeField]
     public GameObject prefab;
 }
