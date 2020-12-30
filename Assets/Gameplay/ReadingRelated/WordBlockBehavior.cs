@@ -6,7 +6,7 @@ using TMPro;
 public class WordBlockBehavior : MonoBehaviour
 {
     [ReadOnly] public Word content;
-    [ReadOnly] public Cover cover;
+    //[ReadOnly] public Cover cover;
 
     // Start is called before the first frame update
     void Start()
@@ -16,15 +16,17 @@ public class WordBlockBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         //generate cover object
         if(content.cover_type != null 
             && !content.cover_type.Equals("") 
             && cover == null)
         {
             cover = new Cover(transform.GetChild(0).gameObject, content);
-        }
+        }*/
     }
 
+    /*
     public class Cover
     {
         private string type;
@@ -48,17 +50,8 @@ public class WordBlockBehavior : MonoBehaviour
 
             //set behavior of the gameobject
 
-            //initialize collider
-            object_.AddComponent<BoxCollider2D>();
-            collider_ = object_.GetComponent<BoxCollider2D>();
-            collider_.isTrigger = true;
-
-            //TODO: set local position
-            object_.transform.localPosition = new Vector3(
-                renderer_.size.x / 2f,
-                (renderer_.size.y + reference.tmp.GetPreferredValues().y)/2f,
-                0);
+            
         }
 
-    }
+    }*/
 }

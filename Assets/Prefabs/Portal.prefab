@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.41, y: -0.162}
+  m_AnchoredPosition: {x: 1.06, y: -0.49}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!23 &8409918463760722451
@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 4715210778875996019}
   - component: {fileID: 6943185907716887279}
   - component: {fileID: 2105313940156096881}
+  - component: {fileID: 5194422867556566936}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -288,3 +289,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5194422867556566936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443940831122930180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c444b7d7da6e2479eceb6e029bbec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: 
+  destination: 
+  is_from_cover_prefab: 0
+  word_block: {fileID: 0}
+  portal_animator: {fileID: 0}

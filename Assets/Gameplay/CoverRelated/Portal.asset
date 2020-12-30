@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991233f1c46dc274691a0770ab13d418, type: 3}
   m_Name: Portal
   m_EditorClassIdentifier: 
+  name: portal
+  prefab: {fileID: 5112325548004538794, guid: 7b419752358bfb44885018dcc100e77c, type: 3}

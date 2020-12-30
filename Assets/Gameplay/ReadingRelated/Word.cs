@@ -172,7 +172,7 @@ public class Word
         {
             if (t.type.Equals("O"))
             {
-                FetchCover(t);
+                FetchCover(t, go);
                 cover_w = cover_sprite.bounds.size.x;
             }
         }
@@ -181,8 +181,9 @@ public class Word
         return (new Vector2(R.x, R.y), go);
     }
 
-    //TODO: convert to using json
-    private void FetchCover(Tag t)
+    //fetch the cover object prefab according to the object tag
+    // - see CoverDispenser and CoverObjectScriptable and their respective objects
+    private void FetchCover(Tag t, GameObject parent_obj)
     {
         cover_type = "default";
         if (t.specs != null && t.specs.Length > 0)
@@ -192,23 +193,36 @@ public class Word
 
         //fetch sprite for cover object
         cover_sprite = null;
-        switch (cover_type)
-        {
-            //in the special cases, the asset name is not the type name
-            case ("portal"):
-                cover_sprite = Resources.Load<Sprite>("door_close");
-                //TODO: attach portal behavior script to gameobject
-                break;
 
-            //normally, the asset name is just the type name, like "default"
-            default:
-                cover_sprite = Resources.Load<Sprite>(cover_type);
-                break;
-        }
-        if (cover_sprite == null)
+        GameObject cover_child = null;
+        foreach (CoverObjectScriptable c in CoverDispenser.instance.cover_objects)
         {
-            Debug.LogError("cover sprite not found for type: " + cover_type);
-            cover_sprite = default_cover_sprite;
+            if (c.name.Equals(cover_type))
+            {
+                cover_child = GameObject.Instantiate(
+                    c.prefab, parent_obj.transform
+                    );
+                break;
+            }
+        }
+        if (cover_child == null)
+        {
+            Debug.LogError("cover prefab not found for type: " + cover_type);
+        }
+        else
+        {
+            cover_sprite = cover_child.GetComponent<SpriteRenderer>().sprite;
+            cover_child.tag = "Cover Object";
+
+            //initialize collider
+            cover_child.AddComponent<BoxCollider2D>();
+            cover_child.GetComponent<BoxCollider2D>().isTrigger = true;
+
+            //TODO: set local position
+            cover_child.transform.localPosition = new Vector3(
+                cover_sprite.bounds.size.x / 2f,
+                (cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
+                0);
         }
     }
 

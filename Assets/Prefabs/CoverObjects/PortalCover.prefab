@@ -117,5 +117,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: 
   destination: 
+  is_from_cover_prefab: 1
   word_block: {fileID: 0}
   portal_animator: {fileID: 0}
