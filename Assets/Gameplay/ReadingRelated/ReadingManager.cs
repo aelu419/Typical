@@ -331,14 +331,14 @@ public class ReadingManager: MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("exiting directly off of word beginning");
+                    //Debug.Log("exiting directly off of word beginning");
                     cursor_raw[1] = -1;
                 }
 
                 //when exiting current word from the left
                 if (cursor_raw[1] < 0)
                 {
-                    Debug.Log("exiting from " + cursor_raw[0]);
+                    //Debug.Log("exiting from " + cursor_raw[0]);
                     //clear current word
                     words[cursor_raw[0]].SetCharacterMech(0);
                     //skip through non-typable words

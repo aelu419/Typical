@@ -318,7 +318,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Cover Object"))
         {
-            Debug.Log("coming into contact with object");
+            Debug.Log("coming into contact with cover object");
         }
     }
 
@@ -326,7 +326,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Cover Object"))
         {
-            Debug.Log("exiting contact with object");
+            Debug.Log("exiting contact with cover object");
         }
     }
 
