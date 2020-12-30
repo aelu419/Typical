@@ -13,16 +13,13 @@ public class Portal : MonoBehaviour
     //obj is instantiated externally
     private void Start()
     {
-        try
+        //portal gameobject contains child object ONLY when it is spawn
+        //to the right of the script
+        //itself, meaning that the child obj is the textmesh
+        if(transform.childCount != 0)
         {
             word_block = gameObject.
                 transform.GetChild(0).gameObject.GetComponent<TextMeshPro>();
-        }
-        //error is thrown when there is no gameobject child to the portal
-        //which is a normal occurrence from the portalcover prefab (not the portal prefab)
-        catch(UnityException e)
-        {
-            Debug.Log(e);
         }
 
         portal_animator = gameObject.GetComponent<Animator>();

@@ -197,7 +197,7 @@ public class Word
         GameObject cover_child = null;
         foreach (CoverObjectScriptable c in CoverDispenser.instance.cover_objects)
         {
-            if (c.name.Equals(cover_type))
+            if (c.name_.Equals(cover_type))
             {
                 cover_child = GameObject.Instantiate(
                     c.prefab, parent_obj.transform

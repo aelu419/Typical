@@ -6,16 +6,39 @@ using TMPro;
 public class WordBlockBehavior : MonoBehaviour
 {
     [ReadOnly] public Word content;
+
+    private bool collider_width_sync;
     //[ReadOnly] public Cover cover;
 
     // Start is called before the first frame update
     void Start()
     {
+        collider_width_sync = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //has cover obj
+        if (!collider_width_sync && transform.childCount != 0)
+        {
+            BoxCollider2D b2 = transform.GetChild(0).GetComponent<BoxCollider2D>();
+            if(b2 != null)
+            {
+                BoxCollider2D b1 = GetComponent<BoxCollider2D>();
+                b1.size = new Vector2(
+                    b2.size.x,
+                    b1.size.y
+                   );
+                b1.offset = new Vector2(
+                    b1.size.x/2f,
+                    b1.offset.y
+                    );
+
+                collider_width_sync = true;
+            }
+        }
+
         /*
         //generate cover object
         if(content.cover_type != null 
