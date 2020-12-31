@@ -267,7 +267,6 @@ public class ReadingManager: MonoBehaviour
 
             if (next_letter == '\0')
             {
-                Debug.Log("portal open");
                 EventManager.instance.RaisePortalOpen(words[words.Length - 1].R);
                 //Debug.Log("next letter is " + next_letter);
             }

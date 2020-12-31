@@ -9,12 +9,14 @@ public class ScriptObjectEditor : Editor
     SerializedProperty TA;
     SerializedProperty TW;
     SerializedProperty ST;
+    SerializedProperty P;
 
     public void OnEnable()
     {
         ST = serializedObject.FindProperty("source");
         TA = serializedObject.FindProperty("text_asset");
         TW = serializedObject.FindProperty("text_writer");
+        P = serializedObject.FindProperty("Portals");
     }
     public override void OnInspectorGUI()
     {

@@ -16,3 +16,4 @@ MonoBehaviour:
   source: 0
   text_writer: {fileID: 0}
   text_asset: {fileID: 4900000, guid: 29135547c28b376408d87c2bf58f4222, type: 3}
+  portals: []

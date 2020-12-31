@@ -10,12 +10,7 @@ public class PortalManager : MonoBehaviour
     public static PortalManager instance;
     public float margin;
 
-    private List<System.Tuple<string, string>> destinations;
-    public List<System.Tuple<string, string>> Destinations
-    {
-        get { return destinations; }
-        set { destinations = value; }
-    }
+    private List<PortalData> destinations;
 
     //portal manager is always initialized to the current portal manager in the scene
     private void Awake()
@@ -28,6 +23,8 @@ public class PortalManager : MonoBehaviour
     {
         EventManager.instance.OnPortalOpen += OnPortalOpen;
         EventManager.instance.OnPortalClose += OnPortalClose;
+
+        //fetch destinations from current scene data
     }
 
     //open portals according to script and location
@@ -38,10 +35,11 @@ public class PortalManager : MonoBehaviour
         Vector2 s = portal_prefab.GetComponent<SpriteRenderer>().size;
         s.y += margin * 2;
 
+        portals = new Portal[destinations.Count];
         for(int i = 0; i < destinations.Count; i++)
         {
             float portional_h = i - destinations.Count / 2f + 0.5f;
-            GameObject.Instantiate(
+            GameObject go = GameObject.Instantiate(
                 portal_prefab,
                 new Vector3(
                     0,
@@ -50,6 +48,8 @@ public class PortalManager : MonoBehaviour
                     ),
                 Quaternion.identity,
                 transform);
+
+            //TODO: set portal data
         }
     }
 

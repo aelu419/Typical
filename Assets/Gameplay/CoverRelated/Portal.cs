@@ -5,7 +5,7 @@ using TMPro;
 
 public class Portal : MonoBehaviour
 {
-    public string description, destination;
+    public PortalData data;
     public bool is_from_cover_prefab;
     public TextMeshPro word_block;
     public Animator portal_animator; //the important parameter is 'open' (bool)
@@ -40,5 +40,35 @@ public class Portal : MonoBehaviour
     {
         Debug.Log("closing script end portal");
         portal_animator.SetBool("open", false);
+    }
+}
+
+[System.Serializable]
+public class PortalData
+{
+    public string description;
+    public ScriptObjectScriptable destination;
+    public static PortalData default_portal_data;
+
+    static PortalData()
+    {
+        default_portal_data = new PortalData(
+            "roll credit", 
+            ScriptDispenser.instance.scripts[0]
+            );
+    }
+
+    public static PortalData GetCloneOfDefault()
+    {
+        return new PortalData(
+            "roll credit",
+            ScriptDispenser.instance.scripts[0]
+            );
+    }
+
+    public PortalData(string description, ScriptObjectScriptable destination)
+    {
+        this.description = description;
+        this.destination = destination;
     }
 }

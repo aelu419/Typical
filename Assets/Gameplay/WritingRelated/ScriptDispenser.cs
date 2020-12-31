@@ -8,4 +8,11 @@ public class ScriptDispenser : ScriptableSingleton<ScriptDispenser>
 {
     public int index;
     public ScriptObjectScriptable[] scripts;
+
+    public ScriptObjectScriptable CurrentScript {
+        get
+        {
+            return scripts[index];
+        }
+    }
 }
