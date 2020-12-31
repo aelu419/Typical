@@ -41,10 +41,9 @@ public class ReadingManager: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("script d instance = " + ScriptDispenser.instance.name);
         words = ParseScript(
-            ScriptDispenser.instance.scripts[
-                ScriptDispenser.instance.index
-                ].Text
+            ScriptDispenser.instance.CurrentScript.Text
             );
 
         //pick out the portals
