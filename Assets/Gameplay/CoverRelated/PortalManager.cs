@@ -40,7 +40,8 @@ public class PortalManager : MonoBehaviour
 
         transform.position = new Vector3(beginning.x, beginning.y, 0);
         Vector2 s = portal_prefab.GetComponent<SpriteRenderer>().size;
-        s.y += margin * 2;
+        float block_raw_height = s.y;
+        float block_whole_height = s.y + 2 * margin;
 
         for (int i = 0; i < destinations.Count; i++)
         {
@@ -49,7 +50,8 @@ public class PortalManager : MonoBehaviour
                 portal_prefab,
                 new Vector3(
                     transform.position.x + 3,
-                    transform.position.y + portional_h * s.y,
+                    transform.position.y + block_raw_height / 2 
+                        + portional_h * block_whole_height,
                     transform.position.z
                     ),
                 Quaternion.identity,

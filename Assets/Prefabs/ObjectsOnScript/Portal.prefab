@@ -259,12 +259,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cb5821053b8a2c5409b95acc11cf4249, type: 3}
+  m_Sprite: {fileID: 156272709403431993, guid: cb5821053b8a2c5409b95acc11cf4249, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 4}
+  m_Size: {x: 1.96, y: 2.11}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -301,8 +301,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c444b7d7da6e2479eceb6e029bbec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: 
-  destination: 
+  data:
+    description: 
+    destination: {fileID: 0}
   is_from_cover_prefab: 0
   word_block: {fileID: 0}
   portal_animator: {fileID: 0}

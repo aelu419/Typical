@@ -10,7 +10,7 @@ using TMPro;
 public class ReadingManager: MonoBehaviour
 {
     public GameObject text_holder_prefab;
-    public Word[] words;
+    public List<Word> words;
     public string script_name;
 
     private VisualManager vManager;
@@ -67,6 +67,10 @@ public class ReadingManager: MonoBehaviour
                         Debug.LogError("defunct portal tag: " + t_.ToString());
                         Debug.LogError("\t" + e.Message);
                     }
+                    finally
+                    {
+                        words.Remove(w);
+                    }
                 }
             }
         }
@@ -79,7 +83,7 @@ public class ReadingManager: MonoBehaviour
 
         /*
         Debug.Log("the parsed script is:");
-        for(int i = 0; i < words.Length; i++)
+        for(int i = 0; i < words.Count; i++)
         {
             Debug.Log("\t" + words[i]);
         }*/
@@ -93,7 +97,7 @@ public class ReadingManager: MonoBehaviour
         //load words, by default load the first 10
         loaded_words = new List<GameObject>();
         (Vector2 cursor, GameObject go) word_loader_temp;
-        for (int i = 0; i < Mathf.Min(10, words.Length); i++)
+        for (int i = 0; i < Mathf.Min(10, words.Count); i++)
         {
             word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
             cursor = word_loader_temp.cursor; //update cursor
@@ -104,7 +108,7 @@ public class ReadingManager: MonoBehaviour
             throw new System.Exception("No other word in script");
 
         //search for the last typable word in script
-        for (int i = words.Length - 1; i >= 0; i--)
+        for (int i = words.Count - 1; i >= 0; i--)
         {
             if (words[i].has_typable)
             {
@@ -118,7 +122,7 @@ public class ReadingManager: MonoBehaviour
         }
 
         //search for the fist typable word in script
-        for (int i = 0; i < words.Length; i++)
+        for (int i = 0; i < words.Count; i++)
         {
             if (words[i].has_typable)
             {
@@ -126,8 +130,6 @@ public class ReadingManager: MonoBehaviour
                 break;
             }
         }
-
-        //get portals
 
         EventManager.instance.ScriptLoaded();
 
@@ -161,7 +163,7 @@ public class ReadingManager: MonoBehaviour
             //Debug.Log("load from right");
             int i = last_loaded_word.GetComponent<WordBlockBehavior>().content.index;
             i++;
-            if(i < words.Length)
+            if(i < words.Count)
             {
                 //load word at i
                 (Vector2 cursor, GameObject go) word_loader_temp =
@@ -272,10 +274,10 @@ public class ReadingManager: MonoBehaviour
                         while (words[i].content.Length <= 0)
                         {
                             i++;
-                            if (i == words.Length - 1)
+                            if (i == words.Count - 1)
                             {
                                 //currently on the last word of the script
-                                if (cursor_raw[0] == words.Length - 1)
+                                if (cursor_raw[0] == words.Count - 1)
                                 {
                                     EventManager.instance.RaiseScriptEndReached();
                                     next_letter = '\0';
@@ -292,12 +294,17 @@ public class ReadingManager: MonoBehaviour
                 {
                     next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
                 }
-            } while (cursor_raw[0] < words.Length
+            } while (cursor_raw[0] < words.Count
                 && !char.IsLetter(next_letter));
 
             if (next_letter == '\0')
             {
-                EventManager.instance.RaisePortalOpen(words[words.Length - 1].R);
+                EventManager.instance.RaisePortalOpen(
+                    new Vector2(
+                        words[words.Count - 1].R.x,
+                        words[words.Count - 1].top
+                        )
+                    );
                 //Debug.Log("next letter is " + next_letter);
             }
 
@@ -328,7 +335,7 @@ public class ReadingManager: MonoBehaviour
             {
                 //if currently exiting from the last word on the script (the portal marker)
                 //broadcast event to notice the portal manager
-                if(cursor_raw[0] == words.Length - 1)
+                if(cursor_raw[0] == words.Count - 1)
                 {
                     EventManager.instance.RaisePortalClose();
                 }
@@ -663,12 +670,13 @@ public class ReadingManager: MonoBehaviour
     //parse the script
     //tags with the format <...></...> and <.../> are handled
     //line breaks and spaces are treated the same way
-    public Word[] ParseScript(string s)
+    public List<Word> ParseScript(string s)
     {
         List<Word> words = new List<Word>();
 
         //starting block
-        words.Add(new Word(new Tag[] { }, "###", GetSlope(0), 0, 3));
+        //the first block has no slope and is entirely typed out
+        words.Add(new Word(new Tag[] { }, "###", 0, 0, 3));
 
         Regex tag = new Regex(@"<\s*(\/?)(\s*[^>])+\s*(\/?)\s*>");
 
@@ -802,7 +810,11 @@ public class ReadingManager: MonoBehaviour
 
                     case Tag.TagAppearanceType.self_closing:
                         //deal with self closing tag: append empty word with this tag
-                        Word empty = new Word(new Tag[] { this_tag }, "", GetSlope(words.Count), words.Count);
+                        //self closing tags do not change the slope
+                        Word empty = new Word(new Tag[] { this_tag }, "", 0, words.Count);
+                        //in this case the last word should also end with 0 slope
+                        words[words.Count - 1].slope = 0;
+
                         words.Add(empty);
                         break;
 
@@ -828,7 +840,7 @@ public class ReadingManager: MonoBehaviour
             Debug.Log(words[i].ToString());
         }*/
 
-        return words.ToArray();
+        return words;
     }
 
 }
