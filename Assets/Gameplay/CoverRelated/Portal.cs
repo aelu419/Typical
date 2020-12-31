@@ -31,6 +31,12 @@ public class Portal : MonoBehaviour
         }
     }
 
+    //TODO: implement transition to another scene, link to portal manager
+    private void OnPortalOpen()
+    {
+        Debug.LogError("implement transition!");
+    }
+
     private void OnScriptPortalOpen(Vector2 v)
     {
         Debug.Log("opening script end portal");
@@ -70,5 +76,22 @@ public class PortalData
     {
         this.description = description;
         this.destination = destination;
+    }
+
+    public PortalData(string description, string destination_name)
+    {
+        this.description = description;
+        foreach(ScriptObjectScriptable d in ScriptDispenser.instance.scripts)
+        {
+            if (d.name_.Equals(destination_name))
+            {
+                this.destination = d;
+            }
+        }
+        if(this.destination == null)
+        {
+            throw new System.Exception("destination called " + destination_name
+                + " cannot be found");
+        }
     }
 }

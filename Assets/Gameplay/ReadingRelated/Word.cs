@@ -185,10 +185,14 @@ public class Word
     // - see CoverDispenser and CoverObjectScriptable and their respective objects
     private void FetchCover(Tag t, GameObject parent_obj)
     {
-        cover_type = "default";
-        if (t.specs != null && t.specs.Length > 0)
+        try
         {
-            cover_type = t.specs[0];
+            cover_type = t.GetSpecAt(0);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+            cover_type = "default";
         }
 
         //fetch sprite for cover object

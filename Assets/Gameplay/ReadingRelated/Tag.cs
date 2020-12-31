@@ -5,7 +5,8 @@ using UnityEngine;
 public class Tag
 {
     public string type;
-    public string[] specs;
+    private string[] specs;
+    public TagAppearanceType appearance;
 
     public enum TagAppearanceType
     {
@@ -14,8 +15,10 @@ public class Tag
         self_closing
     }
 
-    public Tag(string[] inside)
+    public Tag(string[] inside, TagAppearanceType appearance)
     {
+        this.appearance = appearance;
+
         if(inside == null || inside.Length == 0) {
             throw new System.Exception("Tag cannot be empty");
         }
@@ -35,6 +38,19 @@ public class Tag
             {
                 this.specs = new string[0];
             }
+        }
+    }
+
+    public string GetSpecAt(int index)
+    {
+        if(specs.Length <= index)
+        {
+            throw new System.Exception("tag does not contain as much specifications: "
+                + index + " (" + ToString() + ")");
+        }
+        else
+        {
+            return specs[index];
         }
     }
 

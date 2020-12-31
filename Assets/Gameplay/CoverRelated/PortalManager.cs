@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PortalManager : MonoBehaviour
 {
-    [ReadOnly] public Portal[] portals;
     public GameObject portal_prefab;
     public RuntimeAnimatorController portal_animator;
+
     public static PortalManager instance;
+
     public float margin;
 
-    private List<PortalData> destinations;
+    public List<PortalData> destinations;
 
     //portal manager is always initialized to the current portal manager in the scene
     private void Awake()
@@ -31,12 +32,17 @@ public class PortalManager : MonoBehaviour
     //beginning marks the left middle position of the collection of portal blocks
     private void OnPortalOpen(Vector2 beginning)
     {
+        if (destinations == null || destinations.Count == 0)
+        {
+            Debug.LogError("no destination specified, skipping portal opening procedure");
+            return;
+        }
+
         transform.position = new Vector3(beginning.x, beginning.y, 0);
         Vector2 s = portal_prefab.GetComponent<SpriteRenderer>().size;
         s.y += margin * 2;
 
-        portals = new Portal[destinations.Count];
-        for(int i = 0; i < destinations.Count; i++)
+        for (int i = 0; i < destinations.Count; i++)
         {
             float portional_h = i - destinations.Count / 2f + 0.5f;
             GameObject go = GameObject.Instantiate(
@@ -50,6 +56,8 @@ public class PortalManager : MonoBehaviour
                 transform);
 
             //TODO: set portal data
+            Portal p_ = go.GetComponent<Portal>();
+            p_.data = destinations[i];
         }
     }
 

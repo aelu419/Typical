@@ -10,7 +10,6 @@ using TMPro;
 public class ReadingManager: MonoBehaviour
 {
     public GameObject text_holder_prefab;
-    private TextAsset script; //the entire script
     public Word[] words;
     public string script_name;
 
@@ -47,13 +46,45 @@ public class ReadingManager: MonoBehaviour
                 ScriptDispenser.instance.index
                 ].Text
             );
-        
+
+        //pick out the portals
+        List<PortalData> ports = new List<PortalData>();
+        foreach (Word w in words)
+        {
+            Tag[] t = w.tags;
+            foreach (Tag t_ in t)
+            {
+                if (t_.appearance == Tag.TagAppearanceType.self_closing
+                    && t_.type.Equals("P"))
+                {
+                    try
+                    {
+                        ports.Add(new PortalData(
+                            t_.GetSpecAt(0),
+                            t_.GetSpecAt(1)));
+                    }
+                    catch(System.Exception e)
+                    {
+                        Debug.LogError("defunct portal tag: " + t_.ToString());
+                        Debug.LogError("\t" + e.Message);
+                    }
+                }
+            }
+        }
+        if(ports.Count == 0)
+        {
+            ports.Add(PortalData.GetCloneOfDefault());
+        }
+
+        PortalManager.instance.destinations = ports;
+
+        /*
         Debug.Log("the parsed script is:");
         for(int i = 0; i < words.Length; i++)
         {
             Debug.Log("\t" + words[i]);
-        }
-        
+        }*/
+
         //connect to rest of components
         vManager = GetComponent<VisualManager>();
         player = GameObject.FindGameObjectWithTag("Player")
@@ -743,7 +774,7 @@ public class ReadingManager: MonoBehaviour
                     Debug.Log("\t" + tag_content_list[i]);
                 }*/
 
-                Tag this_tag = new Tag(tag_content_list);
+                Tag this_tag = new Tag(tag_content_list, t);
                 //Debug.Log("\t parsed to " + this_tag);
 
                 switch (t)
