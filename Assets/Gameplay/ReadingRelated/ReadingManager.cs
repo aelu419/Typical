@@ -73,6 +73,7 @@ public class ReadingManager: MonoBehaviour
                     finally
                     {
                         words.Remove(w);
+                        i--;
                     }
                 }
             }
@@ -211,7 +212,7 @@ public class ReadingManager: MonoBehaviour
         // when current first loaded word exists the left buffer, unload it
         if (first_loaded_word.GetComponent<WordBlockBehavior>().content.R.x
             < (vManager.CAM.xMin - vManager.BUFFER_SIZE)){
-            Debug.Log("unloading " + first_loaded_word.GetComponent<WordBlockBehavior>().content.content);
+            //Debug.Log("unloading " + first_loaded_word.GetComponent<WordBlockBehavior>().content.content);
             loaded_words.Remove(first_loaded_word);
             Destroy(first_loaded_word);
         }

@@ -32,6 +32,10 @@ public class PortalManager : MonoBehaviour
     //beginning marks the left middle position of the collection of portal blocks
     private void OnPortalOpen(Vector2 beginning)
     {
+        foreach (PortalData pd in destinations)
+        {
+            Debug.Log(pd.description);
+        }
         if (destinations == null || destinations.Count == 0)
         {
             Debug.LogError("no destination specified, skipping portal opening procedure");
