@@ -60,7 +60,7 @@ public class PortalData
     {
         default_portal_data = new PortalData(
             "roll credit", 
-            ScriptDispenser.instance.scripts[0]
+            ScriptableObjectManager.Instance.ScriptManager.scripts[0]
             );
     }
 
@@ -68,7 +68,7 @@ public class PortalData
     {
         return new PortalData(
             "roll credit",
-            ScriptDispenser.instance.scripts[0]
+            ScriptableObjectManager.Instance.ScriptManager.scripts[0]
             );
     }
 
@@ -81,7 +81,8 @@ public class PortalData
     public PortalData(string description, string destination_name)
     {
         this.description = description;
-        foreach(ScriptObjectScriptable d in ScriptDispenser.instance.scripts)
+        foreach(ScriptObjectScriptable d in 
+            ScriptableObjectManager.Instance.ScriptManager.scripts)
         {
             if (d.name_.Equals(destination_name))
             {

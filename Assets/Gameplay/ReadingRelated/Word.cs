@@ -199,7 +199,7 @@ public class Word
         cover_sprite = null;
 
         GameObject cover_child = null;
-        foreach (CoverObjectScriptable c in CoverDispenser.instance.cover_objects)
+        foreach (CoverObjectScriptable c in ScriptableObjectManager.Instance.CoverManager.cover_objects)
         {
             if (c.name_.Equals(cover_type))
             {
@@ -222,11 +222,40 @@ public class Word
             cover_child.AddComponent<BoxCollider2D>();
             cover_child.GetComponent<BoxCollider2D>().isTrigger = true;
 
-            //TODO: set local position
-            cover_child.transform.localPosition = new Vector3(
-                cover_sprite.bounds.size.x / 2f,
-                (cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
-                0);
+            try
+            {
+                string par = t.GetSpecAt(1);
+                CoverObjectBehaviour cob =
+                    cover_child.GetComponent<CoverObjectBehaviour>();
+                Debug.Log(cob);
+                cob.param = par;
+                
+            }
+            //skip the indexoutofrangeexception
+            //because it is likely from having no parameters
+            catch(System.IndexOutOfRangeException e)
+            {
+                //Debug.Log("Object does not have extra parameters");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError(e);
+            }
+
+            try
+            {
+                Debug.Log(cover_child);
+                //TODO: set local position
+                cover_child.transform.localPosition = new Vector3(
+                    cover_sprite.bounds.size.x / 2f,
+                    (cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
+                    0);
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log("error encountered when processing: " + t.ToString());
+                throw;
+            }
         }
     }
 
