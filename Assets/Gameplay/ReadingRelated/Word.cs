@@ -241,21 +241,11 @@ public class Word
             {
                 Debug.LogError(e);
             }
-
-            try
-            {
-                Debug.Log(cover_child);
-                //TODO: set local position
-                cover_child.transform.localPosition = new Vector3(
-                    cover_sprite.bounds.size.x / 2f,
-                    (cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
-                    0);
-            }
-            catch (System.Exception e)
-            {
-                Debug.Log("error encountered when processing: " + t.ToString());
-                throw;
-            }
+            //TODO: set local position
+            cover_child.transform.localPosition = new Vector3(
+                cover_sprite.bounds.size.x / 2f,
+                (cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
+                0);
         }
     }
 

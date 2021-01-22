@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 318263001}
   - component: {fileID: 318263002}
   - component: {fileID: 318262997}
+  - component: {fileID: 318263003}
   m_Layer: 0
   m_Name: General Manager
   m_TagString: General Manager
@@ -240,6 +241,20 @@ MonoBehaviour:
   incorrect_presses: 0
   accuracy: 0
   speed: 0
+--- !u!114 &318263003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318262996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c261013d30681924b844f84b16a86a77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptManager: {fileID: 11400000, guid: 5a65d1547c95d7c4ba2e625c141528af, type: 2}
+  CoverManager: {fileID: 11400000, guid: e51b85e0084139845b64d5df0cbc0ab0, type: 2}
 --- !u!1 &382686211
 GameObject:
   m_ObjectHideFlags: 0

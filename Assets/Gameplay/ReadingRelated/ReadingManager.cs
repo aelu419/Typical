@@ -41,14 +41,18 @@ public class ReadingManager: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("script dispenser instance = " + 
+            ScriptableObjectManager.Instance.ScriptManager.name);
         words = ParseScript(
             ScriptableObjectManager.Instance.ScriptManager.CurrentScript.Text
             );
 
         //pick out the portals
         List<PortalData> ports = new List<PortalData>();
-        foreach (Word w in words)
+        Debug.Log(words);
+        for(int i = 0; i < words.Count; i++)
         {
+            Word w = words[i];
             Tag[] t = w.tags;
             foreach (Tag t_ in t)
             {

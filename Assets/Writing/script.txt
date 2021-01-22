@@ -1,3 +1,2 @@
-<O img title/> Hey! Welcome to Typical! This is a game about typing :)
-<P portal1 _mainmenu>
-<P portal2 _beginning>
+Hey! Welcome to Typical! This is a game about typing :)
+<P MainMenu _mainmenu/>

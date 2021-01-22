@@ -20,6 +20,7 @@ public class Portal : MonoBehaviour
         {
             word_block = gameObject.
                 transform.GetChild(0).gameObject.GetComponent<TextMeshPro>();
+            word_block.text = data.description;
         }
 
         portal_animator = gameObject.GetComponent<Animator>();
