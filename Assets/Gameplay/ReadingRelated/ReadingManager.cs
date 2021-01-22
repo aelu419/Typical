@@ -49,7 +49,6 @@ public class ReadingManager: MonoBehaviour
 
         //pick out the portals
         List<PortalData> ports = new List<PortalData>();
-        Debug.Log(words);
         for(int i = 0; i < words.Count; i++)
         {
             Word w = words[i];
@@ -103,6 +102,7 @@ public class ReadingManager: MonoBehaviour
         (Vector2 cursor, GameObject go) word_loader_temp;
         for (int i = 0; i < Mathf.Min(10, words.Count); i++)
         {
+            Debug.Log("configuring " + words[i]);
             word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
             cursor = word_loader_temp.cursor; //update cursor
             loaded_words.Add(word_loader_temp.go);

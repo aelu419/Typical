@@ -40,5 +40,11 @@ public class ScriptObjectEditor : Editor
             EditorGUILayout.PropertyField(TA);
         }
         serializedObject.ApplyModifiedProperties();
+        
+        if (GUI.changed)
+        {
+            Debug.Log(sos.name_);
+            EditorUtility.SetDirty(sos);
+        }
     }
 }

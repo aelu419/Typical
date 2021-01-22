@@ -119,6 +119,7 @@ public class Word
     //the actual beginnings are determined after considering slope
     public (Vector2, GameObject) ToPrefab(GameObject pre, Vector2 lCursor)
     {
+        Debug.Log("to prefab called");
         GameObject go = MonoBehaviour.Instantiate(pre, lCursor, Quaternion.identity);
         tmp = go.GetComponent<TextMeshPro>();
         if (tmp == null) throw new System.Exception("prefab loading error: no TMP component");
@@ -185,6 +186,7 @@ public class Word
     // - see CoverDispenser and CoverObjectScriptable and their respective objects
     private void FetchCover(Tag t, GameObject parent_obj)
     {
+        Debug.Log("fetching cover object for " + t);
         try
         {
             cover_type = t.GetSpecAt(0);
@@ -203,6 +205,7 @@ public class Word
         {
             if (c.name_.Equals(cover_type))
             {
+                Debug.Log("instantiating type " + cover_type);
                 cover_child = GameObject.Instantiate(
                     c.prefab, parent_obj.transform
                     );
@@ -218,29 +221,27 @@ public class Word
             cover_sprite = cover_child.GetComponent<SpriteRenderer>().sprite;
             cover_child.tag = "Cover Object";
 
+            try
+            {
+                //fetch image for img tag
+                if (t.GetSpecAt(0).Equals("img"))
+                {
+                    string par = t.GetSpecAt(1);
+                    cover_sprite = Resources.Load<Sprite>("Misc/" + par);
+                    cover_child.GetComponent<SpriteRenderer>().sprite = cover_sprite;
+                }
+            }
+            //skip the indexoutofrangeexception
+            //because it is likely from having no parameters
+            catch(System.ArgumentException e)
+            {
+                Debug.Log(e);
+            }
+
             //initialize collider
             cover_child.AddComponent<BoxCollider2D>();
             cover_child.GetComponent<BoxCollider2D>().isTrigger = true;
 
-            try
-            {
-                string par = t.GetSpecAt(1);
-                CoverObjectBehaviour cob =
-                    cover_child.GetComponent<CoverObjectBehaviour>();
-                Debug.Log(cob);
-                cob.param = par;
-                
-            }
-            //skip the indexoutofrangeexception
-            //because it is likely from having no parameters
-            catch(System.IndexOutOfRangeException e)
-            {
-                //Debug.Log("Object does not have extra parameters");
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError(e);
-            }
             //TODO: set local position
             cover_child.transform.localPosition = new Vector3(
                 cover_sprite.bounds.size.x / 2f,

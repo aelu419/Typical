@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e605533d030a0408fbb64405f77198, type: 3}
   m_Name: TextFromTxt
   m_EditorClassIdentifier: 
-  name_: SampleTextFromScript
+  name_: _mainmenu
   source: 0
   text_writer: {fileID: 0}
   text_asset: {fileID: 4900000, guid: 29135547c28b376408d87c2bf58f4222, type: 3}
-  portals: []
