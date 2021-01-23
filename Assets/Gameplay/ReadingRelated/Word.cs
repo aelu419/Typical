@@ -119,10 +119,10 @@ public class Word
     //the actual beginnings are determined after considering slope
     public (Vector2, GameObject) ToPrefab(GameObject pre, Vector2 lCursor)
     {
-        Debug.Log("to prefab called");
         GameObject go = MonoBehaviour.Instantiate(pre, lCursor, Quaternion.identity);
         tmp = go.GetComponent<TextMeshPro>();
-        if (tmp == null) throw new System.Exception("prefab loading error: no TMP component");
+        if (tmp == null)
+            throw new System.Exception("prefab loading error: no TMP component");
         tmp.text = " "+content;
         tmp.ForceMeshUpdate();
         Vector2 rendered_vals = tmp.GetRenderedValues(false);

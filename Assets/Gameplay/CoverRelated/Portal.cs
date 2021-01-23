@@ -35,6 +35,11 @@ public class Portal : MonoBehaviour
     //TODO: implement transition to another scene, link to portal manager
     private void OnPortalOpen()
     {
+        if (data.sp == PortalData.SpecialPortals.quit)
+        {
+            Debug.Log("quitting, please implement progress saving mechanism!");
+            Application.Quit();
+        }
         Debug.LogError("implement transition!");
     }
 
@@ -56,6 +61,13 @@ public class PortalData
     public string description;
     public ScriptObjectScriptable destination;
     public static PortalData default_portal_data;
+    public SpecialPortals sp;
+
+    public enum SpecialPortals
+    {
+        none,
+        quit
+    }
 
     static PortalData()
     {
@@ -75,12 +87,14 @@ public class PortalData
 
     public PortalData(string description, ScriptObjectScriptable destination)
     {
+        sp = SpecialPortals.none; //only string destination can result in special portals
         this.description = description;
         this.destination = destination;
     }
 
     public PortalData(string description, string destination_name)
     {
+        sp = SpecialPortals.none;
         this.description = description;
         foreach(ScriptObjectScriptable d in 
             ScriptableObjectManager.Instance.ScriptManager.scripts)
@@ -92,8 +106,15 @@ public class PortalData
         }
         if(this.destination == null)
         {
-            throw new System.Exception("destination called " + destination_name
-                + " cannot be found");
+            if (destination_name.Equals("_quit"))
+            {
+                sp = SpecialPortals.quit;
+            }
+            else
+            {
+                throw new System.Exception("destination called " + destination_name
+                    + " cannot be found");
+            }
         }
     }
 }

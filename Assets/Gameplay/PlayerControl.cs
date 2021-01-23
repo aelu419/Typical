@@ -110,6 +110,7 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         bool accelerating = false;
+        float hor_spd_temp = rigid.velocity.x;
 
         if (!renderer_.enabled)
         {
@@ -241,7 +242,9 @@ public class PlayerControl : MonoBehaviour
 
         }
 
-        if (accelerating && relation_temp.x == relation_to_destination.x)
+        if (accelerating && 
+            (relation_temp.x == relation_to_destination.x 
+            || Mathf.Approximately(hor_spd_temp, 0)))
         {
             stuck_time += Time.deltaTime;
             if(stuck_time > 0.5f)
