@@ -76,7 +76,7 @@ public class ReadingDeprecated: MonoBehaviour
             upcomingLetter = upcomingLetter.getNext();
 
             //broadcast event
-            EventManager.instance.RaiseCorrectKeyPressed();
+            EventManager.Instance.RaiseCorrectKeyPressed();
 
             //update graphics
             if(upcomingLetter != null)
@@ -97,7 +97,7 @@ public class ReadingDeprecated: MonoBehaviour
             {
                 totalTypedLetters++;
                 accuracy = (float)typedLetters / (float)totalTypedLetters;
-                EventManager.instance.RaiseIncorrectKeyPressed();
+                EventManager.Instance.RaiseIncorrectKeyPressed();
             }
 
             //incorrect OR no input

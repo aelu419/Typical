@@ -7,7 +7,8 @@ public class PortalManager : MonoBehaviour
     public GameObject portal_prefab;
     public RuntimeAnimatorController portal_animator;
 
-    public static PortalManager instance;
+    private static PortalManager _instance;
+    public static PortalManager Instance => _instance;
 
     public float margin;
 
@@ -17,13 +18,13 @@ public class PortalManager : MonoBehaviour
     private void Awake()
 
     {
-        instance = this;
+        _instance = this;
     }
 
     void Start()
     {
-        EventManager.instance.OnPortalOpen += OnPortalOpen;
-        EventManager.instance.OnPortalClose += OnPortalClose;
+        EventManager.Instance.OnPortalOpen += OnPortalOpen;
+        EventManager.Instance.OnPortalClose += OnPortalClose;
 
         //fetch destinations from current scene data
     }

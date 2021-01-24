@@ -26,7 +26,7 @@ public class PlayerControl : MonoBehaviour
     private ContactPoint2D[] cp;
 
     //connect to other game components
-    private VisualManager vManager;
+    private CameraControler cControler;
     private ReadingManager rManager;
     private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     private Rigidbody2D rigid;
@@ -54,9 +54,9 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         //register events
-        EventManager.instance.OnCorrectKeyPressed += CorrectKeyPressed;
-        EventManager.instance.OnIncorrectKeyPressed += IncorrectKeyPressed;
-        EventManager.instance.OnCharacterDeleted += OnCharacterDeleted;
+        EventManager.Instance.OnCorrectKeyPressed += CorrectKeyPressed;
+        EventManager.Instance.OnIncorrectKeyPressed += IncorrectKeyPressed;
+        EventManager.Instance.OnCharacterDeleted += OnCharacterDeleted;
 
         //connect to rest of the game
         rigid = GetComponent<Rigidbody2D>();
@@ -66,7 +66,7 @@ public class PlayerControl : MonoBehaviour
 
         head_light_controller = transform.GetChild(1).gameObject.GetComponent<HeadLightControl>();
 
-        vManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<VisualManager>();
+        cControler = GameObject.FindGameObjectWithTag("General Manager").GetComponent<CameraControler>();
         rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
 
         renderer_ = GetComponent<SpriteRenderer>();
@@ -145,8 +145,8 @@ public class PlayerControl : MonoBehaviour
         //control the motion of the player:
 
         //freeze the character if it is not inside camera range
-        if (transform.position.x < vManager.CAM.xMin
-            || transform.position.x > vManager.CAM.xMax)
+        if (transform.position.x < cControler.CAM.xMin
+            || transform.position.x > cControler.CAM.xMax)
         {
             //Debug.Log("outside camera scope");
             rigid.velocity = Vector2.zero;

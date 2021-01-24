@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    public static EventManager instance;
+    private static EventManager _instance;
+    public static EventManager Instance => _instance;
 
     private void Awake()
     {
         Debug.Log("Event Manager instantiated");
-        instance = this;
+        _instance = this;
     }
 
     public event Action OnCorrectKeyPressed;

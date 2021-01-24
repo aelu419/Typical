@@ -20,7 +20,7 @@ public class TypingStatusRecord : MonoBehaviour
         accuracy = 1.0f;
         speed = 0;
 
-        EventManager.instance.OnCorrectKeyPressed += OnCorrectKeyPressed;
+        EventManager.Instance.OnCorrectKeyPressed += OnCorrectKeyPressed;
     }
 
     // Update is called once per frame

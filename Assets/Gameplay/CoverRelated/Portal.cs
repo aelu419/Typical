@@ -27,8 +27,8 @@ public class Portal : MonoBehaviour
 
         if (is_from_cover_prefab)
         {
-            EventManager.instance.OnPortalOpen += OnScriptPortalOpen;
-            EventManager.instance.OnPortalClose += OnScriptPortalClose;
+            EventManager.Instance.OnPortalOpen += OnScriptPortalOpen;
+            EventManager.Instance.OnPortalClose += OnScriptPortalClose;
         }
     }
 

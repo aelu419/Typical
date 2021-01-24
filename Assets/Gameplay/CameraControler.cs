@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VisualManager : MonoBehaviour
+public class CameraControler : MonoBehaviour
 {
     [ExecuteAlways]
     [ReadOnly] public Rect CAM; //the range of the camera as a rectangle, in world units

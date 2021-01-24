@@ -13,7 +13,7 @@ public class ReadingManager: MonoBehaviour
     public List<Word> words;
     public string script_name;
 
-    private VisualManager vManager;
+    private CameraControler cControler;
     private PlayerControl player;
 
     //slope related
@@ -82,7 +82,7 @@ public class ReadingManager: MonoBehaviour
             ports.Add(PortalData.GetCloneOfDefault());
         }
 
-        PortalManager.instance.destinations = ports;
+        PortalManager.Instance.destinations = ports;
 
         /*
         Debug.Log("the parsed script is:");
@@ -92,7 +92,7 @@ public class ReadingManager: MonoBehaviour
         }*/
 
         //connect to rest of components
-        vManager = GetComponent<VisualManager>();
+        cControler = GetComponent<CameraControler>();
         player = GameObject.FindGameObjectWithTag("Player")
             .GetComponent<PlayerControl>();
 
@@ -135,7 +135,7 @@ public class ReadingManager: MonoBehaviour
             }
         }
 
-        EventManager.instance.ScriptLoaded();
+        EventManager.Instance.ScriptLoaded();
 
         //cursor is initialized to the first typable letter in the first typable word
         cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
@@ -162,7 +162,7 @@ public class ReadingManager: MonoBehaviour
 
         // when current last loaded word's end enters the right buffer, load the next word from back
         if (last_loaded_word.GetComponent<WordBlockBehavior>().content.R.x
-            < (vManager.CAM.xMax + vManager.BUFFER_SIZE))
+            < (cControler.CAM.xMax + cControler.BUFFER_SIZE))
         {
             //Debug.Log("load from right");
             int i = last_loaded_word.GetComponent<WordBlockBehavior>().content.index;
@@ -186,9 +186,9 @@ public class ReadingManager: MonoBehaviour
         // load the word before the current first loaded word,
         // but don't unload the last loaded word as we expect it to come back to view soon
         if(last_loaded_word.GetComponent<WordBlockBehavior>().content.L.x
-            > (vManager.CAM.xMax + vManager.BUFFER_SIZE)
+            > (cControler.CAM.xMax + cControler.BUFFER_SIZE)
             || first_loaded_word.GetComponent<WordBlockBehavior>().content.R.x
-            >= vManager.CAM.xMin)
+            >= cControler.CAM.xMin)
         {
             //Debug.Log("load from left");
             int i = first_loaded_word.GetComponent<WordBlockBehavior>().content.index;
@@ -211,7 +211,7 @@ public class ReadingManager: MonoBehaviour
 
         // when current first loaded word exists the left buffer, unload it
         if (first_loaded_word.GetComponent<WordBlockBehavior>().content.R.x
-            < (vManager.CAM.xMin - vManager.BUFFER_SIZE)){
+            < (cControler.CAM.xMin - cControler.BUFFER_SIZE)){
             //Debug.Log("unloading " + first_loaded_word.GetComponent<WordBlockBehavior>().content.content);
             loaded_words.Remove(first_loaded_word);
             Destroy(first_loaded_word);
@@ -224,7 +224,7 @@ public class ReadingManager: MonoBehaviour
         // handle input
         if (next_letter != '\0' && Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
         {
-            EventManager.instance.RaiseCorrectKeyPressed();
+            EventManager.Instance.RaiseCorrectKeyPressed();
 
             // skip unmatching sequence caused by backspacing (see skip_over_puncuation)
             for (int i = 0; i < loaded_words.Count; i++)
@@ -283,7 +283,7 @@ public class ReadingManager: MonoBehaviour
                                 //currently on the last word of the script
                                 if (cursor_raw[0] == words.Count - 1)
                                 {
-                                    EventManager.instance.RaiseScriptEndReached();
+                                    EventManager.Instance.RaiseScriptEndReached();
                                     next_letter = '\0';
                                 }
                                 break;
@@ -303,7 +303,7 @@ public class ReadingManager: MonoBehaviour
 
             if (next_letter == '\0')
             {
-                EventManager.instance.RaisePortalOpen(
+                EventManager.Instance.RaisePortalOpen(
                     new Vector2(
                         words[words.Count - 1].R.x,
                         words[words.Count - 1].top
@@ -341,10 +341,10 @@ public class ReadingManager: MonoBehaviour
                 //broadcast event to notice the portal manager
                 if(cursor_raw[0] == words.Count - 1)
                 {
-                    EventManager.instance.RaisePortalClose();
+                    EventManager.Instance.RaisePortalClose();
                 }
 
-                EventManager.instance.RaiseCharacterDeleted();
+                EventManager.Instance.RaiseCharacterDeleted();
                 int[] cursor_override = new int[] { -1, -1 };
 
                 //in the span of the current word:
@@ -544,7 +544,7 @@ public class ReadingManager: MonoBehaviour
         else if (Input.anyKeyDown)
         {
             if (AnyLetterPressed())
-                EventManager.instance.RaiseIncorrectKeyPressed();
+                EventManager.Instance.RaiseIncorrectKeyPressed();
         }
 
     }
