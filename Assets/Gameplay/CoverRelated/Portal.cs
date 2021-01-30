@@ -10,6 +10,8 @@ public class Portal : MonoBehaviour
     public TextMeshPro word_block;
     public Animator portal_animator; //the important parameter is 'open' (bool)
 
+    public string descriptor;
+
     //obj is instantiated externally
     private void Start()
     {
@@ -20,7 +22,14 @@ public class Portal : MonoBehaviour
         {
             word_block = gameObject.
                 transform.GetChild(0).gameObject.GetComponent<TextMeshPro>();
-            word_block.text = data.description;
+            if (descriptor != null && descriptor != "")
+            {
+                word_block.text = descriptor;
+            }
+            else
+            {
+                word_block.text = data.description;
+            }
         }
 
         portal_animator = gameObject.GetComponent<Animator>();
@@ -32,9 +41,19 @@ public class Portal : MonoBehaviour
         }
     }
 
-    //TODO: implement transition to another scene, link to portal manager
-    private void OnPortalOpen()
+    public void SetDisplay(PortalData pd, KeyCode k)
     {
+        Debug.Log(pd + ", " + k);
+        data = pd;
+        data.control = k;
+        descriptor = "[" + k.ToString() + "] " + data.description;
+    }
+
+    //TODO: implement transition to another scene, link to portal manager
+    public void OnPortalOpen()
+    {
+        portal_animator.SetBool("open", true);
+
         if (data.sp == PortalData.SpecialPortals.quit)
         {
             Debug.Log("quitting, please implement progress saving mechanism!");
@@ -62,6 +81,8 @@ public class PortalData
     public ScriptObjectScriptable destination;
     public static PortalData default_portal_data;
     public SpecialPortals sp;
+
+    public KeyCode control;
 
     public enum SpecialPortals
     {

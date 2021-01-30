@@ -1,5 +1,3 @@
-Type out this line to proceed... You can ignore spaces, capitalization and punctuation...
-You can go back by back-spacing... Hold space to turn on your light, some words can interact
-with your light... Alright, that was the tutorial. -- Welcome to <O img title/>, a game about typing.
+abc
 <P MainMenu _mainmenu/>
 <P Quit _quit/>

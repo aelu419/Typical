@@ -13,6 +13,18 @@ public class PortalManager : MonoBehaviour
     public float margin;
 
     public List<PortalData> destinations;
+    public List<GameObject> active_portals;
+
+    private static KeyCode[] alphabet =
+    {
+        KeyCode.A, KeyCode.B, KeyCode.C, KeyCode.D, KeyCode.E, KeyCode.F,
+        KeyCode.G, KeyCode.H, KeyCode.I, KeyCode.J, KeyCode.K, KeyCode.L,
+        KeyCode.M, KeyCode.N, KeyCode.O, KeyCode.P, KeyCode.Q, KeyCode.R,
+        KeyCode.S, KeyCode.T, KeyCode.U, KeyCode.V, KeyCode.W, KeyCode.X,
+        KeyCode.Y, KeyCode.Z
+    };
+
+    private KeyCode[] registeredListening;
 
     //portal manager is always initialized to the current portal manager in the scene
     private void Awake()
@@ -48,7 +60,10 @@ public class PortalManager : MonoBehaviour
         float block_raw_height = s.y;
         float block_whole_height = s.y + 2 * margin;
 
-        for (int i = 0; i < destinations.Count; i++)
+        registeredListening = new KeyCode[destinations.Count];
+        active_portals = new List<GameObject>();
+
+        for (int i = 0; i < destinations.Count ; i++)
         {
             float portional_h = i - destinations.Count / 2f + 0.5f;
             GameObject go = GameObject.Instantiate(
@@ -64,25 +79,42 @@ public class PortalManager : MonoBehaviour
 
             //TODO: set portal data
             Portal p_ = go.GetComponent<Portal>();
-            p_.data = destinations[i];
+            p_.SetDisplay(destinations[i], alphabet[destinations.Count - i - 1]);
+            registeredListening[i] = alphabet[destinations.Count - i - 1];
+
+            active_portals.Add(go);
         }
     }
 
     //close all portals opened
     private void OnPortalClose()
     {
-
-    }
-
-    //TODO: implement this and link to portal prefab script
-    private void SceneTransition(string destination)
-    {
-
+        //no longer listen to key presses
+        registeredListening = new KeyCode[] { };
+        if (active_portals != null && active_portals.Count > 0)
+        {
+            foreach(GameObject go in active_portals)
+            {
+                Destroy(go);
+            }
+        }
     }
 
     // Update is called once per frame
+    // listen for keypresses
     void Update()
     {
-        
+        if (registeredListening != null && registeredListening.Length > 0)
+        {
+            for(int i = 0; i < registeredListening.Length; i++)
+            {
+                if (Input.GetKeyDown(registeredListening[i]))
+                {
+                    active_portals[i].GetComponent<Portal>().OnPortalOpen();
+                    registeredListening = new KeyCode[] { };
+                    return;
+                }
+            }
+        }
     }
 }

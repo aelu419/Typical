@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text_holder_prefab: {fileID: 5458326794372538523, guid: 1fa3b21f147cb1f42a627f43b85aabc5, type: 3}
   script_name: script
-  slope_min_max: {x: -0.1, y: 0.1}
+  slope_min_max: {x: 0.3, y: -0.3}
   cursor_raw: 
   next_letter: 0
 --- !u!114 &318263002
@@ -587,7 +587,7 @@ MonoBehaviour:
   spawn_root: {x: 0, y: 0, z: 0}
   climb_speed: 2
   accel: 10
-  x_vel_max: 3
+  x_vel_max: 6
   destination: {x: -1, y: 0, z: 0}
   destination_override: {x: -1, y: 0, z: 0}
   relation_to_destination: {x: 0, y: 0, z: 0}
