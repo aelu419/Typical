@@ -12,6 +12,7 @@ public class Portal : MonoBehaviour
 
     public string descriptor;
 
+
     //obj is instantiated externally
     private void Start()
     {
@@ -58,6 +59,7 @@ public class Portal : MonoBehaviour
         {
             Debug.Log("quitting, please implement progress saving mechanism!");
             Application.Quit();
+            return;
         }
         Debug.LogError("implement transition!");
     }
@@ -81,6 +83,9 @@ public class PortalData
     public ScriptObjectScriptable destination;
     public static PortalData default_portal_data;
     public SpecialPortals sp;
+
+    private const string QUIT = "_quit";
+    private const string MAIN_MENU = "_mainmenu";
 
     public KeyCode control;
 
@@ -127,14 +132,14 @@ public class PortalData
         }
         if(this.destination == null)
         {
-            if (destination_name.Equals("_quit"))
+            switch(destination_name)
             {
-                sp = SpecialPortals.quit;
-            }
-            else
-            {
-                throw new System.Exception("destination called " + destination_name
-                    + " cannot be found");
+                case QUIT:
+                    sp = SpecialPortals.quit;
+                    break;
+                default:
+                    throw new System.Exception("destination called " + destination_name
+                            + " cannot be found");
             }
         }
     }
