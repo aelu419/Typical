@@ -53,23 +53,33 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    private bool portal_opened;
     public event Action<Vector2> OnPortalOpen;
     public void RaisePortalOpen(Vector2 end)
     {
 
         Debug.Log("portals are now available");
-        if (OnPortalOpen != null)
+        if (OnPortalOpen != null && !portal_opened)
         {
+            portal_opened = true;
             Debug.Log("portals are now available");
             OnPortalOpen(end);
         }
     }
 
+    public bool PortalOpened
+    {
+        get
+        {
+            return portal_opened;
+        }
+    }
     public event Action OnPortalClose;
     public void RaisePortalClose()
     {
-        if (OnPortalClose != null)
+        if (OnPortalClose != null && portal_opened)
         {
+            portal_opened = false;
             Debug.Log("portals are not unavailable");
             OnPortalClose();
         }
@@ -94,6 +104,7 @@ public class EventManager : MonoBehaviour
     {
         if (OnStartEnteringScene != null)
         {
+            portal_opened = false;
             OnStartEnteringScene();
         }
     }

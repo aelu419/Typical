@@ -32,6 +32,8 @@ public class ReadingManager: MonoBehaviour
     private int first_typable_word; //the first word in the script that contains typable letters
     private int last_typable_word; //the last word in the script that contains typable letters
 
+    private bool no_typable;
+
     private void Awake()
     {
         perlin_map1 = new Perlin(10, 2);
@@ -109,6 +111,7 @@ public class ReadingManager: MonoBehaviour
         if (loaded_words.Count < 3)
             throw new System.Exception("No other word in script");
 
+        no_typable = false;
         //search for the last typable word in script
         for (int i = words.Count - 1; i >= 0; i--)
         {
@@ -119,25 +122,34 @@ public class ReadingManager: MonoBehaviour
             }
             if (i == 0)
             {
-                throw new System.Exception("No typable word in script");
+                no_typable = true;
             }
         }
 
-        //search for the fist typable word in script
-        for (int i = 0; i < words.Count; i++)
+        if (no_typable)
         {
-            if (words[i].has_typable)
+            //-2 accounts for the portal at the end
+            cursor_raw = new int[] { words.Count - 2, words[words.Count - 2].content.Length - 1 };
+            next_letter = '\0'; //just as a place holder
+        }
+        else
+        {
+            //search for the fist typable word in script
+            for (int i = 0; i < words.Count; i++)
             {
-                first_typable_word = i;
-                break;
+                if (words[i].has_typable)
+                {
+                    first_typable_word = i;
+                    break;
+                }
             }
+            //cursor is initialized to the first typable letter in the first typable word
+            cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
+            next_letter = words[first_typable_word].content[words[first_typable_word].first_typable];
+
         }
 
         EventManager.Instance.ScriptLoaded();
-
-        //cursor is initialized to the first typable letter in the first typable word
-        cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
-        next_letter = words[first_typable_word].content[words[first_typable_word].first_typable];
 
         //update player position
         player.spawn_root = words[0].GetCharacterInfo(2).topRight;
@@ -299,22 +311,25 @@ public class ReadingManager: MonoBehaviour
             } while (cursor_raw[0] < words.Count
                 && !char.IsLetter(next_letter));
 
-            if (next_letter == '\0')
-            {
-                EventManager.Instance.RaisePortalOpen(
-                    new Vector2(
-                        words[words.Count - 1].R.x,
-                        words[words.Count - 1].top
-                        )
-                    );
-                //Debug.Log("next letter is " + next_letter);
-            }
+            
 
             UpdateRenderedCursor();
         }
 
+        //open portal
+        else if (next_letter == '\0')
+        {
+            EventManager.Instance.RaisePortalOpen(
+                new Vector2(
+                    words[words.Count - 1].R.x,
+                    words[words.Count - 1].top
+                    )
+                );
+            //Debug.Log("next letter is " + next_letter);
+        }
+
         //going backwards
-        else if (Input.GetKeyDown(KeyCode.Backspace))
+        else if (!no_typable && Input.GetKeyDown(KeyCode.Backspace))
         {
             //do not do anything if currently on the first typable letter of the entire script
             //cursor somehow went beyond the beginning of the typable scripts
