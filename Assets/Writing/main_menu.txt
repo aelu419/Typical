@@ -1,3 +1,4 @@
 ...<O img title/>...
-<P MainMenu _mainmenu/>
+<P Start Game _mainmenu/>
+<P Tutorial _tutorial/>
 <P Quit _quit/>

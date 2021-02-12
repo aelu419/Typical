@@ -81,15 +81,17 @@ public class PortalManager : MonoBehaviour
         registeredListening = new KeyCode[destinations.Count];
         active_portals = new List<GameObject>();
 
+        destinations.Reverse();
+
         for (int i = 0; i < destinations.Count ; i++)
         {
             float portional_h = i - destinations.Count / 2f + 0.5f;
             GameObject go = GameObject.Instantiate(
                 portal_prefab,
                 new Vector3(
-                    transform.position.x + 3,
+                    transform.position.x + 2 + Random.value * 0.3f - 0.15f,
                     transform.position.y + block_raw_height / 2 
-                        + portional_h * block_whole_height,
+                        + portional_h * block_whole_height + Random.value * 0.2f - 0.1f,
                     transform.position.z
                     ),
                 Quaternion.identity,
