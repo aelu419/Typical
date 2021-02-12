@@ -57,8 +57,6 @@ public class EventManager : MonoBehaviour
     public event Action<Vector2> OnPortalOpen;
     public void RaisePortalOpen(Vector2 end)
     {
-
-        Debug.Log("portals are now available");
         if (OnPortalOpen != null && !portal_opened)
         {
             portal_opened = true;

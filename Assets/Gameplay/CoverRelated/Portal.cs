@@ -70,13 +70,13 @@ public class Portal : MonoBehaviour
             if (disp.SetNext(data.destination))
             {
                 EventManager.Instance.OnStartEnteringScene += OnStartEnteringScene;
+                EventManager.Instance.StartExitingScene();
             }
             else
             {
                 Debug.LogError("cannot set next script");
             }
         }
-        Debug.LogError("implement transition!");
     }
 
     private void OnStartEnteringScene()

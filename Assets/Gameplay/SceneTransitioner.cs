@@ -13,13 +13,15 @@ public class SceneTransitioner : MonoBehaviour
 
     private void OnStartExitingScene()
     {
+        Debug.Log("Exit scene");
         GetComponent<Animator>().SetBool("exitTrigger", true);
-        BroadCastExitFinished();
+        StartCoroutine(BroadCastExitFinished());
     }
 
     IEnumerator BroadCastExitFinished()
     {
         yield return new WaitForSeconds(1f);
+        Debug.Log("scene exit complete");
         EventManager.Instance.StartEnteringScene();
     }
 
