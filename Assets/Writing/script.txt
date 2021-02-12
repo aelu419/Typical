@@ -1,3 +1,0 @@
-Welcome to <O img title/>, a game about typing and more.
-<P MainMenu _mainmenu/>
-<P Quit _quit/>

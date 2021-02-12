@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01e605533d030a0408fbb64405f77198, type: 3}
-  m_Name: TextFromTxt
+  m_Name: SampleStory1
   m_EditorClassIdentifier: 
-  name_: _mainmenu
+  name_: story1
   source: 0
   text_writer: {fileID: 0}
-  text_asset: {fileID: 4900000, guid: 29135547c28b376408d87c2bf58f4222, type: 3}
+  text_asset: {fileID: 4900000, guid: 5d4d073bd2d5e504a9b75838d791f850, type: 3}

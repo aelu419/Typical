@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Portal : MonoBehaviour
@@ -61,7 +62,30 @@ public class Portal : MonoBehaviour
             Application.Quit();
             return;
         }
+        else
+        {
+            //transition to specific scene
+            //set dispenser to display with next script loaded
+            ScriptDispenser disp = ScriptableObjectManager.Instance.ScriptManager;
+            if (disp.SetNext(data.destination))
+            {
+                EventManager.Instance.OnStartEnteringScene += OnStartEnteringScene;
+            }
+            else
+            {
+                Debug.LogError("cannot set next script");
+            }
+        }
         Debug.LogError("implement transition!");
+    }
+
+    private void OnStartEnteringScene()
+    {
+        //configure
+        Debug.LogError("implement next scene configuration");
+        //load scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        EventManager.Instance.OnStartEnteringScene -= OnStartEnteringScene;
     }
 
     private void OnScriptPortalOpen(Vector2 v)
@@ -98,7 +122,7 @@ public class PortalData
     static PortalData()
     {
         default_portal_data = new PortalData(
-            "roll credit", 
+            "main menu", 
             ScriptableObjectManager.Instance.ScriptManager.scripts[0]
             );
     }
@@ -106,7 +130,7 @@ public class PortalData
     public static PortalData GetCloneOfDefault()
     {
         return new PortalData(
-            "roll credit",
+            "main menu",
             ScriptableObjectManager.Instance.ScriptManager.scripts[0]
             );
     }

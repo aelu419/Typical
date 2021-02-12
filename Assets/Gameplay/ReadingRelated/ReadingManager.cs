@@ -41,8 +41,8 @@ public class ReadingManager: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("script dispenser instance = " + 
-            ScriptableObjectManager.Instance.ScriptManager.name);
+        //Debug.Log("script dispenser instance = " + 
+            //ScriptableObjectManager.Instance.ScriptManager.name);
         words = ParseScript(
             ScriptableObjectManager.Instance.ScriptManager.CurrentScript.Text
             );
@@ -60,9 +60,7 @@ public class ReadingManager: MonoBehaviour
                 {
                     try
                     {
-                        ports.Add(new PortalData(
-                            t_.GetSpecAt(0),
-                            t_.GetSpecAt(1)));
+                        ports.Add(PortalManager.Instance.InitializePortalFromTag(t_));
                     }
                     catch(System.Exception e)
                     {

@@ -1,0 +1,3 @@
+...<O img title/>...
+<P MainMenu _mainmenu/>
+<P Quit _quit/>

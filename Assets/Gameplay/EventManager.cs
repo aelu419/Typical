@@ -80,6 +80,24 @@ public class EventManager : MonoBehaviour
         script_end_reached = false;
     }
 
+    public event Action OnStartExitingScene;
+    public void StartExitingScene()
+    {
+        if (OnStartExitingScene != null)
+        {
+            OnStartExitingScene();
+        }
+    }
+
+    public event Action OnStartEnteringScene;
+    public void StartEnteringScene()
+    {
+        if (OnStartEnteringScene != null)
+        {
+            OnStartEnteringScene();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

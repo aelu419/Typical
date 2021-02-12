@@ -1,0 +1,2 @@
+type out this line to continue... you can ignore CAPITALIZATION, pun'ctu'ation, and   spaces  .
+<P start the game _mainmenu/>

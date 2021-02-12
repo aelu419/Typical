@@ -41,6 +41,24 @@ public class PortalManager : MonoBehaviour
         //fetch destinations from current scene data
     }
 
+    public PortalData InitializePortalFromTag(Tag t)
+    {
+        string[] specs = t.Specs;
+        if (t.Specs.Length < 2)
+        {
+            throw new UnityException("portal tag" + t + " lack sufficient specs, need description and destination");
+        }
+        else
+        {
+            string description = "";
+            for(int i = 0; i < specs.Length - 1; i++)
+            {
+                description += specs[i] + " ";
+            }
+            return new PortalData(description, specs[specs.Length - 1]);
+        }
+    }
+
     //open portals according to script and location
     //beginning marks the left middle position of the collection of portal blocks
     private void OnPortalOpen(Vector2 beginning)

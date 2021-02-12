@@ -8,6 +8,14 @@ public class Tag
     private string[] specs;
     public TagAppearanceType appearance;
 
+    public string[] Specs
+    {
+        get
+        {
+            return specs;
+        }
+    }
+
     public enum TagAppearanceType
     {
         open,

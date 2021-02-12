@@ -7,7 +7,7 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Typical Customs/Dispensers/Script Dispenser")]
 public class ScriptDispenser : ScriptableObject
 {
-    public int index;
+    private int index;
     public ScriptObjectScriptable[] scripts;
 
     public ScriptObjectScriptable CurrentScript {
@@ -17,4 +17,24 @@ public class ScriptDispenser : ScriptableObject
         }
     }
 
+    public bool SetNext(ScriptObjectScriptable next)
+    {
+        for(int i = 0; i < scripts.Length; i++)
+        {
+            if (next.Equals(scripts[i]))
+            {
+                Debug.Log(next);
+                index = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void OnEnable()
+    {
+        Debug.LogError("implement player pref reading for configuring start screen script");
+        index = 0;
+        Debug.Log(CurrentScript);
+    }
 }
