@@ -48,6 +48,7 @@ public class Note
         return result;
     }
 
+    //get raw waveform data by several specifications
     public static Note GetRawNote(float beats, int phase_shift, float gain, float frequency, Waveform w)
     {
         if (frequency <= 0.0f)
@@ -131,5 +132,17 @@ public class Note
         }
 
         return n;
+    }
+
+    //apply envelope to note (specified by animation curves,
+    //t = 0 ~ 1, a = 0 ~ 1
+    public void ApplyEnvelope(AnimationCurve ac)
+    {
+        for(int i = 0; i < data.Length; i++)
+        {
+            data[i] *= ac.Evaluate(
+                (float)i / data.Length
+                );
+        }
     }
 }

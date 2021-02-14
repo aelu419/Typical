@@ -87,11 +87,11 @@ public class MusicManager : MonoBehaviour
                     return;
                 }
             }
+            throw new UnityException("oscillator with ID:" + n.oscillator_ID + "cannot be found");
         }
         else
         {
             Debug.LogError("note is assigned too late: " + beat + " already passed " + n.entrance_beat);
         }
-        throw new UnityException("oscillator with ID:" + n.oscillator_ID + "cannot be found");
     }
 }
