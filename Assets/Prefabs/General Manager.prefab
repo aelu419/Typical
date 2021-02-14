@@ -130,6 +130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5351f17a8763dfb40b771387c5e81671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
+  BPM: 80
+  beat: 0
 --- !u!114 &7960880239323466331
 MonoBehaviour:
   m_ObjectHideFlags: 0
