@@ -246,6 +246,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 853982071856309668, guid: ace3568d2a87aea429cb3050a697d750, type: 3}
+      propertyPath: BPM
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7960880239323466324, guid: ace3568d2a87aea429cb3050a697d750, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -466,7 +470,7 @@ AudioReverbFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1604683859}
-  m_Enabled: 1
+  m_Enabled: 0
   m_DryLevel: 0
   m_Room: -1000
   m_RoomHF: -100
@@ -515,7 +519,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.021648407
+      time: 0
       value: 0
       inSlope: 0
       outSlope: 0
@@ -551,8 +555,8 @@ MonoBehaviour:
       inWeight: 0.18959977
       outWeight: 0.9698745
     - serializedVersion: 3
-      time: 1.0037231
-      value: -0.00016384944
+      time: 1
+      value: 0
       inSlope: -0.09088937
       outSlope: -0.09088937
       tangentMode: 0

@@ -88,27 +88,21 @@ public class Note
                 }
                 break;
             case (Waveform.sawtooth):
-                for (int j = 1; j <= PRECISION; j++)
-                {
-                    for (int i = 0; i < sample_length; i++)
-                    {
-                        result[i] += Mathf.Sin(j * t) / j / 2;
-                        t += inc;
-                    }
-                }
                 for (int i = 0; i < sample_length; i++)
                 {
-                    result[i] *= gain;
+                    for (int j = 0; j < 30; j++)
+                    {
+                        result[i] += Mathf.Sin((j + 1) * t) / j;
+                    }
+                    result[i] *= gain * 2 / Mathf.PI;
+                    t += inc;
                 }
                 break;
             case (Waveform.square):
-                for (int j = 0; j < PRECISION; j++)
+                for (int i = 0; i < sample_length; i++)
                 {
-                    for (int i = 0; i < sample_length; i++)
-                    {
-                        result[i] += gain * Mathf.Sin((2 * j + 1.0f) * t) / (2.0f * j + 1.0f);
-                        t += inc;
-                    }
+                    result[i] = Mathf.Sin(t) > 0 ? gain : -1 * gain;
+                    t += inc;
                 }
                 break;
         }
