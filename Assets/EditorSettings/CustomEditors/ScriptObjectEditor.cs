@@ -43,7 +43,6 @@ public class ScriptObjectEditor : Editor
         
         if (GUI.changed)
         {
-            Debug.Log(sos.name_);
             EditorUtility.SetDirty(sos);
         }
     }

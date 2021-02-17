@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Oscillator : MonoBehaviour
+{
+    [ReadOnly]
+    public MonoWave wave;
+
+    private void OnAudioFilterRead(float[] data, int channels)
+    {
+        if (wave == null)
+        {
+            return;
+        }
+        double[] sample = wave.Bake(data.Length / channels);
+        for(int i = 0; i < data.Length; i += channels)
+        {
+            data[i] = (float)sample[i / channels];
+            if (channels == 2)
+            {
+                data[i + 1] = data[i];
+            }
+        }
+    }
+}

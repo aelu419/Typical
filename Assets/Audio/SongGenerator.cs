@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class SongGenerator : MonoBehaviour
 {
-    bool first_update;
+    Instrument ambient1, ambient2;
+    float rest1, rest2; //rest times in SECONDS
 
     // Start is called before the first frame update
     void Start()
     {
-        first_update = true;
+        ambient1 = transform.GetChild(0).GetComponent<Instrument>();
+        ambient2 = transform.GetChild(1).GetComponent<Instrument>();
+
+        rest1 = GetRestTime();
+        rest2 = GetRestTime();
     }
 
-    public AnimationCurve envelope1, envelope2, envelope3;
-
-    //strength patterns
+    //note strength patterns
     public float[][] patterns = {
         new float[]{1.0f },
         new float[]{1.0f, 0.8f},
@@ -26,39 +29,50 @@ public class SongGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (first_update)
+        if (ambient1.note == null)
         {
-            Debug.Log("registering notes");
-            for(int i = 0; i < patterns.Length; i++)
+            if (rest1 <= 0)
             {
-                for(int j = 0; j <= i; j++)
-                {
-                    PlayNote(
-                        j%2 == 0? 0 : -5,
-                        1.0f / (i + 1),
-                        patterns[i][j],
-                        1.0f + 2 * i + (j + 1) * (1.0f / (i + 1))
-                        );
-                }
+                ambient1.override_note = PickNote();
+                rest1 = GetRestTime();
             }
-            first_update = false;
+        }
+        else
+        {
+            rest1 -= Time.deltaTime;
+        }
+        if (ambient2.note == null)
+        {
+            rest2 -= Time.deltaTime;
+            if (rest2 <= 0)
+            {
+                ambient2.override_note = PickNote();
+                rest2 = GetRestTime();
+            }
+        }
+        else
+        {
+            rest2 -= Time.deltaTime;
+        }
+        if (ambient1.note == null && ambient2.note == null)
+        {
+            rest1 = 0;
         }
     }
 
-    public void PlayNote(float note, float length, float gain, float at)
+    int[] keys = { 0, 2, 3, 5, 7, 8, 10 };
+    private Note PickNote()
     {
-        Note t = Note.GetRawNote(
-                length,
-                0,
-                gain,
-                440.0f * Mathf.Pow(2, note / 12.0f) + GetError(0.25f),
-                Note.Waveform.triangular
-            );
+        int chosen = keys[Mathf.FloorToInt(Random.value * keys.Length)];
+        chosen += 12 * (Mathf.FloorToInt(Random.value * 3) - 1);
+        return new Note(chosen, Random.value * 10 + 5);
+    }
 
-        t.entrance_beat = at;
-        t.oscillator_ID = 0;
-        t.ApplyEnvelope(envelope1);
-        MusicManager.Instance.RegisterNote(t);
+    private float GetRestTime()
+    {
+        float result = 1000.0f * (1.5f + Random.value * 1.5f) / 60.0f * MusicManager.Instance.BPM;
+        Debug.Log(result);
+        return result;
     }
 
     public float GetError(float range)
