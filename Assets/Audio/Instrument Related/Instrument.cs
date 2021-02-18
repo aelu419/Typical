@@ -7,23 +7,25 @@ using UnityEditor;
 public class Instrument : MonoBehaviour
 {
     [Range(0, 1)]
-    public double volume;
+    public float volume;
     public int unison, shift;
     [Range(0.000001f, 100)]
     public float gain_spread;
     [Range(0, 100)]
-    public double detune;
-    public List<int> additional_detunes;
+    public float detune;
+    public List<float> additional_detunes;
     [Range(0, 30)]
     public float pitch_fade;
-    public double modulation;
+    public float modulation;
     [Range(0, 10)]
-    public double modulation_amplitude;
+    public float modulation_amplitude;
     [Range(0, 0.25f)]
-    public double noise;
+    public float noise;
     [Range(0, 1)]
-    public double noise_cutoff;
-    public double atk, dec, rel;
+    public float noise_cutoff;
+    [Range(0, 1)]
+    public float pop_cutoff;
+    public float atk, dec, rel;
 
     [ReadOnly]
     public Note note;
@@ -58,9 +60,9 @@ public class Instrument : MonoBehaviour
 
             temp.modulation = modulation;
             temp.modulation_amplitude = modulation_amplitude;
-            temp.gain = null;
             temp.noise = noise;
             temp.noise_cutoff = noise_cutoff;
+            temp.pop_cutoff = pop_cutoff;
             temp.pitch_fade = pitch_fade;
             temp.strength = 1.0f;
 
@@ -69,6 +71,7 @@ public class Instrument : MonoBehaviour
             {
                 float deviation = i - (unison - 1) / 2.0f;
                 temp.pitch_shift = deviation * detune;
+                Debug.Log(temp.pitch_shift);
                 temp.phase_shift = (int)deviation * shift * i;
                 //weight by bell curve
                 temp.polyphonal_gain = Mathf.Exp(-1 * deviation * deviation / gain_spread);
@@ -110,17 +113,18 @@ public class Instrument : MonoBehaviour
             override_note = null;
         }
 
-        t_ms += 1000 * Time.deltaTime;
-        if (t_ms >= tr)
-        {
-            FinishNote();
-        }
-        else if (note != null)
+        if (note != null)
         {
             strength = 1 - 0.3f * Mathf.PerlinNoise(0, (float)t_ms / 3000.0f);
             foreach (MonoWave w in playable_waves)
             {
                 w.strength = strength;
+            }
+            t_ms += 1000 * Time.deltaTime;
+            //Debug.Log(t_ms + " out of " + tr);
+            if (t_ms >= tr + 100)
+            {
+                FinishNote();
             }
         }
     }
@@ -131,15 +135,27 @@ public class Instrument : MonoBehaviour
         return m1;
     }
 
+    public static void PrintKeys(AnimationCurve c) {
+        string result = "";
+        for (int i = 0; i < c.keys.Length; i++)
+        {
+            result += c.keys[i].time + " - " + c.keys[i].value + "\t";
+        }
+        Debug.Log(result);
+    }
+
+
     private void LoadNote(Note n)
     {
         note = n;
-        Debug.Log("New Note Assigned, with tone: " + n.semitone + " and length: " + n.length_beat);
+        Debug.Log("New Note Assigned, with tone: " + n.semitone.Evaluate(0) + " and length: " + n.length_beat);
+        PrintKeys(n.semitone);
+        PrintKeys(n.level);
 
         t_ms = 0;
         //harsher notes have shorter attack duration
         ta = atk * (1 - n.accent);
-        td = atk * (1 + n.accent) + dec;
+        td = ta + dec;
 
         double ms_length = n.length_beat 
             * MusicManager.Instance.BeatLength 
@@ -147,28 +163,22 @@ public class Instrument : MonoBehaviour
 
         ts = ms_length;
         tr = ts + rel;
-        Debug.Log("Note Segments: " + ta + ", " + td + ", " + ts + ", " + tr);
+        //Debug.Log("Note Segments: " + ta + ", " + td + ", " + ts + ", " + tr);
 
         //ADSR curve
-        envelope_curve = AnimationCurve.EaseInOut(0, 0, (float)ta, 1 * n.level);
-        envelope_curve.AddKey(new Keyframe((float)td, 0.75f * n.level, 0, 0));
-        envelope_curve.AddKey(new Keyframe((float)ts, 0.7f * n.level, 0, 0));
+        envelope_curve = AnimationCurve.Constant(float.MinValue, float.MaxValue, 0);
+        envelope_curve.AddKey(0, 0);
+        envelope_curve.AddKey(new Keyframe((float)ta, 1, 0, 0));
+        envelope_curve.AddKey(new Keyframe((float)td, 0.75f, 0, 0));
+        envelope_curve.AddKey(new Keyframe((float)ts, 0.7f, 0, 0));
         envelope_curve.AddKey(new Keyframe((float)tr, 0.0f, 0, 0));
 
         //note general properties
-        double f = 440.0f * Mathf.Pow(2.0f, n.semitone / 12.0f);
         for(int i = 0; i < playable_waves.Count; i++)
         {
-            if (i < unison)
-            {
-                playable_waves[i].frequency = f + playable_waves[i].pitch_shift;
-            }
-            else
-            {
-                playable_waves[i].frequency = f * 
-                    Mathf.Pow(2.0f, (float)playable_waves[i].pitch_shift / 12.0f);
-            }
-            playable_waves[i].gain = envelope_curve;
+            playable_waves[i].semitone = n.semitone;
+            playable_waves[i].envelope_gain = envelope_curve;
+            playable_waves[i].note_gain = n.level;
             playable_waves[i].t_ms = 0;
             playable_waves[i].t_cycles = 0 + playable_waves[i].phase_shift;
         }
@@ -180,10 +190,7 @@ public class Instrument : MonoBehaviour
         
         foreach (MonoWave m in playable_waves)
         {
-            m.frequency = 0.0f;
-            m.t_ms = 0;
-            m.t_cycles = 0;
-            m.gain = null;
+            m.Initialize();
         }
 
         t_ms = -1;

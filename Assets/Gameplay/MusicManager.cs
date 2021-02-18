@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    public const double SAMPLING_FREQUENCY = 48000.0f;
+    public const float SAMPLING_FREQUENCY = 44100.0f;
     private static MusicManager mm;
     public static MusicManager Instance
     {
@@ -39,6 +39,16 @@ public class MusicManager : MonoBehaviour
     {
         timer += Time.deltaTime;
         beat = timer / 60.0f * BPM;
+    }
+
+    public float BeatToMS(float b)
+    {
+        return b / BPM * 60.0f * 1000.0f;
+    }
+
+    public float MSToBeat(float ms)
+    {
+        return ms / 1000.0f / 60.0f * BPM;
     }
 
     public void ResetTimer()

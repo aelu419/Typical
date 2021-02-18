@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class SongGenerator : MonoBehaviour
 {
-    Instrument ambient1, ambient2;
-    float rest1, rest2; //rest times in SECONDS
+    public GameObject DroneInstrument;
+
+    [ReadOnly]
+    public Instrument ambient1, ambient2;
+    [ReadOnly]
+    public float rest1, rest2; //rest times in SECONDS
 
     // Start is called before the first frame update
     void Start()
     {
+        Instantiate(DroneInstrument, transform);
+        Instantiate(DroneInstrument, transform);
+
         ambient1 = transform.GetChild(0).GetComponent<Instrument>();
         ambient2 = transform.GetChild(1).GetComponent<Instrument>();
 
-        rest1 = GetRestTime();
+        ambient1.note = null;
+        ambient2.note = null;
+
+        rest1 = 0;
         rest2 = GetRestTime();
     }
 
@@ -31,16 +41,15 @@ public class SongGenerator : MonoBehaviour
     {
         if (ambient1.note == null)
         {
+            rest1 -= Time.deltaTime;
             if (rest1 <= 0)
             {
                 ambient1.override_note = PickNote();
                 rest1 = GetRestTime();
             }
         }
-        else
-        {
-            rest1 -= Time.deltaTime;
-        }
+
+        /*
         if (ambient2.note == null)
         {
             rest2 -= Time.deltaTime;
@@ -49,30 +58,20 @@ public class SongGenerator : MonoBehaviour
                 ambient2.override_note = PickNote();
                 rest2 = GetRestTime();
             }
-        }
-        else
-        {
-            rest2 -= Time.deltaTime;
-        }
-        if (ambient1.note == null && ambient2.note == null)
-        {
-            rest1 = 0;
-        }
+        }*/
     }
 
     int[] keys = { 0, 2, 3, 5, 7, 8, 10 };
     private Note PickNote()
     {
         int chosen = keys[Mathf.FloorToInt(Random.value * keys.Length)];
-        chosen += 12 * (Mathf.FloorToInt(Random.value * 3) - 1);
-        return new Note(chosen, Random.value * 10 + 5);
+        //chosen += 12 * (Mathf.FloorToInt(Random.value * 3) - 1);
+        return new Note(chosen - 12, Random.value * 5 + 1);
     }
 
     private float GetRestTime()
     {
-        float result = 1000.0f * (1.5f + Random.value * 1.5f) / 60.0f * MusicManager.Instance.BPM;
-        Debug.Log(result);
-        return result;
+        return (1.5f + Random.value * 3) / 60.0f * MusicManager.Instance.BPM;
     }
 
     public float GetError(float range)

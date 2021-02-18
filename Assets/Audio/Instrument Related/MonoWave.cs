@@ -9,86 +9,132 @@ using UnityEngine;
 //for unison and such effects.
 public class MonoWave
 {
-    public double frequency, pitch_shift, 
+    private static int POP_FILTER_ITERATIONS = 3;
+
+    public float pitch_shift,
         modulation, modulation_amplitude,
-        noise, noise_cutoff;
-    public AnimationCurve gain;
+        noise, noise_cutoff,
+        pop_cutoff = 1;
+    public AnimationCurve semitone;
+    public AnimationCurve envelope_gain;
+    public AnimationCurve note_gain;
     public float polyphonal_gain;
     public float pitch_fade;
     public int phase_shift;
 
     public float strength;
 
-    protected Func<double, double> wave_function;
+    protected Func<float, float> wave_function;
 
-    public double t_cycles, t_ms;
+    public float t_cycles, t_ms;
+
+    System.Random rand;
+
+    public const float MS_PER_SAMPLE = 
+        1000.0f / MusicManager.SAMPLING_FREQUENCY;
+    public const float UNIT_RADIAN_PER_SAMPLE = 
+        2.0f * Mathf.PI / MusicManager.SAMPLING_FREQUENCY; 
 
     public MonoWave()
     {
-        t_cycles = 0.0;
-        t_ms = 0.0;
-        strength = 1.0f;
+        Initialize();
     }
 
-    public Func<double, double> Multiply(double m)
+    public void Initialize()
     {
-        Func<double, double> w_ = wave_function;
-        
+        rand = new System.Random();
+        t_cycles = 0.0f;
+        t_ms = 0.0f;
+        strength = 1.0f;
+
+        envelope_gain = null;
+        note_gain = null;
+        semitone = null;
+    }
+
+    public Func<float, float> Multiply(float m)
+    {
+        Func<float, float> w_ = wave_function;
         wave_function = (t) => (wave_function(t) * m);
         return w_;
     }
 
 
-    public double[] Bake(int length)
+    public float[] Bake(int length)
     {
-        double[] baked = new double[length];
+        float[] baked = new float[length];
 
-        if (frequency == 0)
+        if (semitone == null || note_gain == null)
         {
-            t_cycles = 0;
-            t_ms = 0;
-            strength = 1.0f;
+            //Initialize();
             return baked;
         }
 
-        System.Random rand = new System.Random();
+        float semi = semitone.Evaluate(t_ms); //the current note tone
+        float n_gain = note_gain.Evaluate(t_ms); //the current note inflections
+        float e_gain = note_gain.Evaluate(t_ms); //the current ADSR level
 
-        double inc_cycles = (frequency
-            - pitch_fade * (1.0 - gain.Evaluate((float)t_ms))) 
-            * 2.0f * Mathf.PI / MusicManager.SAMPLING_FREQUENCY;
-        double inc_ms = 1000 / MusicManager.SAMPLING_FREQUENCY;
+        float frequency = 
+            440.0f * Mathf.Pow(2.0f, semi / 12.0f)
+            //+ pitch_shift
+            //- pitch_fade * (1.0 - e_gain * n_gain)
+            ;
+
+        Debug.Log(frequency + " " + n_gain + " " + e_gain);
+
+        //# hz per sample
+        float RADIAN_PER_SAMPLE = (float)(frequency * UNIT_RADIAN_PER_SAMPLE);
+
+        float phase_shift_sample = RADIAN_PER_SAMPLE * phase_shift;
+        float curr_gain;
 
         for (int i = 0; i < length; i++)
         {
-            float curr_gain = strength * gain.Evaluate((float)
-                    (t_ms) //overall gain
-                    );
-            baked[i] =
-                (wave_function(
+            curr_gain = strength * e_gain * n_gain; //overall amplitude of wave
+
+            //Debug.Log(curr_gain + " at fr: " + frequency);
+
+            baked[i] = 0.1f * Mathf.Sin(t_cycles);
+                /*
+                wave_function(
                     t_cycles //the current progress of the note in RADIAN
-                    + SampleToRadian(phase_shift) //phase shift in RADIAN
-                    + curr_gain * modulation_amplitude
-                        * Math.Sin(modulation * t_cycles 
-                        / frequency) //modulation in RADIAN
-                    )
-                    + (rand.NextDouble() - 0.5) * noise * Mathf.Max(0, curr_gain - (float)noise_cutoff)
+                    //+ phase_shift_sample //phase shift in RADIAN
+                    //+ curr_gain * modulation_amplitude
+                        //* Mathf.Sin(modulation * t_cycles 
+                        /// frequency) //modulation in RADIAN
+                    //)
+                    //+ (rand.NextDouble() - 0.5) * noise * Mathf.Max(0.0f, curr_gain - noise_cutoff)
                 )
                 * curr_gain
                 * polyphonal_gain
-                ;
-            t_cycles += inc_cycles;
-            t_ms += inc_ms;
+                ;*/
+
+            t_cycles += RADIAN_PER_SAMPLE;
+            t_ms += MS_PER_SAMPLE;
+            n_gain = note_gain.Evaluate(t_ms);
+            e_gain = envelope_gain.Evaluate(t_ms);
+
+            if (float.IsNaN(n_gain) || float.IsNaN(e_gain))
+            {
+                Initialize();
+                break;
+            }
         }
 
+        /*
+        //pop filtering
+        for(int j = 0; j < POP_FILTER_ITERATIONS; j++)
+        {
+            for (int i = 1; i < baked.Length - 1; i++)
+            {
+                if (Mathf.Abs(baked[i] - baked[i + 1]) > pop_cutoff
+                    || Mathf.Abs(baked[i - 1] - baked[i]) > pop_cutoff)
+                {
+                    baked[i] = (baked[i - 1] + baked[i + 1]) / 2.0f;
+                }
+            }
+        }*/
+
         return baked;
-    }
-
-    private double SampleToRadian(int sample)
-    {
-
-        return (sample / MusicManager.SAMPLING_FREQUENCY //second
-            * (frequency + pitch_shift)) //number of iterations passed (double hz)
-            % 1.0f //percent of the current iteration passed
-            * 2 * Mathf.PI; //iteration -> radian
     }
 }

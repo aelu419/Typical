@@ -13,10 +13,10 @@ public class Oscillator : MonoBehaviour
         {
             return;
         }
-        double[] sample = wave.Bake(data.Length / channels);
+        float[] sample = wave.Bake(data.Length / channels);
         for(int i = 0; i < data.Length; i += channels)
         {
-            data[i] = (float)sample[i / channels];
+            data[i] = sample[i / channels];
             if (channels == 2)
             {
                 data[i + 1] = data[i];

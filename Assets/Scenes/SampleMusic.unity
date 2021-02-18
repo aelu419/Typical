@@ -254,70 +254,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227727254}
   m_Enabled: 1
---- !u!1 &798062587
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 798062588}
-  - component: {fileID: 798062589}
-  m_Layer: 0
-  m_Name: Drone_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &798062588
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 798062587}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1080789284}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &798062589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 798062587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d56ec8a4176073549bb29ff92eae2cce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volume: 0.15600000321865082
-  unison: 5
-  shift: 100
-  gain_spread: 6
-  detune: 42.099998474121094
-  additional_detunes: 0c000000
-  pitch_fade: 30
-  modulation: 2.5
-  modulation_amplitude: 0.800000011920929
-  noise: 0.024000000208616257
-  noise_cutoff: 0.2290000021457672
-  atk: 500
-  dec: 300
-  rel: 500
-  strength: 0
-  envelope_curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1080789282
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,9 +305,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.70324594, y: -0.46395415, z: -28.044167}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1779461870}
-  - {fileID: 798062588}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -387,24 +321,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35cdb3b866d6edc49aedd7084b9698b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  envelope1:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  envelope2:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  envelope3:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  DroneInstrument: {fileID: 4638713804215840597, guid: 8973fd074e2c2d64fa69bd3a994f9951, type: 3}
+  rest1: 0
+  rest2: 0
 --- !u!1 &1380578082
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,70 +509,6 @@ AudioSource:
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!1 &1779461869
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1779461870}
-  - component: {fileID: 1779461871}
-  m_Layer: 0
-  m_Name: Drone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1779461870
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779461869}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1080789284}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1779461871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779461869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d56ec8a4176073549bb29ff92eae2cce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volume: 0.15600000321865082
-  unison: 5
-  shift: 100
-  gain_spread: 6
-  detune: 42.099998474121094
-  additional_detunes: 0c000000
-  pitch_fade: 30
-  modulation: 2.5
-  modulation_amplitude: 0.800000011920929
-  noise: 0.024000000208616257
-  noise_cutoff: 0.2290000021457672
-  atk: 500
-  dec: 300
-  rel: 500
-  strength: 0
-  envelope_curve:
-    serializedVersion: 2
-    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
