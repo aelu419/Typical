@@ -30,15 +30,7 @@ public class Tambourine : OneShot
 
     public void PlayNote(float gain, Vector3 pos)
     {
-        FMOD.Studio.EventInstance hit = FMODUnity.RuntimeManager.CreateInstance(event_path);
-        hit.setParameterByName("Bluntness", bluntness);
-        hit.setVolume(gain);
-
-        transform.position = pos;
-        hit.set3DAttributes(
-            FMODUnity.RuntimeUtils.To3DAttributes(transform)
-            );
-        hit.start();
+        PlayNote(gain, bluntness, pos);
     }
 
     public void PlayNote(float gain, float bluntness, Vector3 pos)
@@ -54,12 +46,28 @@ public class Tambourine : OneShot
         hit.start();
     }
 
+    public void PlayNote(float gain, float bluntness)
+    {
+        PlayNote(gain, bluntness, MusicManager.Instance.transform.position);
+    }
+
+    public void PlayStreak(int index)
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(streaks[index], MusicManager.Instance.transform.position);
+    }
+
+    public void PlayStreak(int index, float gain)
+    {
+        PlayStreak(index, gain, MusicManager.Instance.transform.position);
+    }
+
     public void PlayStreak(int index, float gain, Vector3 pos)
     {
         FMOD.Studio.EventInstance hit = FMODUnity.RuntimeManager.CreateInstance(streaks[index]);
 
         hit.setVolume(gain);
 
+        transform.position = pos;
         hit.set3DAttributes(
             FMODUnity.RuntimeUtils.To3DAttributes(transform)
             );

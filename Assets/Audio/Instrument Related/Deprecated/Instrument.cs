@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEditor;
-
+/*
 public class Instrument : MonoBehaviour
 {
     [Range(0, 1)]
@@ -197,3 +197,4 @@ public class Instrument : MonoBehaviour
         note = null;
     }
 }
+*/

@@ -4,19 +4,7 @@ using UnityEngine;
 
 public abstract class CustomSong : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public abstract float GetRest(Tonal tonal);
-    public abstract float GetNote(Tonal tonal);
-    public abstract float GetLength(Tonal tonal);
+    public abstract float GetRest(ContinuousInstrument part);
+    public abstract float GetNote(ContinuousInstrument part);
+    public abstract float GetLength(ContinuousInstrument part);
 }

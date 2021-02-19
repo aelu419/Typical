@@ -15,12 +15,16 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    public float timer;
     public float BPM;
     [ReadOnly]
+    public float timer;
+    [ReadOnly]
     public float BeatLength; //length of 1 beat in SECONDS
+    [ReadOnly]
     public float beat;
-    public GameObject oscillator_channel;
+
+    [Range(0, 1)]
+    public float GLOBAL_VOLUME;
 
     Transform cam; //music manager position is pinned to main camera
 

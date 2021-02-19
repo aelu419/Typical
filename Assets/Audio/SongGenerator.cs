@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class SongGenerator : MonoBehaviour
 {
     public GameObject DroneInstrument;
@@ -49,7 +49,6 @@ public class SongGenerator : MonoBehaviour
             }
         }
 
-        /*
         if (ambient2.note == null)
         {
             rest2 -= Time.deltaTime;
@@ -58,7 +57,7 @@ public class SongGenerator : MonoBehaviour
                 ambient2.override_note = PickNote();
                 rest2 = GetRestTime();
             }
-        }*/
+        }
     }
 
     int[] keys = { 0, 2, 3, 5, 7, 8, 10 };
@@ -79,3 +78,4 @@ public class SongGenerator : MonoBehaviour
         return Random.value * range - range / 2.0f;
     }
 }
+*/
