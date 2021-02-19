@@ -22,6 +22,8 @@ public class MusicManager : MonoBehaviour
     public float beat;
     public GameObject oscillator_channel;
 
+    Transform cam; //music manager position is pinned to main camera
+
     private void OnEnable()
     {
         mm = this;
@@ -32,7 +34,9 @@ public class MusicManager : MonoBehaviour
     {
         timer = 0.0f;
         beat = 0.0f;
-        BeatLength = 1.0f / (BPM / 60.0f); 
+        BeatLength = 1.0f / (BPM / 60.0f);
+
+        cam = GameObject.FindGameObjectWithTag("MainCamera").transform;
     }
 
     // Update is called once per frame
@@ -40,6 +44,8 @@ public class MusicManager : MonoBehaviour
     {
         timer += Time.deltaTime;
         beat = timer / 60.0f * BPM;
+
+        transform.position = cam.position;
     }
 
     /*

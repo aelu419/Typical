@@ -371,7 +371,52 @@ MonoBehaviour:
     m_RotationOrder: 4
   fine_gain:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0031166077
+      value: 0.20283127
+      inSlope: 14.865896
+      outSlope: 14.865896
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.04956435
+      value: 0.9859809
+      inSlope: -0.117847934
+      outSlope: -0.117847934
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.14028214
+      value: 0.86191064
+      inSlope: -0.07084678
+      outSlope: -0.07084678
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7050153
+      value: 0.69209915
+      inSlope: -0.070010535
+      outSlope: -0.070010535
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.092458405
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0031128
+      value: 0.09434128
+      inSlope: -2.0052428
+      outSlope: -2.0052428
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
