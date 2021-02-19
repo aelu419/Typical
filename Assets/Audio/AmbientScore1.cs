@@ -73,7 +73,13 @@ public class AmbientScore1 : MonoBehaviour
 
                     //update note status
                     float e_gain = coarse_gain.Evaluate(coarse_t / coarse_length_beat);
-                    Debug.Log(e_gain);
+                    float p, g;
+                    coarse.getParameterByName("Pitch", out p);
+                    coarse.getParameterByName("Gain", out g);
+                    Debug.Log(
+                        "Pitch: " + p
+                        + " Gain: " + g
+                        );
 
                     coarse.setParameterByName("Gain", e_gain);
                     coarse.set3DAttributes(
@@ -87,7 +93,7 @@ public class AmbientScore1 : MonoBehaviour
 
     public float GetNote()
     {
-        return (Random.value * 12 - 6) / 12.0f;
+        return Mathf.FloorToInt(Random.value * 12.0f);
     }
 
     public float GetLength()
