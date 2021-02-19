@@ -191,7 +191,6 @@
 	</object>
 	<object class="MixerBusEffectChain" id="{8f937116-4ac6-48e0-82c2-a8ee66c02c27}">
 		<relationship name="effects">
-			<destination>{91cbf372-52a5-42de-bec1-f74a56924375}</destination>
 			<destination>{cc7971d1-51e3-4c5f-93ed-089056690572}</destination>
 		</relationship>
 	</object>
@@ -216,38 +215,5 @@
 			<value>1</value>
 		</property>
 	</object>
-	<object class="PluginEffect" id="{91cbf372-52a5-42de-bec1-f74a56924375}">
-		<relationship name="plugin">
-			<destination>{783567f2-e2c2-4f9c-a3fd-2c3f3b108479}</destination>
-		</relationship>
-	</object>
 	<object class="MixerBusFader" id="{cc7971d1-51e3-4c5f-93ed-089056690572}" />
-	<object class="Plugin" id="{783567f2-e2c2-4f9c-a3fd-2c3f3b108479}">
-		<property name="identifier">
-			<value>Resonance Audio Listener</value>
-		</property>
-		<relationship name="pluginParameters">
-			<destination>{733fc61e-b500-464a-af4f-88f97f4eb2cf}</destination>
-			<destination>{2e8d6fba-2601-469d-b22a-6d328825cc79}</destination>
-		</relationship>
-	</object>
-	<object class="FloatPluginParameter" id="{733fc61e-b500-464a-af4f-88f97f4eb2cf}">
-		<property name="name">
-			<value>Gain</value>
-		</property>
-		<property name="value">
-			<value>0</value>
-		</property>
-		<property name="curve">
-			<value>{(0.000000,-80.000000)(1.000000,0.000000)}</value>
-		</property>
-	</object>
-	<object class="DataPluginParameter" id="{2e8d6fba-2601-469d-b22a-6d328825cc79}">
-		<property name="name">
-			<value>Room Properties</value>
-		</property>
-		<property name="dataType">
-			<value>0</value>
-		</property>
-	</object>
 </objects>
