@@ -9,7 +9,7 @@ using UnityEngine;
 //for unison and such effects.
 public class MonoWave
 {
-    private static int POP_FILTER_ITERATIONS = 3;
+    //private static int POP_FILTER_ITERATIONS = 3;
 
     public float pitch_shift,
         modulation, modulation_amplitude,

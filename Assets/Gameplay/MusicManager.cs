@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class MusicManager : MonoBehaviour
     public float timer;
     public float BPM;
     [ReadOnly]
-    public double BeatLength; //length of 1 beat in SECONDS
+    public float BeatLength; //length of 1 beat in SECONDS
     public float beat;
     public GameObject oscillator_channel;
 
@@ -40,6 +41,12 @@ public class MusicManager : MonoBehaviour
         timer += Time.deltaTime;
         beat = timer / 60.0f * BPM;
     }
+
+    /*
+    public void PlayOneShot(CustomOneShot oneshot, Vector3 position)
+    {
+
+    }*/
 
     public float BeatToMS(float b)
     {
