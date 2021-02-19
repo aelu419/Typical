@@ -38,8 +38,8 @@ public class AmbientScore1 : CustomSong
         //StartCoroutine(Fine());
     }
 
-    
 
+    int[] keys = {-12, -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11, 12};
     public override float GetNote(Tonal tonal)
     {
         switch (tonal.index)
@@ -49,7 +49,7 @@ public class AmbientScore1 : CustomSong
             case (FINE):
                 break;
         }
-        return Mathf.FloorToInt(Random.value * 12.0f);
+        return keys[Mathf.FloorToInt(Random.value * keys.Length)];
     }
 
     public override float GetLength(Tonal tonal)
@@ -61,7 +61,7 @@ public class AmbientScore1 : CustomSong
             case (FINE):
                 break;
         }
-        return 10;
+        return 2;
     }
 
     public override float GetRest(Tonal tonal)
@@ -74,6 +74,32 @@ public class AmbientScore1 : CustomSong
                 break;
         }
         return 1;
+    }
+
+    IEnumerator TambourineAtBeat(float bluntness, float beat)
+    {
+        while (MusicManager.Instance.beat <= beat)
+        {
+            yield return null;
+        }
+
+        //fire tambourine
+        tambourine.PlayNote(1, bluntness, MusicManager.Instance.transform.position);
+
+        yield return null;
+    }
+
+    public void OnNoteFinished(int instrument)
+    {
+        switch(instrument) {
+            case COARSE:
+                StartCoroutine(TambourineAtBeat(
+                    -0.5f,
+                    Mathf.Ceil(MusicManager.Instance.beat + 1)
+                    )
+                );
+                break;
+        }
     }
 
     // Update is called once per frame

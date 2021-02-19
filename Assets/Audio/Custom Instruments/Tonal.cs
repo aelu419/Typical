@@ -57,6 +57,7 @@ public class Tonal
                     if (t >= length_beat)
                     {
                         t = -1;
+                        song.BroadcastMessage("OnNoteFinished", index);
                         fmod_event.release();
                         continue;
                     }
