@@ -18,7 +18,8 @@ public class AmbientScore1 : MonoBehaviour
     Tambourine _tam;
 
     //note statuses
-    float coarse_rest, fine_rest, coarse_t, fine_t;
+    [ReadOnly]
+    public float coarse_rest, fine_rest, coarse_t, fine_t;
     float coarse_length_beat, fine_length_beat;
     public AnimationCurve coarse_gain, fine_gain;
 
@@ -43,26 +44,42 @@ public class AmbientScore1 : MonoBehaviour
         {
             if (coarse_rest <= 0)
             {
+                Debug.Log("new note for coarse");
                 coarse_rest = GetRest();
                 //initiate note
                 coarse_length_beat = GetLength();
                 coarse_t = 0.0f;
 
                 coarse.setParameterByName("Pitch", GetNote());
+                coarse.setParameterByName("Gain", coarse_gain.Evaluate(0));
                 coarse.start();
             }
             else
             {
-                coarse_rest -= Time.deltaTime / MusicManager.Instance.BeatLength;
-                coarse_t += Time.deltaTime / MusicManager.Instance.BeatLength;
+                if (coarse_t == -1)
+                {
+                    coarse.setParameterByName("Gain", 0.0f);
+                    coarse_rest -= Time.deltaTime / MusicManager.Instance.BeatLength;
+                }
+                else
+                {
+                    coarse_t += Time.deltaTime / MusicManager.Instance.BeatLength;
 
-                //update note status
-                float e_gain = coarse_gain.Evaluate(coarse_t / coarse_length_beat);
+                    if (coarse_t >= coarse_length_beat)
+                    {
+                        coarse_t = -1;
+                        coarse.release();
+                    }
 
-                coarse.setParameterByName("Gain", e_gain);
-                coarse.set3DAttributes(
-                    FMODUnity.RuntimeUtils.To3DAttributes(cam)
-                    );
+                    //update note status
+                    float e_gain = coarse_gain.Evaluate(coarse_t / coarse_length_beat);
+                    Debug.Log(e_gain);
+
+                    coarse.setParameterByName("Gain", e_gain);
+                    coarse.set3DAttributes(
+                        FMODUnity.RuntimeUtils.To3DAttributes(cam)
+                        );
+                }
             }
             yield return null;
         }
@@ -75,7 +92,7 @@ public class AmbientScore1 : MonoBehaviour
 
     public float GetLength()
     {
-        return 1;
+        return 10;
     }
 
     public float GetRest()
