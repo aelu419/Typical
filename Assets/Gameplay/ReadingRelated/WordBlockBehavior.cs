@@ -13,9 +13,12 @@ public class WordBlockBehavior : MonoBehaviour
     public float light_intensity;
     //[ReadOnly] public Cover cover;
 
-    private PlayerControl player;
+    [ReadOnly]
+    public Material[] mats, mats_;
+    [ReadOnly]
+    public int typed;
 
-    private BoxCollider2D box;
+    private PlayerControl player;
 
     // Start is called before the first frame update
     void Start()
@@ -57,41 +60,51 @@ public class WordBlockBehavior : MonoBehaviour
         //detect light
         float x_diff = ((content.L + content.R)/2).x - player.transform.position.x;
         float l_range = player.head_light_controller.current_setting.w;
-        //player facing right
-        if (player.head_light_controller.direction)
+        if (player.head_light_controller.light_)
         {
-            light_intensity = x_diff >= 0 && x_diff < l_range ?
-                GetLightIntensity(x_diff, l_range)
-                : -1;
+            //player facing right
+            if (player.head_light_controller.direction)
+            {
+                light_intensity = x_diff >= 0 && x_diff < l_range ?
+                    GetLightIntensity(x_diff, l_range)
+                    : -1;
+            }
+            else
+            {
+                light_intensity = x_diff <= 0 && x_diff * -1 < l_range ?
+                    GetLightIntensity(x_diff * -1, l_range)
+                    : -1;
+            }
         }
         else
         {
-            light_intensity = x_diff <= 0 && x_diff * -1 < l_range ?
-                GetLightIntensity(x_diff * -1, l_range)
-                : -1;
+            light_intensity = -1;
         }
+        
 
-        if (content.word_mech == Word.WORD_TYPES.hidden && content.typed == 0)
+        if (content.word_mech == Word.WORD_TYPES.hidden)
         {
-            foreach (Material m in content.tmp.fontMaterials)
+            Color temp = content.tmp.fontMaterial.GetColor("_FaceColor");
+            //empty hidden word
+            if (content.typed == 0)
             {
-                try
-                {
-                    //all materials with _FaceColor are TMP materials
-                    Color temp = m.GetColor("_FaceColor");
-                    m.SetColor("_FaceColor", new Color(
+                content.tmp.fontMaterial.SetColor(
+                    "_FaceColor", new Color(
                         temp.r, temp.g, temp.b,
-                        light_intensity == -1 ? 0 :
-                            (light_intensity > temp.a ?
-                                light_intensity : temp.a
-                            )
-                    ));
-                }
-                catch
-                {
-                    //whatever
-                }
+                        light_intensity == -1 ? 0 : light_intensity
+                        )
+                    );
             }
+            else
+            {
+                content.tmp.fontSharedMaterial.SetColor(
+                    "_FaceColor", new Color(
+                        temp.r, temp.g, temp.b,
+                        0.5f
+                        )
+                    );
+            }
+            
         }
 
         /*
@@ -107,7 +120,7 @@ public class WordBlockBehavior : MonoBehaviour
     private float GetLightIntensity(float dist, float light_range)
     {
         float t = dist / light_range;
-        return 1 - 0.75f * t;
+        return 0.5f - 0.5f * t;
     }
 
     /*

@@ -309,8 +309,6 @@ public class Word
         //but i suspect it's caused by the submeshes TMP generates when material
         //tags are used within the TMP box
 
-        Debug.Log("setting mechanism: " + word_mech.ToString());
-
         //skip if none of of the text is typed out
         if (typed <= 0)
         {
@@ -343,15 +341,31 @@ public class Word
             return;
         }
 
+        //the inner material tag inherits the color from the parent, so to set the correct alpha,
+        //the parent material's alpha is temporarily overriden
+        Color temp = tmp.fontSharedMaterial.GetColor("_FaceColor");
+
+        float alpha = temp.a;
+        tmp.fontSharedMaterial.SetColor("_FaceColor", new Color(
+            temp.r, temp.g, temp.b, 1));
+
         //when the word is half typed out
         string txt_temp = "<material=\"" + TYPED_MAT + "\"> " //the space is for left spacing between words
-            + content.Substring(0, typed) + "</material>";
-        
+            + content.Substring(0, typed) + "</material>" + content.Substring(typed);
+
+        //reset parent material's alpha is returned to normal
+        tmp.fontSharedMaterial.SetColor("_FaceColor", new Color(
+            temp.r, temp.g, temp.b, alpha));
+
+        //deprecated : the untyped portion would just follow the default material
+        //this way it could be set by script
+        /*
         switch (word_mech)
         {
             case WORD_TYPES.plain:
                 txt_temp += "<material=\"" + UNTYPED_PLAIN_MAT + "\">"
                     + content.Substring(typed) + "</material>";
+                txt_temp += content.Substring(typed);
                 break;
             case WORD_TYPES.hidden:
                 txt_temp += "<material=\"" + UNTYPED_HIDDEN_MAT + "\">"
@@ -363,7 +377,7 @@ public class Word
                 break;
             default:
                 throw new System.Exception("word type not found");
-        }
+        }*/
 
         tmp.text = txt_temp;
 

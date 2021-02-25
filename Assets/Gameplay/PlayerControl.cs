@@ -270,12 +270,12 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("light on");
+            //Debug.Log("light on");
             light_toggle = true;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            Debug.Log("light off");
+            //Debug.Log("light off");
             light_toggle = false;
         }
 
