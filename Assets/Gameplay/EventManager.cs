@@ -93,6 +93,7 @@ public class EventManager : MonoBehaviour
     {
         if (OnStartExitingScene != null)
         {
+            Debug.Log("exiting scene");
             OnStartExitingScene();
         }
     }

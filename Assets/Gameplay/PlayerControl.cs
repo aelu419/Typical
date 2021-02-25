@@ -22,6 +22,7 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either 
                                                        //arrived or rushed pass the destination
+   
     private Vector3 relation_temp;
     private ContactPoint2D[] cp;
 
@@ -31,12 +32,13 @@ public class PlayerControl : MonoBehaviour
     private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     private Rigidbody2D rigid;
 
-    private Animator animator_head;
-    private Animator animator_torso;
+    private Animator animator;
 
     private BoxCollider2D box;
 
     private HeadLightControl head_light_controller;
+
+    private PlayerSFXLibrary sfx_lib;
 
     [ReadOnly] public List<Word> word_blocks_in_contact;
     [ReadOnly] public string word_blocks_in_contact_str;
@@ -61,16 +63,16 @@ public class PlayerControl : MonoBehaviour
         //connect to rest of the game
         rigid = GetComponent<Rigidbody2D>();
 
-        animator_head = GetComponent<Animator>();
-        animator_torso = transform.GetChild(0).gameObject.GetComponent<Animator>();
-
-        head_light_controller = transform.GetChild(1).gameObject.GetComponent<HeadLightControl>();
+        animator = GetComponent<Animator>();
+        head_light_controller = transform.GetChild(0).GetComponent<HeadLightControl>();
 
         cControler = GameObject.FindGameObjectWithTag("General Manager").GetComponent<CameraControler>();
         rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
 
         renderer_ = GetComponent<SpriteRenderer>();
         box = GetComponent<BoxCollider2D>();
+
+        sfx_lib = GetComponent<PlayerSFXLibrary>();
 
         //set character state
         in_climb = false;
@@ -251,7 +253,7 @@ public class PlayerControl : MonoBehaviour
             {
                 in_climb = true;
                 destination.y = rigid.position.y + 0.1f;
-                Debug.Log("glitch jumped... couldn't do anything else");
+                Debug.Log("glitch jumped");
                 //TODO: do a special glitch jump animation :)
                 //animator.SetBool("glitch_jump", true);
 
@@ -276,15 +278,16 @@ public class PlayerControl : MonoBehaviour
             light_toggle = false;
         }
 
-        animator_head.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
-        animator_head.SetBool("in_climb", in_climb);
-        animator_head.SetFloat("climb_extent", climb_extent);
-        animator_head.SetBool("light_toggle", light_toggle);
-
-        animator_torso.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
-        animator_torso.SetBool("in_climb", in_climb);
-        animator_torso.SetFloat("climb_extent", climb_extent);
-        animator_torso.SetBool("light_toggle", light_toggle);
+        animator.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
+        animator.SetBool("in_climb", in_climb);
+        animator.SetFloat("climb_extent", climb_extent);
+        if (animator.GetBool("light_toggle") != light_toggle)
+        {
+            //light toggle status changed
+            //play oneshot squeaking sound for helmet raising/lowering
+            FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.squeak, transform.position);
+        }
+        animator.SetBool("light_toggle", light_toggle);
 
         head_light_controller.light_ = light_toggle;
         head_light_controller.direction = !renderer_.flipX;

@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1500076823080976132
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1500076823080976130}
+  - component: {fileID: 1500076823080976133}
+  - component: {fileID: 1500076823080976131}
+  m_Layer: 0
+  m_Name: MusicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1500076823080976130
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500076823080976132}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.70324594, y: -0.46395415, z: -28.044167}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1500076823080976133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500076823080976132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5351f17a8763dfb40b771387c5e81671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BPM: 60
+  timer: 0
+  BeatLength: 0
+  beat: 0
+  GLOBAL_VOLUME: 0
+--- !u!114 &1500076823080976131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500076823080976132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eba2629a0583fc4095a6475a7536447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drone_coarse: event:/Ambient/Drone_Coarse
+  coarse_fluctuation_amplitude: 0.226
+  coarse_flucuation_speed: 0.03
+  coarse_gain_master: 0.241
+  drone_fine: event:/Ambient/Drone_Fine
+  fine_fluctuation_amplitude: 0.172
+  fine_flucuation_speed: 0.13
+  fine_gain_master: 0.342
+  whisper: event:/Ambient/ContinuousWhisper
+  whisper_fluctuation_amplitude: 1
+  whisper_flucuation_speed: 0.54
+  whisper_gain_master: 0.375
+  ambient: event:/Ambient/Spatial
+  ambient_fluctuation_amplitude: 0.13
+  ambient_flucuation_speed: 0.23
+  ambient_gain_master: 0.935
+  tambourine: {fileID: 1389629389722734532, guid: 057e3525930916c4793e2fffc9576c01, type: 3}
+  tambourine_gain_modifier: 1.52
+  coarse_gain:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.31603622
+      inSlope: 3.7840374
+      outSlope: 3.7840374
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.18076411
+      value: 1.0000544
+      inSlope: 0.06314156
+      outSlope: 0.06314156
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.044095848
+    - serializedVersion: 3
+      time: 0.33674225
+      value: 0.80593634
+      inSlope: -0.018965406
+      outSlope: -0.018965406
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.70277816
+      value: 0.80183923
+      inSlope: -0.029314728
+      outSlope: -0.029314728
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.18132263
+    - serializedVersion: 3
+      time: 1.0020752
+      value: -0.002357483
+      inSlope: -2.6869519
+      outSlope: -2.6869519
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fine_gain:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0031166077
+      value: 0.20283127
+      inSlope: 14.865896
+      outSlope: 14.865896
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.04956435
+      value: 0.9859809
+      inSlope: -0.117847934
+      outSlope: -0.117847934
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.14028214
+      value: 0.86191064
+      inSlope: -0.07084678
+      outSlope: -0.07084678
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7050153
+      value: 0.69209915
+      inSlope: -0.070010535
+      outSlope: -0.070010535
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.092458405
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.3462205
+      outSlope: -2.3462205
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
