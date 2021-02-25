@@ -6,19 +6,32 @@ using TMPro;
 public class WordBlockBehavior : MonoBehaviour
 {
     [ReadOnly] public Word content;
+    [ReadOnly] public string word_status;
 
     private bool collider_width_sync;
+    [ReadOnly]
+    public float light_intensity;
     //[ReadOnly] public Cover cover;
+
+    private PlayerControl player;
+
+    private BoxCollider2D box;
 
     // Start is called before the first frame update
     void Start()
     {
+        light_intensity = -1;
         collider_width_sync = false;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (content != null)
+        {
+            word_status = content.ToString();
+        }
         //has cover obj
         if (!collider_width_sync && transform.childCount != 0)
         {
@@ -37,6 +50,48 @@ public class WordBlockBehavior : MonoBehaviour
 
                 collider_width_sync = true;
             }
+
+            
+        }
+
+        //detect light
+        float x_diff = ((content.L + content.R)/2).x - player.transform.position.x;
+        float l_range = player.head_light_controller.current_setting.w;
+        //player facing right
+        if (player.head_light_controller.direction)
+        {
+            light_intensity = x_diff >= 0 && x_diff < l_range ?
+                GetLightIntensity(x_diff, l_range)
+                : -1;
+        }
+        else
+        {
+            light_intensity = x_diff <= 0 && x_diff * -1 < l_range ?
+                GetLightIntensity(x_diff * -1, l_range)
+                : -1;
+        }
+
+        if (content.word_mech == Word.WORD_TYPES.hidden && content.typed == 0)
+        {
+            foreach (Material m in content.tmp.fontMaterials)
+            {
+                try
+                {
+                    //all materials with _FaceColor are TMP materials
+                    Color temp = m.GetColor("_FaceColor");
+                    m.SetColor("_FaceColor", new Color(
+                        temp.r, temp.g, temp.b,
+                        light_intensity == -1 ? 0 :
+                            (light_intensity > temp.a ?
+                                light_intensity : temp.a
+                            )
+                    ));
+                }
+                catch
+                {
+                    //whatever
+                }
+            }
         }
 
         /*
@@ -47,6 +102,12 @@ public class WordBlockBehavior : MonoBehaviour
         {
             cover = new Cover(transform.GetChild(0).gameObject, content);
         }*/
+    }
+
+    private float GetLightIntensity(float dist, float light_range)
+    {
+        float t = dist / light_range;
+        return 1 - 0.75f * t;
     }
 
     /*

@@ -50,7 +50,7 @@ public class HeadLightControl : MonoBehaviour
         }
         else
         {
-            perturbation = 0.6f;
+            perturbation = 0.35f;
             current_setting = light_min_max_off;
         }
 

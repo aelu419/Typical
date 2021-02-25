@@ -36,7 +36,8 @@ public class PlayerControl : MonoBehaviour
 
     private BoxCollider2D box;
 
-    private HeadLightControl head_light_controller;
+    [ReadOnly]
+    public HeadLightControl head_light_controller;
 
     private PlayerSFXLibrary sfx_lib;
 

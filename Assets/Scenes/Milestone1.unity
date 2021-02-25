@@ -179,6 +179,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7960880239323466327, guid: ace3568d2a87aea429cb3050a697d750, type: 3}
+      propertyPath: start_index
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7960880239323466327, guid: ace3568d2a87aea429cb3050a697d750, type: 3}
+      propertyPath: type_explicit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7960880239323466330, guid: ace3568d2a87aea429cb3050a697d750, type: 3}
       propertyPath: m_Name
       value: General Manager
@@ -432,6 +440,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2020877020928957470, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
+      propertyPath: light_min_max_on.w
+      value: 11.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020877020928957470, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
+      propertyPath: light_min_max_off.w
+      value: 2.09
+      objectReference: {fileID: 0}
     - target: {fileID: 2020877022693239506, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
       propertyPath: m_Name
       value: Character

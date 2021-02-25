@@ -94,12 +94,12 @@ public class Word
 
         for(int i = tags.Length - 1; i >= 0; i--)
         {
-            if (tags[i].Equals("H"))
+            if (tags[i].type.Equals("H"))
             {
                 this.word_mech = WORD_TYPES.hidden;
                 break;
             }
-            else if (tags[i].Equals("R"))
+            else if (tags[i].type.Equals("R"))
             {
                 this.word_mech = WORD_TYPES.reflector;
             }
@@ -308,6 +308,8 @@ public class Word
         //from the left of the screen before unloading. the exact reason is unknown
         //but i suspect it's caused by the submeshes TMP generates when material
         //tags are used within the TMP box
+
+        Debug.Log("setting mechanism: " + word_mech.ToString());
 
         //skip if none of of the text is typed out
         if (typed <= 0)

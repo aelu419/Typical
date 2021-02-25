@@ -16,6 +16,10 @@ public class ReadingManager: MonoBehaviour
     private CameraControler cControler;
     private PlayerControl player;
 
+
+    //whether use correct letter control or use letter pressed control
+    public bool type_explicit;
+
     //slope related
     public Vector2 slope_min_max;
     public Perlin perlin_map1, perlin_map2;
@@ -23,6 +27,8 @@ public class ReadingManager: MonoBehaviour
     private List<GameObject> loaded_words;
 
     //cursor related
+    public int start_index;
+    [ReadOnly]
     public int[] cursor_raw; //first coordinate is index of the word, 
                              //second coordinate is index of letter
     TMP_CharacterInfo cursor_rendered; //the pixel position of the cursor
@@ -96,21 +102,6 @@ public class ReadingManager: MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")
             .GetComponent<PlayerControl>();
 
-        Vector2 cursor = new Vector2(0, 0);
-        //load words, by default load the first 10
-        loaded_words = new List<GameObject>();
-        (Vector2 cursor, GameObject go) word_loader_temp;
-        for (int i = 0; i < Mathf.Min(10, words.Count); i++)
-        {
-            Debug.Log("configuring " + words[i]);
-            word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
-            cursor = word_loader_temp.cursor; //update cursor
-            loaded_words.Add(word_loader_temp.go);
-        }
-
-        if (loaded_words.Count < 3)
-            throw new System.Exception("No other word in script");
-
         no_typable = false;
         //search for the last typable word in script
         for (int i = words.Count - 1; i >= 0; i--)
@@ -134,19 +125,56 @@ public class ReadingManager: MonoBehaviour
         }
         else
         {
+            int override_beginning = -1;
             //search for the fist typable word in script
             for (int i = 0; i < words.Count; i++)
             {
                 if (words[i].has_typable)
                 {
                     first_typable_word = i;
-                    break;
-                }
-            }
-            //cursor is initialized to the first typable letter in the first typable word
-            cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
-            next_letter = words[first_typable_word].content[words[first_typable_word].first_typable];
 
+                    if (start_index > i)
+                    {
+                        for(int j = start_index; j < words.Count; j++)
+                        {
+                            if (words[j].has_typable)
+                            {
+                                override_beginning = j;
+                                break;
+                            }
+                        }
+                    }
+                        break;
+                }
+
+            }
+
+            //cursor is initialized to the first typable letter in the first typable word
+            if (override_beginning != -1)
+            {
+                cursor_raw = new int[] { override_beginning, 
+                    words[override_beginning].first_typable};
+                next_letter = words[override_beginning].
+                    content[words[override_beginning].first_typable];
+            }
+            else
+            {
+                cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
+                next_letter = words[first_typable_word].content[words[first_typable_word].first_typable];
+            }
+
+        }
+
+        //load words onto screen as GameObjects
+        Vector2 cursor = new Vector2(0, 0);
+        loaded_words = new List<GameObject>();
+        (Vector2 cursor, GameObject go) word_loader_temp;
+        for (int i = 0; i < Mathf.Min(cursor_raw[0] + 20, words.Count); i++)
+        {
+            Debug.Log("configuring " + words[i]);
+            word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
+            cursor = word_loader_temp.cursor; //update cursor
+            loaded_words.Add(word_loader_temp.go);
         }
 
         EventManager.Instance.ScriptLoaded();
@@ -232,7 +260,9 @@ public class ReadingManager: MonoBehaviour
          */
 
         // handle input
-        if (next_letter != '\0' && Input.GetKeyDown(next_letter.ToString().ToLower())) //correct key is pressed
+        if (next_letter != '\0' && 
+            (type_explicit ? Input.GetKeyDown(next_letter.ToString().ToLower()) : AnyLetterPressed())
+            ) //correct key is pressed
         {
             EventManager.Instance.RaiseCorrectKeyPressed();
 
