@@ -118,6 +118,9 @@ MonoBehaviour:
   data:
     description: 
     destination: {fileID: 0}
+    sp: 0
+    control: 0
   is_from_cover_prefab: 1
   word_block: {fileID: 0}
   portal_animator: {fileID: 0}
+  descriptor: 
