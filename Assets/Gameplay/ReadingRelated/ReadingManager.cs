@@ -765,7 +765,7 @@ public class ReadingManager: MonoBehaviour
 
         //starting block
         //the first block has no slope and is entirely typed out
-        words.Add(new Word(new Tag[] { }, "###", 0, 0, 3));
+        words.Add(new Word(new Tag[] { }, " ", 0, 0, 1));
 
         Regex tag = new Regex(@"<\s*(\/?)(\s*[^>])+\s*(\/?)\s*>");
 
