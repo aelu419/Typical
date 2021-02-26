@@ -63,7 +63,7 @@ public class WordBlockBehavior : MonoBehaviour
         if (player.head_light_controller.light_)
         {
             //player facing right
-            if (player.head_light_controller.direction)
+            if (player.direction)
             {
                 light_intensity = x_diff >= 0 && x_diff < l_range ?
                     GetLightIntensity(x_diff, l_range)
@@ -124,8 +124,6 @@ public class WordBlockBehavior : MonoBehaviour
                 
             }
             content.tmp.fontMaterials = mats;
-            
-            
         }
 
         /*

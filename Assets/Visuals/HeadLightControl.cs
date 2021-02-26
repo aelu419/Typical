@@ -21,6 +21,8 @@ public class HeadLightControl : MonoBehaviour
     private Vector4 right_direction;
     private Vector4 left_direction;
 
+    public float lerp_state;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,17 +44,13 @@ public class HeadLightControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float perturbation;
-        if (light_)
-        {
-            perturbation = 0.2f;
-            current_setting = light_min_max_on;
-        }
-        else
-        {
-            perturbation = 0.35f;
-            current_setting = light_min_max_off;
-        }
+        float perturbation = Mathf.Lerp(0.25f, 0.175f, lerp_state);
+        current_setting = new Vector4(
+            Mathf.Lerp(light_min_max_off.x, light_min_max_on.x, lerp_state),
+            Mathf.Lerp(light_min_max_off.y, light_min_max_on.y, lerp_state),
+            Mathf.Lerp(light_min_max_off.z, light_min_max_on.z, lerp_state),
+            Mathf.Lerp(light_min_max_off.w, light_min_max_on.w, lerp_state)
+            );
 
         if (direction)
         {

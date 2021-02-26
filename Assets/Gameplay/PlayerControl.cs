@@ -22,9 +22,9 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either 
                                                        //arrived or rushed pass the destination
-   
+    public bool direction; //true when facing right
     private Vector3 relation_temp;
-    private ContactPoint2D[] cp;
+    //private ContactPoint2D[] cp;
 
     //connect to other game components
     private CameraControler cControler;
@@ -45,6 +45,8 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public string word_blocks_in_contact_str;
 
     private float stuck_time = 0.0f; //to deal with really weird situations
+
+    public float light_progress; //0 is shut off, 1 is up
 
     void Awake()
     {
@@ -107,6 +109,8 @@ public class PlayerControl : MonoBehaviour
             );
 
         renderer_.enabled = true;
+        light_progress = 0;
+        direction = true;
     }
 
     // Update is called once per frame
@@ -291,7 +295,10 @@ public class PlayerControl : MonoBehaviour
         animator.SetBool("light_toggle", light_toggle);
 
         head_light_controller.light_ = light_toggle;
-        head_light_controller.direction = !renderer_.flipX;
+        head_light_controller.direction = direction;
+        head_light_controller.lerp_state = light_progress;
+
+        renderer_.flipX = !direction;
     }
 
 
@@ -339,16 +346,18 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCharacterDeleted()
     {
-        renderer_.flipX = true;
+        direction = false;
     }
 
     private void CorrectKeyPressed()
     {
-        renderer_.flipX = false;
+        direction = true;
         //Debug.Log("correct!");
     }
     private void IncorrectKeyPressed()
     {
+        //player turns no matter the input correctness
+        direction = true;
         //Debug.Log("incorrect!");
     }
 }
