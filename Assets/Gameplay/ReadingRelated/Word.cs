@@ -62,6 +62,11 @@ public class Word
 
     public Word(Tag[] tags, string content, float slope, int index, int typed)
     {
+        //the case of EMPTYWORD
+        if (tags == null && content == null)
+        {
+            return;
+        }
         this.tags = tags;
         this.content = content;
         this.slope = slope;
@@ -345,21 +350,19 @@ public class Word
         //the parent material's alpha is temporarily overriden
         //when the word is half typed out
         string txt_temp = "<material=\"" + TYPED_MAT + "\"> " //the space is for left spacing between words
-            + content.Substring(0, typed) + "</material>" + content.Substring(typed);
+            + content.Substring(0, typed) + "</material>";
 
-        //deprecated : the untyped portion would just follow the default material
-        //this way it could be set by script
-        /*
         switch (word_mech)
         {
             case WORD_TYPES.plain:
                 txt_temp += "<material=\"" + UNTYPED_PLAIN_MAT + "\">"
                     + content.Substring(typed) + "</material>";
-                txt_temp += content.Substring(typed);
                 break;
             case WORD_TYPES.hidden:
+                /*
                 txt_temp += "<material=\"" + UNTYPED_HIDDEN_MAT + "\">"
-                    + content.Substring(typed) + "</material>";
+                    + content.Substring(typed) + "</material>";*/
+                txt_temp += content.Substring(typed);
                 break;
             case WORD_TYPES.reflector:
                 txt_temp += "<material=\"" + UNTYPED_REFLECTOR_MAT + "\">"
@@ -367,7 +370,7 @@ public class Word
                 break;
             default:
                 throw new System.Exception("word type not found");
-        }*/
+        }
 
         tmp.text = txt_temp;
 

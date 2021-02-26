@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 329810982277543150}
   - component: {fileID: 7080637115990821553}
+  - component: {fileID: 6730224259639204550}
   m_Layer: 0
   m_Name: Lamp
   m_TagString: Untagged
@@ -51,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 02bd0b10c86462941aedf50e6eeb5511, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63eefa145d49c014a9ff883d5360f026, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,6 +84,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6730224259639204550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5524102392374116808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08095dfbe41dcf745a89dcf02a668567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 63eefa145d49c014a9ff883d5360f026, type: 3}
+  - {fileID: 21300000, guid: dcc10351d2295e8498f756a41f90434e, type: 3}
+  - {fileID: 21300000, guid: f03fc0b861e8bbe4aa6141d007bde7d0, type: 3}
 --- !u!1 &6059793270013718032
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,12 +145,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
+  m_FalloffIntensity: 0.805
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0.12
   m_ApplyToSortingLayers: 00000000
-  m_LightCookieSprite: {fileID: 0}
+  m_LightCookieSprite: {fileID: 21300000, guid: e56dd0326fa02604f9336fbe28ccee0f, type: 3}
   m_UseNormalMap: 0
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
@@ -141,8 +158,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0.91564184
-  m_PointLightOuterRadius: 2.1640086
+  m_PointLightInnerRadius: 1.42
+  m_PointLightOuterRadius: 3.17
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5

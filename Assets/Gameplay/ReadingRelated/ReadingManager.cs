@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -35,6 +35,9 @@ public class ReadingManager: MonoBehaviour
                                        //set to the boundaries of the next letter
 
     [ReadOnly] public char next_letter; //the next letter to be typed out
+    [ReadOnly] public Word typing_word;
+    private static Word EMPTY_WORD;
+    
     private int first_typable_word; //the first word in the script that contains typable letters
     private int last_typable_word; //the last word in the script that contains typable letters
 
@@ -49,6 +52,8 @@ public class ReadingManager: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EMPTY_WORD = new Word(null, null, 0, -1);
+        typing_word = EMPTY_WORD;
         //Debug.Log("script dispenser instance = " + 
             //ScriptableObjectManager.Instance.ScriptManager.name);
         words = ParseScript(
@@ -122,6 +127,7 @@ public class ReadingManager: MonoBehaviour
             //-2 accounts for the portal at the end
             cursor_raw = new int[] { words.Count - 2, words[words.Count - 2].content.Length - 1 };
             next_letter = '\0'; //just as a place holder
+            typing_word = null;
         }
         else
         {
@@ -156,11 +162,13 @@ public class ReadingManager: MonoBehaviour
                     words[override_beginning].first_typable};
                 next_letter = words[override_beginning].
                     content[words[override_beginning].first_typable];
+                typing_word = words[override_beginning];
             }
             else
             {
                 cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
                 next_letter = words[first_typable_word].content[words[first_typable_word].first_typable];
+                typing_word = words[first_typable_word];
             }
 
         }
@@ -260,9 +268,14 @@ public class ReadingManager: MonoBehaviour
          */
 
         // handle input
-        if (next_letter != '\0' && 
-            (type_explicit ? Input.GetKeyDown(next_letter.ToString().ToLower()) : AnyLetterPressed())
-            ) //correct key is pressed
+        if (next_letter != '\0'
+            //correct key is pressed
+            && (type_explicit 
+                ? Input.GetKeyDown(next_letter.ToString().ToLower()) 
+                : AnyLetterPressed())
+            //mechanism limits
+            && NextWordTypable()
+            ) 
         {
             EventManager.Instance.RaiseCorrectKeyPressed();
 
@@ -306,6 +319,7 @@ public class ReadingManager: MonoBehaviour
                         cursor_raw[1] = 0;
 
                         next_letter = '\0';
+                        typing_word = EMPTY_WORD;
 
                         break;
                     }
@@ -325,6 +339,7 @@ public class ReadingManager: MonoBehaviour
                                 {
                                     EventManager.Instance.RaiseScriptEndReached();
                                     next_letter = '\0';
+                                    typing_word = EMPTY_WORD;
                                 }
                                 break;
                             }
@@ -332,11 +347,13 @@ public class ReadingManager: MonoBehaviour
                         cursor_raw[0] = i;
 
                         next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+                        typing_word = words[cursor_raw[0]];
                     }
                 }
                 else
                 {
                     next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+                    typing_word = words[cursor_raw[0]];
                 }
             } while (cursor_raw[0] < words.Count
                 && !char.IsLetter(next_letter));
@@ -452,6 +469,7 @@ public class ReadingManager: MonoBehaviour
                         {
                             cursor_raw[1] = stopped.last_typable;
                             next_letter = stopped.content[cursor_raw[1]];
+                            typing_word = stopped;
                             stopped.SetCharacterMech(cursor_raw[1]);
                         }
                         //if the word block ends with some punctuation instead
@@ -468,6 +486,7 @@ public class ReadingManager: MonoBehaviour
                 else
                 {
                     next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+                    typing_word = words[cursor_raw[0]];
                     words[cursor_raw[0]].SetCharacterMech(cursor_raw[1]);
                 }
 
@@ -590,6 +609,29 @@ public class ReadingManager: MonoBehaviour
                 EventManager.Instance.RaiseIncorrectKeyPressed();
         }
 
+    }
+
+    //determine if the following word is typable
+    private bool NextWordTypable()
+    {
+        if (typing_word == EMPTY_WORD)
+        {
+            return false;
+        }
+        else
+        {
+            switch(typing_word.word_mech)
+            {
+                case Word.WORD_TYPES.hidden:
+                    float light =
+                        typing_word.tmp.GetComponentInParent<WordBlockBehavior>().light_intensity;
+                    //Debug.Log("LIGHT: " + light);
+                    return light != -1;
+
+                default:
+                    return true;
+            }
+        }
     }
 
     //determine if a letter is pressed

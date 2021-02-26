@@ -1,4 +1,3 @@
-type out this line to continue... you can ignore CAPITALIZATION, pun'ctu'ation, and   spaces  .
-If you don't see what's ahead, hold [space] to turn your light on. Should you use highbeams or low beams... or perhaps the foglights?
-Here: <H> nice, you know the trick now! </H>
+type out this line to continue... you can ignore CAPITALIZATION, pun'ctu'ation, and s p a c e s.
+If you don't see what's ahead, hold [space] to turn your light on. Here: <H> nice, you know the trick now! </H>
 <P start the game _mainmenu/>
