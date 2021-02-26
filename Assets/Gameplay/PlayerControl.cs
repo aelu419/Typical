@@ -47,6 +47,7 @@ public class PlayerControl : MonoBehaviour
     private float stuck_time = 0.0f; //to deal with really weird situations
 
     public float light_progress; //0 is shut off, 1 is up
+    private SpriteRenderer torso;
 
     void Awake()
     {
@@ -67,6 +68,7 @@ public class PlayerControl : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
 
         animator = GetComponent<Animator>();
+        torso = transform.GetChild(1).GetComponent<SpriteRenderer>();
         head_light_controller = transform.GetChild(0).GetComponent<HeadLightControl>();
 
         cControler = GameObject.FindGameObjectWithTag("General Manager").GetComponent<CameraControler>();
@@ -299,6 +301,7 @@ public class PlayerControl : MonoBehaviour
         head_light_controller.lerp_state = light_progress;
 
         renderer_.flipX = !direction;
+        torso.flipX = !direction;
     }
 
 
