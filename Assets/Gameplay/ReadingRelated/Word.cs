@@ -28,10 +28,10 @@ public class Word
     [ReadOnly] public int first_typable, last_typable;
 
     public static string
-        TYPED_MAT = "Averia-Regular SDF Typed",
-        UNTYPED_PLAIN_MAT = "Averia-Regular Untyped Plain",
-        UNTYPED_HIDDEN_MAT = "Averia-Regular Untyped Hidden",
-        UNTYPED_REFLECTOR_MAT = "Averia-Regular Untyped Reflector";
+        TYPED_MAT = "AveriaRegular Typed",
+        UNTYPED_PLAIN_MAT = "AveriaRegular Untyped Plain",
+        UNTYPED_HIDDEN_MAT = "AveriaRegular Untyped Hidden",
+        UNTYPED_REFLECTOR_MAT = "AveriaRegular Untyped Reflector";
 
     public static Material
         TYPED_MAT_,
@@ -343,19 +343,9 @@ public class Word
 
         //the inner material tag inherits the color from the parent, so to set the correct alpha,
         //the parent material's alpha is temporarily overriden
-        Color temp = tmp.fontSharedMaterial.GetColor("_FaceColor");
-
-        float alpha = temp.a;
-        tmp.fontSharedMaterial.SetColor("_FaceColor", new Color(
-            temp.r, temp.g, temp.b, 1));
-
         //when the word is half typed out
         string txt_temp = "<material=\"" + TYPED_MAT + "\"> " //the space is for left spacing between words
             + content.Substring(0, typed) + "</material>" + content.Substring(typed);
-
-        //reset parent material's alpha is returned to normal
-        tmp.fontSharedMaterial.SetColor("_FaceColor", new Color(
-            temp.r, temp.g, temp.b, alpha));
 
         //deprecated : the untyped portion would just follow the default material
         //this way it could be set by script

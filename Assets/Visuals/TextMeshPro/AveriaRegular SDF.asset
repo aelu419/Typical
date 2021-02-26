@@ -57,11 +57,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Averia-Regular SDF
+  m_Name: AveriaRegular SDF
   m_EditorClassIdentifier: 
-  hashCode: -2000033842
+  hashCode: -1371751549
   material: {fileID: 7929501376115937892}
-  materialHashCode: -1758907090
+  materialHashCode: -485895357
   m_Version: 1.1.0
   m_SourceFontFileGUID: 86e987cdc7110c049af24f55dc84901c
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 86e987cdc7110c049af24f55dc84901c, type: 3}

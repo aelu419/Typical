@@ -80,30 +80,51 @@ public class WordBlockBehavior : MonoBehaviour
         {
             light_intensity = -1;
         }
-        
 
         if (content.word_mech == Word.WORD_TYPES.hidden)
         {
-            Color temp = content.tmp.fontMaterial.GetColor("_FaceColor");
-            //empty hidden word
-            if (content.typed == 0)
+            mats = content.tmp.fontMaterials;
+            foreach (Material m in mats)
             {
-                content.tmp.fontMaterial.SetColor(
-                    "_FaceColor", new Color(
-                        temp.r, temp.g, temp.b,
-                        light_intensity == -1 ? 0 : light_intensity
-                        )
-                    );
+                Color temp = m.GetColor("_FaceColor");
+                //Debug.Log(m.name);
+                //Debug.Log("vs:  " + Word.UNTYPED_HIDDEN_MAT_.name);
+                if (m.name.Equals(Word.UNTYPED_HIDDEN_MAT_.name + " (Instance)"))
+                {
+                    //empty
+                    if (content.typed == 0)
+                    {
+                        m.SetColor(
+                            "_FaceColor", new Color(
+                                temp.r, temp.g, temp.b,
+                                light_intensity == -1 ? 0 : light_intensity
+                                )
+                            );
+                    }
+                    //partially typed out
+                    else
+                    {
+                        m.SetColor(
+                            "_FaceColor", new Color(
+                                temp.r, temp.g, temp.b,
+                                0.5f
+                                )
+                            );
+                    }
+                }
+                else
+                {
+                    m.SetColor(
+                        "_FaceColor", new Color(
+                                temp.r, temp.g, temp.b,
+                                1
+                            )
+                        );
+                }
+                
             }
-            else
-            {
-                content.tmp.fontSharedMaterial.SetColor(
-                    "_FaceColor", new Color(
-                        temp.r, temp.g, temp.b,
-                        0.5f
-                        )
-                    );
-            }
+            content.tmp.fontMaterials = mats;
+            
             
         }
 

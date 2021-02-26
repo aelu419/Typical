@@ -102,7 +102,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is a Word
+  m_text: <font="LiberationSans SDF">This</font> is a Word
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 45b5ecef85ce1bb4cb66e1f39e071168, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 459fbe62de1201e4a8018d77346165f3, type: 2}
@@ -222,6 +222,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   word_status: 
+  light_intensity: 0
+  mats: []
+  mats_: []
+  typed: 0
 --- !u!61 &1925491490069020056
 BoxCollider2D:
   m_ObjectHideFlags: 0
