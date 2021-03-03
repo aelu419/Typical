@@ -9,12 +9,14 @@ public class ScriptObjectEditor : Editor
     SerializedProperty TA;
     SerializedProperty TW;
     SerializedProperty ST;
+    SerializedProperty P;
 
     public void OnEnable()
     {
         ST = serializedObject.FindProperty("source");
         TA = serializedObject.FindProperty("text_asset");
         TW = serializedObject.FindProperty("text_writer");
+        P = serializedObject.FindProperty("previous");
     }
     public override void OnInspectorGUI()
     {
@@ -25,6 +27,7 @@ public class ScriptObjectEditor : Editor
 
         sos.name_ = EditorGUILayout.TextField("Script Name", sos.name_);
         EditorGUILayout.PropertyField(ST);
+        EditorGUILayout.PropertyField(P);
         sos.source = (ScriptTextSource)ST.enumValueIndex;
 
         //text is from computer generated script

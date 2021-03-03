@@ -30,8 +30,11 @@ public class FrontPortal : MonoBehaviour
     {
         if (tmp.enabled && Input.GetKeyDown(KeyCode.Backspace))
         {
+            tmp.enabled = false;
             Debug.LogError("IMPLEMENT SCENE TRANSITION");
-            
+            EventManager.Instance.TransitionTo(
+                ScriptableObjectManager.Instance.ScriptManager.CurrentScript.previous
+                );
         }
     }
 }

@@ -58,23 +58,7 @@ public class ReadingManager: MonoBehaviour
         //ScriptableObjectManager.Instance.ScriptManager.name);
         ScriptObjectScriptable current =
             ScriptableObjectManager.Instance.ScriptManager.CurrentScript;
-        if (current.name_.Equals("_mainmenu"))
-        {
-            words = ParseScript("", current.Text);
-        }
-        else
-        {
-            ScriptObjectScriptable prev =
-                ScriptableObjectManager.Instance.ScriptManager.PreviousScript;
-            if (prev != null)
-            {
-                words = ParseScript(prev.name_, current.Text);
-            }
-            else
-            {
-                Debug.LogError("Left portal initialized without prev. script!");
-            }
-        }
+        words = ParseScript(current.Text);
         
 
         //pick out the portals
@@ -783,7 +767,7 @@ public class ReadingManager: MonoBehaviour
     //parse the script
     //tags with the format <...></...> and <.../> are handled
     //line breaks and spaces are treated the same way
-    public List<Word> ParseScript(string prev, string s)
+    public List<Word> ParseScript(string s)
     {
         List<Word> words = new List<Word>();
 
@@ -798,9 +782,9 @@ public class ReadingManager: MonoBehaviour
         Regex self_close_tag = new Regex(@"<.*(\/)>");
 
         //append portal at start
-        if (!prev.Equals(""))
+        if (!ScriptableObjectManager.Instance.ScriptManager.CurrentScript.name_.Equals("_mainmenu"))
         {
-            s = "<O front_portal " + prev + "/>" + s;
+            s = "<O front_portal/>" + s;
         }
         else
         {

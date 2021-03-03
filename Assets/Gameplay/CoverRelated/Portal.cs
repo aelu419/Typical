@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Portal : MonoBehaviour
@@ -67,26 +66,8 @@ public class Portal : MonoBehaviour
         {
             //transition to specific scene
             //set dispenser to display with next script loaded
-            ScriptDispenser disp = ScriptableObjectManager.Instance.ScriptManager;
-            if (disp.SetNext(data.destination))
-            {
-                EventManager.Instance.OnStartEnteringScene += OnStartEnteringScene;
-                EventManager.Instance.StartExitingScene();
-            }
-            else
-            {
-                Debug.LogError("cannot set next script");
-            }
+            EventManager.Instance.TransitionTo(data.destination);
         }
-    }
-
-    private void OnStartEnteringScene()
-    {
-        //configure
-        Debug.LogError("implement next scene configuration");
-        //load scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        EventManager.Instance.OnStartEnteringScene -= OnStartEnteringScene;
     }
 
     public void OnScriptPortalOpen(Vector2 v)
@@ -122,8 +103,6 @@ public class PortalData
         quit
     }
 
-    public bool left;
-
     static PortalData()
     {
         default_portal_data = new PortalData(
@@ -145,14 +124,12 @@ public class PortalData
         sp = SpecialPortals.none; //only string destination can result in special portals
         this.description = description;
         this.destination = destination;
-        this.left = false;
     }
 
     public PortalData(string description, string destination_name)
     {
         sp = SpecialPortals.none;
         this.description = description;
-        this.left = false;
         foreach(ScriptObjectScriptable d in 
             ScriptableObjectManager.Instance.ScriptManager.scripts)
         {
@@ -173,14 +150,5 @@ public class PortalData
                             + " cannot be found");
             }
         }
-    }
-
-    public static PortalData GetFrontPortal()
-    {
-        PortalData p = GetCloneOfDefault();
-        p.destination = ScriptableObjectManager.Instance.ScriptManager.PreviousScript;
-        p.left = true;
-
-        return p;
     }
 }

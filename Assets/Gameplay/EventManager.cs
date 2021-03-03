@@ -106,6 +106,19 @@ public class EventManager : MonoBehaviour
         script_end_reached = false;
     }
 
+    public event Action<ScriptObjectScriptable> Transition;
+    public void TransitionTo(ScriptObjectScriptable next)
+    {
+        if (ScriptableObjectManager.Instance.ScriptManager.SetNext(next))
+        {
+            StartExitingScene();
+        }
+        else
+        {
+            Debug.LogError("Next scene is not set!");
+        }
+    }
+
     public event Action OnStartExitingScene;
     public void StartExitingScene()
     {
