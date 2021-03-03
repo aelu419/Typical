@@ -17,13 +17,23 @@ public class ScriptDispenser : ScriptableObject
         }
     }
 
+    private ScriptObjectScriptable _prev;
+    public ScriptObjectScriptable PreviousScript
+    {
+        get
+        {
+            return _prev;
+        }
+    }
+
     public bool SetNext(ScriptObjectScriptable next)
     {
         for(int i = 0; i < scripts.Length; i++)
         {
             if (next.Equals(scripts[i]))
             {
-                Debug.Log(next);
+                Debug.Log("Next scene: " + next);
+                _prev = CurrentScript;
                 index = i;
                 return true;
             }

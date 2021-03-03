@@ -83,6 +83,24 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action OnFrontPortalEngage;
+    public void RaiseFrontPortalEngaged()
+    {
+        if (OnFrontPortalEngage != null)
+        {
+            OnFrontPortalEngage();
+        }
+    }
+
+    public event Action OnFrontPortalDisengage;
+    public void RaiseFrontPortalDisengaged()
+    {
+        if (OnFrontPortalDisengage != null)
+        {
+            OnFrontPortalDisengage();
+        }
+    }
+
     public void ScriptLoaded()
     {
         script_end_reached = false;

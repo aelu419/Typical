@@ -43,8 +43,6 @@ public class ReadingManager: MonoBehaviour
 
     private bool no_typable;
 
-    private GameObject front_portal, back_portal;
-
     private void Awake()
     {
         perlin_map1 = new Perlin(10, 2);
@@ -57,10 +55,27 @@ public class ReadingManager: MonoBehaviour
         EMPTY_WORD = new Word(null, null, 0, -1);
         typing_word = EMPTY_WORD;
         //Debug.Log("script dispenser instance = " + 
-            //ScriptableObjectManager.Instance.ScriptManager.name);
-        words = ParseScript(
-            ScriptableObjectManager.Instance.ScriptManager.CurrentScript.Text
-            );
+        //ScriptableObjectManager.Instance.ScriptManager.name);
+        ScriptObjectScriptable current =
+            ScriptableObjectManager.Instance.ScriptManager.CurrentScript;
+        if (current.name_.Equals("_mainmenu"))
+        {
+            words = ParseScript("", current.Text);
+        }
+        else
+        {
+            ScriptObjectScriptable prev =
+                ScriptableObjectManager.Instance.ScriptManager.PreviousScript;
+            if (prev != null)
+            {
+                words = ParseScript(prev.name_, current.Text);
+            }
+            else
+            {
+                Debug.LogError("Left portal initialized without prev. script!");
+            }
+        }
+        
 
         //pick out the portals
         List<PortalData> ports = new List<PortalData>();
@@ -185,16 +200,6 @@ public class ReadingManager: MonoBehaviour
             word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
             cursor = word_loader_temp.cursor; //update cursor
             loaded_words.Add(word_loader_temp.go);
-
-            //add front portal
-            if (i == 0)
-            {
-                front_portal = word_loader_temp.go;
-            }
-            else if (i == words.Count - 1)
-            {
-                back_portal = word_loader_temp.go;
-            }
         }
 
         EventManager.Instance.ScriptLoaded();
@@ -289,6 +294,7 @@ public class ReadingManager: MonoBehaviour
             && NextWordTypable()
             ) 
         {
+            EventManager.Instance.RaiseFrontPortalDisengaged();
             EventManager.Instance.RaiseCorrectKeyPressed();
 
             // skip unmatching sequence caused by backspacing (see skip_over_puncuation)
@@ -370,8 +376,6 @@ public class ReadingManager: MonoBehaviour
             } while (cursor_raw[0] < words.Count
                 && !char.IsLetter(next_letter));
 
-            
-
             UpdateRenderedCursor();
         }
 
@@ -390,10 +394,18 @@ public class ReadingManager: MonoBehaviour
         //going backwards
         else if (!no_typable && Input.GetKeyDown(KeyCode.Backspace))
         {
-            //do not do anything if currently on the first typable letter of the entire script
+            //open front portal if pressing backspace on the first typable word
+            if (cursor_raw[0] == first_typable_word
+                && cursor_raw[1] == words[first_typable_word].first_typable)
+            {
+                EventManager.Instance.RaiseFrontPortalEngaged();
+            }
+
             //cursor somehow went beyond the beginning of the typable scripts
-            if (cursor_raw[0] < first_typable_word
-                && cursor_raw[1] <= words[first_typable_word].first_typable)
+            if (
+                cursor_raw[0] <= first_typable_word
+                && cursor_raw[1] <= words[first_typable_word].first_typable
+                )
             {
                 cursor_raw[0] = first_typable_word;
                 cursor_raw[1] = words[first_typable_word].first_typable;
@@ -771,7 +783,7 @@ public class ReadingManager: MonoBehaviour
     //parse the script
     //tags with the format <...></...> and <.../> are handled
     //line breaks and spaces are treated the same way
-    public List<Word> ParseScript(string s)
+    public List<Word> ParseScript(string prev, string s)
     {
         List<Word> words = new List<Word>();
 
@@ -786,7 +798,14 @@ public class ReadingManager: MonoBehaviour
         Regex self_close_tag = new Regex(@"<.*(\/)>");
 
         //append portal at start
-        s = "<O portal/>" + s;
+        if (!prev.Equals(""))
+        {
+            s = "<O front_portal " + prev + "/>" + s;
+        }
+        else
+        {
+            s = "<O lamp/>" + s;
+        }
 
         //remove redundant line swaps
         s = s.Replace('\n', ' ');

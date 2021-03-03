@@ -39,8 +39,8 @@ public class Portal : MonoBehaviour
         //DIFFERENTIATE FRONT BACK PORTAL, ASSIGN BY READING MANAGER, NOT HERE!
         if (is_from_cover_prefab)
         {
-            aEventManager.Instance.OnBackPortalOpen += OnScriptPortalOpen;
-            aEventManager.Instance.OnBackPortalClose += OnScriptPortalClose;
+            EventManager.Instance.OnBackPortalOpen += OnScriptPortalOpen;
+            EventManager.Instance.OnBackPortalClose += OnScriptPortalClose;
         }
     }
 
@@ -89,16 +89,18 @@ public class Portal : MonoBehaviour
         EventManager.Instance.OnStartEnteringScene -= OnStartEnteringScene;
     }
 
-    private void OnScriptPortalOpen(Vector2 v)
+    public void OnScriptPortalOpen(Vector2 v)
     {
         Debug.Log("opening script end portal");
         portal_animator.SetBool("open", true);
     }
-    private void OnScriptPortalClose()
+
+    public void OnScriptPortalClose()
     {
         Debug.Log("closing script end portal");
         portal_animator.SetBool("open", false);
     }
+
 }
 
 [System.Serializable]
@@ -119,6 +121,8 @@ public class PortalData
         none,
         quit
     }
+
+    public bool left;
 
     static PortalData()
     {
@@ -141,12 +145,14 @@ public class PortalData
         sp = SpecialPortals.none; //only string destination can result in special portals
         this.description = description;
         this.destination = destination;
+        this.left = false;
     }
 
     public PortalData(string description, string destination_name)
     {
         sp = SpecialPortals.none;
         this.description = description;
+        this.left = false;
         foreach(ScriptObjectScriptable d in 
             ScriptableObjectManager.Instance.ScriptManager.scripts)
         {
@@ -167,5 +173,14 @@ public class PortalData
                             + " cannot be found");
             }
         }
+    }
+
+    public static PortalData GetFrontPortal()
+    {
+        PortalData p = GetCloneOfDefault();
+        p.destination = ScriptableObjectManager.Instance.ScriptManager.PreviousScript;
+        p.left = true;
+
+        return p;
     }
 }

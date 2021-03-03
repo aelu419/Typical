@@ -44,6 +44,8 @@ public class PortalManager : MonoBehaviour
     public PortalData InitializePortalFromTag(Tag t)
     {
         string[] specs = t.Specs;
+        Debug.Log("Portal Specs Length: " + specs.Length);
+
         if (t.Specs.Length < 2)
         {
             throw new UnityException("portal tag" + t + " lack sufficient specs, need description and destination");
