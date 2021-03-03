@@ -53,33 +53,33 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    private bool portal_opened;
-    public event Action<Vector2> OnPortalOpen;
-    public void RaisePortalOpen(Vector2 end)
+    private bool back_portal_opened;
+    public event Action<Vector2> OnBackPortalOpen;
+    public void RaiseBackPortalOpen(Vector2 end)
     {
-        if (OnPortalOpen != null && !portal_opened)
+        if (OnBackPortalOpen != null && !back_portal_opened)
         {
-            portal_opened = true;
+            back_portal_opened = true;
             Debug.Log("portals are now available");
-            OnPortalOpen(end);
+            OnBackPortalOpen(end);
         }
     }
 
-    public bool PortalOpened
+    public bool BackPortalOpened
     {
         get
         {
-            return portal_opened;
+            return back_portal_opened;
         }
     }
-    public event Action OnPortalClose;
-    public void RaisePortalClose()
+    public event Action OnBackPortalClose;
+    public void RaiseBackPortalClose()
     {
-        if (OnPortalClose != null && portal_opened)
+        if (OnBackPortalClose != null && back_portal_opened)
         {
-            portal_opened = false;
+            back_portal_opened = false;
             Debug.Log("portals are not unavailable");
-            OnPortalClose();
+            OnBackPortalClose();
         }
     }
 
@@ -103,7 +103,7 @@ public class EventManager : MonoBehaviour
     {
         if (OnStartEnteringScene != null)
         {
-            portal_opened = false;
+            back_portal_opened = false;
             OnStartEnteringScene();
         }
     }

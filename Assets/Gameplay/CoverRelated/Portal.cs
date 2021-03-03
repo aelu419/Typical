@@ -36,10 +36,11 @@ public class Portal : MonoBehaviour
 
         portal_animator = gameObject.GetComponent<Animator>();
 
+        //DIFFERENTIATE FRONT BACK PORTAL, ASSIGN BY READING MANAGER, NOT HERE!
         if (is_from_cover_prefab)
         {
-            EventManager.Instance.OnPortalOpen += OnScriptPortalOpen;
-            EventManager.Instance.OnPortalClose += OnScriptPortalClose;
+            aEventManager.Instance.OnBackPortalOpen += OnScriptPortalOpen;
+            aEventManager.Instance.OnBackPortalClose += OnScriptPortalClose;
         }
     }
 

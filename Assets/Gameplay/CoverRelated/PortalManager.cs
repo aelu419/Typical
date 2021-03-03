@@ -35,8 +35,8 @@ public class PortalManager : MonoBehaviour
 
     void Start()
     {
-        EventManager.Instance.OnPortalOpen += OnPortalOpen;
-        EventManager.Instance.OnPortalClose += OnPortalClose;
+        EventManager.Instance.OnBackPortalOpen += OnBackPortalOpen;
+        EventManager.Instance.OnBackPortalClose += OnBackPortalClose;
 
         //fetch destinations from current scene data
     }
@@ -61,7 +61,7 @@ public class PortalManager : MonoBehaviour
 
     //open portals according to script and location
     //beginning marks the left middle position of the collection of portal blocks
-    private void OnPortalOpen(Vector2 beginning)
+    private void OnBackPortalOpen(Vector2 beginning)
     {
         foreach (PortalData pd in destinations)
         {
@@ -107,7 +107,7 @@ public class PortalManager : MonoBehaviour
     }
 
     //close all portals opened
-    private void OnPortalClose()
+    private void OnBackPortalClose()
     {
         //no longer listen to key presses
         registeredListening = new KeyCode[] { };

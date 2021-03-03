@@ -43,6 +43,8 @@ public class ReadingManager: MonoBehaviour
 
     private bool no_typable;
 
+    private GameObject front_portal, back_portal;
+
     private void Awake()
     {
         perlin_map1 = new Perlin(10, 2);
@@ -62,7 +64,7 @@ public class ReadingManager: MonoBehaviour
 
         //pick out the portals
         List<PortalData> ports = new List<PortalData>();
-        for(int i = 0; i < words.Count; i++)
+        for(int i = 0; i < words.Count - 1; i++)
         {
             Word w = words[i];
             Tag[] t = w.tags;
@@ -132,7 +134,7 @@ public class ReadingManager: MonoBehaviour
         else
         {
             int override_beginning = -1;
-            //search for the fist typable word in script
+            //search for the first typable word in script
             for (int i = 0; i < words.Count; i++)
             {
                 if (words[i].has_typable)
@@ -183,6 +185,16 @@ public class ReadingManager: MonoBehaviour
             word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
             cursor = word_loader_temp.cursor; //update cursor
             loaded_words.Add(word_loader_temp.go);
+
+            //add front portal
+            if (i == 0)
+            {
+                front_portal = word_loader_temp.go;
+            }
+            else if (i == words.Count - 1)
+            {
+                back_portal = word_loader_temp.go;
+            }
         }
 
         EventManager.Instance.ScriptLoaded();
@@ -366,7 +378,7 @@ public class ReadingManager: MonoBehaviour
         //open portal
         else if (next_letter == '\0')
         {
-            EventManager.Instance.RaisePortalOpen(
+            EventManager.Instance.RaiseBackPortalOpen(
                 new Vector2(
                     words[words.Count - 1].R.x,
                     words[words.Count - 1].top
@@ -401,7 +413,7 @@ public class ReadingManager: MonoBehaviour
                 //broadcast event to notice the portal manager
                 if(cursor_raw[0] == words.Count - 1)
                 {
-                    EventManager.Instance.RaisePortalClose();
+                    EventManager.Instance.RaiseBackPortalClose();
                 }
 
                 EventManager.Instance.RaiseCharacterDeleted();
@@ -773,8 +785,8 @@ public class ReadingManager: MonoBehaviour
         Regex close_tag = new Regex(@"<\s*(\/).*>");
         Regex self_close_tag = new Regex(@"<.*(\/)>");
 
-        //append lamp at start
-        s = "<O lamp/>" + s;
+        //append portal at start
+        s = "<O portal/>" + s;
 
         //remove redundant line swaps
         s = s.Replace('\n', ' ');
