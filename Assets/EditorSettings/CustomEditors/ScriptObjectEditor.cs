@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+/*
 [CustomEditor(typeof(ScriptObjectScriptable))]
 public class ScriptObjectEditor : Editor
 {
@@ -20,16 +21,18 @@ public class ScriptObjectEditor : Editor
     }
     public override void OnInspectorGUI()
     {
-        //base.OnInspectorGUI();
+        base.OnInspectorGUI();
         serializedObject.Update();
 
         ScriptObjectScriptable sos = (ScriptObjectScriptable)target;
 
         sos.name_ = EditorGUILayout.TextField("Script Name", sos.name_);
         EditorGUILayout.PropertyField(ST);
+        sos.previous = null;
         EditorGUILayout.PropertyField(P);
         sos.source = (ScriptTextSource)ST.enumValueIndex;
-
+        serializedObject.ApplyModifiedProperties();
+        
         //text is from computer generated script
         if (sos.source == ScriptTextSource.SCRIPT)
         {
@@ -43,10 +46,11 @@ public class ScriptObjectEditor : Editor
             EditorGUILayout.PropertyField(TA);
         }
         serializedObject.ApplyModifiedProperties();
-        
+
         if (GUI.changed)
         {
             EditorUtility.SetDirty(sos);
         }
     }
 }
+*/
