@@ -188,7 +188,8 @@ public class ReadingManager: MonoBehaviour
         {
             foreach (Word w in words)
             {
-                w.typed = w.content.Length;
+                //type out everything before the script back portal
+                w.SetCharacterMech(w.content.Length);
             }
             //root at first letter to the right of last object (portal)
             for (int i = words.Count-1; i >=0 ; i--)
@@ -408,8 +409,12 @@ public class ReadingManager: MonoBehaviour
         }
 
         //going backwards
-        else if (!no_typable && Input.GetKeyDown(KeyCode.Backspace))
+        if (!no_typable && Input.GetKeyDown(KeyCode.Backspace))
         {
+
+            //backspace automatically closes back portal, no matter what
+            EventManager.Instance.RaiseBackPortalClose();
+
             //open front portal if pressing backspace on the first typable word
             if (cursor_raw[0] == first_typable_word
                 && cursor_raw[1] == words[first_typable_word].first_typable)

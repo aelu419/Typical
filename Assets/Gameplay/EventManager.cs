@@ -77,6 +77,7 @@ public class EventManager : MonoBehaviour
     {
         if (OnBackPortalClose != null && back_portal_opened)
         {
+            back_portal_opened = false;
             Debug.Log("portals are not unavailable");
             OnBackPortalClose();
         }

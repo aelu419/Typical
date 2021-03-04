@@ -124,6 +124,7 @@ public class PortalManager : MonoBehaviour
                 Destroy(go);
             }
         }
+        active_portals = new List<GameObject>();
     }
 
     // Update is called once per frame
