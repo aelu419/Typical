@@ -14,7 +14,8 @@ public class WordBlockBehavior : MonoBehaviour
     //[ReadOnly] public Cover cover;
 
     [ReadOnly]
-    public Material[] mats, mats_;
+    //list of font materials currently rendered on this word block
+    public Material[] mats;//, mats_;
     [ReadOnly]
     public int typed;
 

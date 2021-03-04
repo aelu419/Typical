@@ -27,6 +27,9 @@ public class Word
     [ReadOnly] public bool has_typable; //if the word has any typable letter in it
     [ReadOnly] public int first_typable, last_typable;
 
+    //marks if the word is actually an npc
+    [ReadOnly] public bool is_npc;
+
     public static string
         TYPED_MAT = "AveriaRegular Typed",
         UNTYPED_PLAIN_MAT = "AveriaRegular Untyped Plain",
@@ -72,6 +75,40 @@ public class Word
         this.slope = slope;
         this.index = index;
         this.typed = typed;
+        is_npc = false;
+
+        //figure out what the mechanism of the text is, based on the last hanging tag
+        //that is mechanism-related
+        //also, insert special typables for npc
+        for (int i = tags.Length - 1; i >= 0; i--)
+        {
+            if (tags[i].type.Equals("H"))
+            {
+                this.word_mech = WORD_TYPES.hidden;
+                break;
+            }
+            else if (tags[i].type.Equals("R"))
+            {
+                this.word_mech = WORD_TYPES.reflector;
+            }
+            //tags depleted, use normal style
+            else if (i == 0)
+            {
+                this.word_mech = WORD_TYPES.plain;
+            }
+
+            //configure NPC
+            if (tags[i].type.Equals("O"))
+            {
+                Debug.Log("initiating object type with: " + tags[i]);
+                if (tags[i].GetSpecAt(0).Equals("npc"))
+                {
+                    Debug.Log("initiating npc");
+                    is_npc = true;
+                    this.content = "[xx]";
+                }
+            }
+        }
 
         has_typable = false;
         first_typable = last_typable = -1;
@@ -91,27 +128,6 @@ public class Word
                 {
                     last_typable = i;
                 }
-            }
-        }
-
-        //figure out what the mechanism of the text is, based on the last hanging tag
-        //that is mechanism-related
-
-        for(int i = tags.Length - 1; i >= 0; i--)
-        {
-            if (tags[i].type.Equals("H"))
-            {
-                this.word_mech = WORD_TYPES.hidden;
-                break;
-            }
-            else if (tags[i].type.Equals("R"))
-            {
-                this.word_mech = WORD_TYPES.reflector;
-            }
-            //tags depleted, use normal style
-            else if (i == 0)
-            {
-                this.word_mech = WORD_TYPES.plain;
             }
         }
     }
@@ -234,6 +250,12 @@ public class Word
                     string par = t.GetSpecAt(1);
                     cover_sprite = Resources.Load<Sprite>("Misc/" + par);
                     cover_child.GetComponent<SpriteRenderer>().sprite = cover_sprite;
+                }
+                else if (t.GetSpecAt(0).Equals("npc"))
+                {
+                    is_npc = true;
+                    string par = t.GetSpecAt(1);
+                    cover_child.GetComponent<NPCBehaviour>().SendMessage("Initialize", par);
                 }
             }
             //skip the indexoutofrangeexception

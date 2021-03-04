@@ -124,6 +124,7 @@ MonoBehaviour:
     height: 0
   in_climb: 0
   spawn_root: {x: 0, y: 0, z: 0}
+  spawn_direction: 0
   climb_speed: 2
   accel: 10
   x_vel_max: 6
@@ -151,9 +152,9 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &507486619242034055
 BoxCollider2D:
