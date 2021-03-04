@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -26,8 +24,6 @@ public class ReadingManager: MonoBehaviour
 
     private List<GameObject> loaded_words;
 
-    //cursor related
-    public int start_index;
     [ReadOnly]
     public int[] cursor_raw; //first coordinate is index of the word, 
                              //second coordinate is index of letter
@@ -42,6 +38,9 @@ public class ReadingManager: MonoBehaviour
     private int last_typable_word; //the last word in the script that contains typable letters
 
     private bool no_typable;
+
+    //stuff to do on the first frame of the scene
+    private event System.Action first_frame;
 
     private void Awake()
     {
@@ -58,8 +57,8 @@ public class ReadingManager: MonoBehaviour
         //ScriptableObjectManager.Instance.ScriptManager.name);
         ScriptObjectScriptable current =
             ScriptableObjectManager.Instance.ScriptManager.CurrentScript;
+        script_name = current.name_;
         words = ParseScript(current.Text);
-        
 
         //pick out the portals
         List<PortalData> ports = new List<PortalData>();
@@ -96,13 +95,6 @@ public class ReadingManager: MonoBehaviour
 
         PortalManager.Instance.destinations = ports;
 
-        /*
-        Debug.Log("the parsed script is:");
-        for(int i = 0; i < words.Count; i++)
-        {
-            Debug.Log("\t" + words[i]);
-        }*/
-
         //connect to rest of components
         cControler = GetComponent<CameraControler>();
         player = GameObject.FindGameObjectWithTag("Player")
@@ -132,53 +124,38 @@ public class ReadingManager: MonoBehaviour
         }
         else
         {
-            int override_beginning = -1;
             //search for the first typable word in script
             for (int i = 0; i < words.Count; i++)
             {
                 if (words[i].has_typable)
                 {
                     first_typable_word = i;
-
-                    if (start_index > i)
-                    {
-                        for(int j = start_index; j < words.Count; j++)
-                        {
-                            if (words[j].has_typable)
-                            {
-                                override_beginning = j;
-                                break;
-                            }
-                        }
-                    }
-                        break;
+                    break;
                 }
-
             }
 
-            //cursor is initialized to the first typable letter in the first typable word
-            if (override_beginning != -1)
+            //initialize cursor position
+            if (ScriptableObjectManager.Instance.ScriptManager.load_mode)
             {
-                cursor_raw = new int[] { override_beginning, 
-                    words[override_beginning].first_typable};
-                next_letter = words[override_beginning].
-                    content[words[override_beginning].first_typable];
-                typing_word = words[override_beginning];
-            }
-            else
-            {
+                //load from front, cursor at first typable letter in the first typable word
                 cursor_raw = new int[] { first_typable_word, words[first_typable_word].first_typable };
                 next_letter = words[first_typable_word].content[words[first_typable_word].first_typable];
                 typing_word = words[first_typable_word];
             }
-
+            else
+            {
+                //load from back, cursor before portal
+                cursor_raw = new int[] { words.Count - 1, 0 };
+                next_letter = '\0';
+                typing_word = null;
+            }
         }
-
+        
         //load words onto screen as GameObjects
         Vector2 cursor = new Vector2(0, 0);
         loaded_words = new List<GameObject>();
         (Vector2 cursor, GameObject go) word_loader_temp;
-        for (int i = 0; i < Mathf.Min(cursor_raw[0] + 20, words.Count); i++)
+        for (int i = 0; i < words.Count; i++)
         {
             Debug.Log("configuring " + words[i]);
             word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
@@ -186,10 +163,59 @@ public class ReadingManager: MonoBehaviour
             loaded_words.Add(word_loader_temp.go);
         }
 
+        //set spawn root
+        if (ScriptableObjectManager.Instance.ScriptManager.load_mode)
+        {
+            //root at first letter to the left of first object (either lamp or portal)
+            for (int i = 0; i < words.Count; i++)
+            {
+                bool br = false;
+                foreach (Tag t in words[i].tags)
+                {
+                    if (t.type.Equals("O"))
+                    {
+                        Debug.Log("Front starting at " + i + " with word: " + words[i]);
+                        player.spawn_root = words[i].L;
+                        player.spawn_direction = true;
+                        br = true;
+                        break;
+                    }
+                }
+                if (br) break;
+            }
+        }
+        else
+        {
+            foreach (Word w in words)
+            {
+                w.typed = w.content.Length;
+            }
+            //root at first letter to the right of last object (portal)
+            for (int i = words.Count-1; i >=0 ; i--)
+            {
+                bool br = false;
+                foreach (Tag t in words[i].tags)
+                {
+                    if (t.type.Equals("O"))
+                    {
+                        Debug.Log("Back starting at " + i + " with word: " + words[i]);
+                        player.spawn_root = words[i].L;
+                        player.spawn_direction = false;
+                        br = true;
+                        break;
+                    }
+                }
+                if (br) break;
+            }
+        }
+
         EventManager.Instance.ScriptLoaded();
+        if (!ScriptableObjectManager.Instance.ScriptManager.load_mode)
+        {
+            EventManager.Instance.RaiseScriptEndReached();
+        }
 
         //update player position
-        player.spawn_root = words[0].GetCharacterInfo(2).topRight;
         UpdateRenderedCursor();
 
         //Debug.Log("starting at " + cursor_raw[0] + "'s " + cursor_raw[1] + "'th letter");
@@ -199,10 +225,17 @@ public class ReadingManager: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //handle first frame events
+        if (first_frame != null)
+        {
+            first_frame();
+            first_frame = null;
+        }
+
         /*
          * code below deal with loading words in both play mode and edit mode
          */
-
+        /*
         //deal with word loading within camera scope + buffer region
         GameObject last_loaded_word = loaded_words[loaded_words.Count - 1];
         GameObject first_loaded_word = loaded_words[0];
@@ -262,7 +295,7 @@ public class ReadingManager: MonoBehaviour
             //Debug.Log("unloading " + first_loaded_word.GetComponent<WordBlockBehavior>().content.content);
             loaded_words.Remove(first_loaded_word);
             Destroy(first_loaded_word);
-        }
+        }*/
 
         /*
          * code from now on deals with player input under play mode
@@ -372,7 +405,6 @@ public class ReadingManager: MonoBehaviour
                     words[words.Count - 1].top
                     )
                 );
-            //Debug.Log("next letter is " + next_letter);
         }
 
         //going backwards
@@ -782,7 +814,7 @@ public class ReadingManager: MonoBehaviour
         Regex self_close_tag = new Regex(@"<.*(\/)>");
 
         //append portal at start
-        if (!ScriptableObjectManager.Instance.ScriptManager.CurrentScript.name_.Equals("_mainmenu"))
+        if (!script_name.Equals("_mainmenu"))
         {
             s = "<O front_portal/>" + s;
         }

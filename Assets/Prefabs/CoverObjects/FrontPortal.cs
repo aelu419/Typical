@@ -36,10 +36,13 @@ public class FrontPortal : MonoBehaviour
         if (isDisplayingWarning && Input.GetKeyDown(KeyCode.Backspace))
         {
             tmp.enabled = false;
-            isDisplayingWarning = false;
-            Debug.LogError("IMPLEMENT SCENE TRANSITION");
+
+            //force update player direction to face left (false)
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().direction = false;
+
             EventManager.Instance.TransitionTo(
-                ScriptableObjectManager.Instance.ScriptManager.CurrentScript.previous
+                ScriptableObjectManager.Instance.ScriptManager.CurrentScript.previous,
+                false
                 );
         }
     }

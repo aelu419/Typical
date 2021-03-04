@@ -38,8 +38,7 @@ public class Portal : MonoBehaviour
         //DIFFERENTIATE FRONT BACK PORTAL, ASSIGN BY READING MANAGER, NOT HERE!
         if (is_from_cover_prefab)
         {
-            EventManager.Instance.OnBackPortalOpen += OnScriptPortalOpen;
-            EventManager.Instance.OnBackPortalClose += OnScriptPortalClose;
+            portal_animator.SetBool("open", true);
         }
     }
 
@@ -51,10 +50,12 @@ public class Portal : MonoBehaviour
         descriptor = "[" + k.ToString() + "] " + data.description;
     }
 
-    //TODO: implement transition to another scene, link to portal manager
+    //transition forward to the next scene indicated by this portal's portal data
     public void OnPortalOpen()
     {
         portal_animator.SetBool("open", true);
+        //force update player direction to face right (true)
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().direction = true;
 
         if (data.sp == PortalData.SpecialPortals.quit)
         {
@@ -66,20 +67,8 @@ public class Portal : MonoBehaviour
         {
             //transition to specific scene
             //set dispenser to display with next script loaded
-            EventManager.Instance.TransitionTo(data.destination);
+            EventManager.Instance.TransitionTo(data.destination, true);
         }
-    }
-
-    public void OnScriptPortalOpen(Vector2 v)
-    {
-        Debug.Log("opening script end portal");
-        portal_animator.SetBool("open", true);
-    }
-
-    public void OnScriptPortalClose()
-    {
-        Debug.Log("closing script end portal");
-        portal_animator.SetBool("open", false);
     }
 
 }

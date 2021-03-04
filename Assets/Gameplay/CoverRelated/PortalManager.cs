@@ -65,6 +65,10 @@ public class PortalManager : MonoBehaviour
     //beginning marks the left middle position of the collection of portal blocks
     private void OnBackPortalOpen(Vector2 beginning)
     {
+        if (active_portals.Count > 0)
+        {
+            return;
+        }
         foreach (PortalData pd in destinations)
         {
             Debug.Log(pd.description);

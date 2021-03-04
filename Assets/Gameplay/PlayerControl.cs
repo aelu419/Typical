@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
 
     // other flags
     [ReadOnly] public Vector3 spawn_root; //.x < 0 means there is no root assigned
+    [ReadOnly] public bool spawn_direction; //if true, face right; else face left
 
     //movement related
     public float climb_speed, accel, x_vel_max;
@@ -112,7 +113,8 @@ public class PlayerControl : MonoBehaviour
 
         renderer_.enabled = true;
         light_progress = 0;
-        direction = true;
+        direction = spawn_direction;
+        head_light_controller.direction = spawn_direction;
     }
 
     // Update is called once per frame
