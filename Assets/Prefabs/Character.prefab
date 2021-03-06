@@ -468,7 +468,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4849837192082230729}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.125, z: 0}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 507486619242034052}
@@ -519,7 +519,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 0.3125, y: 1}
+  m_Size: {x: 0.3125, y: 1.0000005}
   m_AdaptiveModeThreshold: 1
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -537,8 +537,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa1de4006c17e6c46968fbe6b36889ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 507486619242034050}
-  claw: {fileID: 6706635312754696195}
+  player: {fileID: 507486619242034052}
+  claw: {fileID: 3248247189445282621}
   sprite_: {fileID: 5324372790831406557}
 --- !u!1 &6706635312754696195
 GameObject:
@@ -636,7 +636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f38662ab65e7d46abb6a56097b5f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  base_pos: {x: -0.53, y: -0.32999998, z: 0}
+  player: {fileID: 507486619242034050}
+  base_pos: {x: -0.53, y: 0.92, z: 0}
   regular_pos: {x: 0, y: 0, z: 0}
   extension: 0
 --- !u!95 &5830181066979981399

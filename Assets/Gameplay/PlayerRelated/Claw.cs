@@ -5,7 +5,8 @@ using UnityEngine;
 [ExecuteAlways]
 public class Claw : MonoBehaviour
 {
-    PlayerControl player;
+    public GameObject player;
+    PlayerControl player_ctrl;
     Animator player_anim, claw_anim;
 
     [ReadOnly] public Vector3 base_pos, regular_pos;
@@ -14,7 +15,7 @@ public class Claw : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+        player_ctrl = player.GetComponent<PlayerControl>();
         player_anim = player.GetComponent<Animator>();
         claw_anim = GetComponent<Animator>();
     }
@@ -22,15 +23,14 @@ public class Claw : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!player.in_climb)
+        bool in_climb = player_anim.GetBool("in_climb");
+        claw_anim.SetBool("in_climb", in_climb);
+        if (!in_climb 
+            && !player_anim.GetCurrentAnimatorStateInfo(1).IsName("FinishClimb") 
+            && extension == 0)
         {
             base_pos = player.transform.position;
-            base_pos.y -= player.charSize / 2f;
-            claw_anim.SetBool("in_climb", false);
-        }
-        else
-        {
-            claw_anim.SetBool("in_climb", !player_anim.GetBool("climb_done"));
+            base_pos.y -= player_ctrl.charSize / 2f;
         }
         transform.position = Lerp(player.transform.position, base_pos, extension + 0.5f);
     }

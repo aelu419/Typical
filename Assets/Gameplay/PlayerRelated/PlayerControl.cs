@@ -248,7 +248,6 @@ public class PlayerControl : MonoBehaviour
                     destination.y = yMax;
                     climb_extent = yMax - transform.position.y;
                     animator.SetBool("in_climb", true);
-                    animator.SetBool("climb_done", false);
                 }
                 else
                 {
@@ -270,20 +269,15 @@ public class PlayerControl : MonoBehaviour
                 }
                 else
                 {
-                    animator.SetBool("climb_done", true);
+                    in_climb = false;
+                    animator.SetBool("in_climb", false);
                     rigid.velocity = Vector2.zero;
+                    climb_extent = 0;
                 }
             }
-            //in-between states
-            else if (!animator.GetCurrentAnimatorStateInfo(1).IsName("Idle"))
-            {
-                rigid.velocity = Vector2.zero;
-            }
-            //exit back to idle
             else
             {
-                in_climb = false;
-                climb_extent = 0;
+                rigid.velocity = Vector2.zero;
             }
 
             /*

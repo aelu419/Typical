@@ -206,9 +206,9 @@ public class Word
         box_size.x = Mathf.Max(rendered_vals.x, cover_w);
         R = new Vector2(lCursor.x + box_size.x, lCursor.y + slope_delta);
 
-        //pad the collider to either sides for a bit to avoid not detecting collision
-        box_size.x += 0.2f;
-        col.offset = new Vector2(box_size.x/2 - 0.1f, 0);
+        //(deprecated)pad the collider to either sides for a bit to avoid not detecting collision
+        //box_size.x += 0.2f;
+        col.offset = new Vector2(box_size.x/2, 0);
         col.size = box_size;
 
 

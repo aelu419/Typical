@@ -6,7 +6,7 @@ using UnityEngine;
 public class LArm : MonoBehaviour
 {
 
-    public GameObject player, claw;
+    public Transform player, claw;
     public SpriteRenderer sprite_;
 
     // Start is called before the first frame update
@@ -17,13 +17,9 @@ public class LArm : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 p = player.transform.position;
-        Vector3 c = new Vector3(
-            claw.transform.position.x,
-            claw.transform.position.y,
-            0
-            );
-        Vector3 m = (p + c) / 2;
+        Vector3 p = player.position;
+        Vector3 c = claw.position;
+        Vector3 m = c;
         Vector3 r = p - c;
 
         sprite_.size = new Vector2(r.magnitude / 2, sprite_.size.y);
