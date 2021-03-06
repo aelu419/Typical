@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class Claw : MonoBehaviour
 {
     PlayerControl player;
@@ -21,13 +22,17 @@ public class Claw : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        base_pos = player.transform.position;
-        base_pos.y -= player.charSize / 2f;
-
-        regular_pos = player.transform.position;
-        transform.position = Lerp(regular_pos, base_pos, extension);
-
-        claw_anim.SetBool("in_climb", player_anim.GetBool("in_climb"));
+        if (!player.in_climb)
+        {
+            base_pos = player.transform.position;
+            base_pos.y -= player.charSize / 2f;
+            claw_anim.SetBool("in_climb", false);
+        }
+        else
+        {
+            claw_anim.SetBool("in_climb", !player_anim.GetBool("climb_done"));
+        }
+        transform.position = Lerp(player.transform.position, base_pos, extension + 0.5f);
     }
 
     private Vector3 Lerp(Vector3 a, Vector3 b, float t)

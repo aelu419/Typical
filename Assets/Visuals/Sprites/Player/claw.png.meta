@@ -60,7 +60,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 512
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -106,12 +106,12 @@ TextureImporter:
       name: claw_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 512
+        x: 225
+        y: 219
+        width: 45
+        height: 56
       alignment: 9
-      pivot: {x: 0.48518783, y: 0.48611358}
+      pivot: {x: 0.5, y: 0.70997566}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -127,12 +127,12 @@ TextureImporter:
       name: claw_1
       rect:
         serializedVersion: 2
-        x: 512
-        y: 0
-        width: 512
-        height: 512
+        x: 735
+        y: 222
+        width: 47
+        height: 38
       alignment: 9
-      pivot: {x: 0.48429573, y: 0.4874366}
+      pivot: {x: 0.5256062, y: 0.9117119}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -148,12 +148,12 @@ TextureImporter:
       name: claw_2
       rect:
         serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 512
-        height: 512
+        x: 1243
+        y: 229
+        width: 56
+        height: 31
       alignment: 9
-      pivot: {x: 0.48479295, y: 0.48648256}
+      pivot: {x: 0.5120392, y: 0.9349887}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -169,12 +169,12 @@ TextureImporter:
       name: claw_3
       rect:
         serializedVersion: 2
-        x: 1536
-        y: 0
-        width: 512
-        height: 512
+        x: 1751
+        y: 235
+        width: 66
+        height: 31
       alignment: 9
-      pivot: {x: 0.4861946, y: 0.4834332}
+      pivot: {x: 0.47627026, y: 0.68526727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
