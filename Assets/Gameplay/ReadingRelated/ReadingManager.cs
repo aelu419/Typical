@@ -120,7 +120,7 @@ public class ReadingManager: MonoBehaviour
             //-2 accounts for the portal at the end
             cursor_raw = new int[] { words.Count - 2, words[words.Count - 2].content.Length - 1 };
             next_letter = '\0'; //just as a place holder
-            typing_word = null;
+            typing_word = EMPTY_WORD;
         }
         else
         {
@@ -147,7 +147,7 @@ public class ReadingManager: MonoBehaviour
                 //load from back, cursor before portal
                 cursor_raw = new int[] { words.Count - 1, 0 };
                 next_letter = '\0';
-                typing_word = null;
+                typing_word = EMPTY_WORD;
             }
         }
         
@@ -365,25 +365,26 @@ public class ReadingManager: MonoBehaviour
                         cursor_raw[1] = 0;
                         int i = cursor_raw[0] + 1;
                         //skip empty words
-                        while (words[i].content.Length <= 0)
+                        while (!words[i].has_typable && i < last_typable_word)
                         {
+                            words[i].SetCharacterMech(words[i].content.Length);
                             i++;
-                            if (i == words.Count - 1)
-                            {
-                                //currently on the last word of the script
-                                if (cursor_raw[0] == words.Count - 1)
-                                {
-                                    EventManager.Instance.RaiseScriptEndReached();
-                                    next_letter = '\0';
-                                    typing_word = EMPTY_WORD;
-                                }
-                                break;
-                            }
                         }
-                        cursor_raw[0] = i;
-
-                        next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
-                        typing_word = words[cursor_raw[0]];
+                        if (i > last_typable_word)
+                        {
+                            EventManager.Instance.RaiseScriptEndReached();
+                            cursor_raw[0] = words.Count - 1;
+                            cursor_raw[1] = 0;
+                            next_letter = '\0';
+                            typing_word = EMPTY_WORD;
+                        }
+                        else
+                        {
+                            cursor_raw[0] = i;
+                            cursor_raw[1] = words[cursor_raw[0]].first_typable;
+                            next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
+                            typing_word = words[cursor_raw[0]];
+                        }
                     }
                 }
                 else
@@ -392,7 +393,8 @@ public class ReadingManager: MonoBehaviour
                     typing_word = words[cursor_raw[0]];
                 }
             } while (cursor_raw[0] < words.Count
-                && !char.IsLetter(next_letter));
+                && !char.IsLetter(next_letter)
+                && next_letter != '\0');
 
             UpdateRenderedCursor();
         }
@@ -548,7 +550,6 @@ public class ReadingManager: MonoBehaviour
                     words[first_typable_word].SetCharacterMech(words[first_typable_word].first_typable);
                 }
 
-                UpdateRenderedCursor();
             }
 
 
@@ -654,6 +655,8 @@ public class ReadingManager: MonoBehaviour
                 EventManager.Instance.RaiseIncorrectKeyPressed();
         }
 
+        UpdateRenderedCursor();
+
     }
 
     //determine if the following word is typable
@@ -671,7 +674,7 @@ public class ReadingManager: MonoBehaviour
                     float light =
                         typing_word.tmp.GetComponentInParent<WordBlockBehavior>().light_intensity;
                     //Debug.Log("LIGHT: " + light);
-                    return light != -1;
+                    return light != -1 || typing_word.typed > 0;
 
                 default:
                     return true;
@@ -721,6 +724,7 @@ public class ReadingManager: MonoBehaviour
         }
         else
         {
+            Debug.Log("testing " + cursor_raw[0] + ", " + cursor_raw[1]);
             cursor_rendered = words[cursor_raw[0]].GetCharacterInfo(cursor_raw[1]);
 
             //update destination based on the cursor position

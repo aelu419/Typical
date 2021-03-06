@@ -70,11 +70,13 @@ public class Word
         {
             return;
         }
+
         this.tags = tags;
         this.content = content;
         this.slope = slope;
         this.index = index;
         this.typed = typed;
+
         is_npc = false;
 
         //figure out what the mechanism of the text is, based on the last hanging tag
@@ -105,16 +107,17 @@ public class Word
                 {
                     Debug.Log("initiating npc");
                     is_npc = true;
-                    this.content = "[xx]";
+                    this.content = "xx";
                 }
             }
         }
 
         has_typable = false;
-        first_typable = last_typable = -1;
-        for(int i = 0; i < content.Length; i++)
+        first_typable = -1;
+        last_typable = -1;
+        for(int i = 0; i < this.content.Length; i++)
         {
-            if (char.IsLetter(content[i]))
+            if (char.IsLetter(this.content[i]))
             {
                 //when first encountering typed letter:
                 if (!has_typable)
@@ -145,26 +148,6 @@ public class Word
         if (tmp == null)
             throw new System.Exception("prefab loading error: no TMP component");
         tmp.text = " "+content;
-        tmp.ForceMeshUpdate();
-        Vector2 rendered_vals = tmp.GetRenderedValues(false);
-
-        go.GetComponent<WordBlockBehavior>().content = this;
-        go.tag = "Word Block";
-
-        BoxCollider2D col = go.GetComponent<BoxCollider2D>();
-        if (col == null) throw new System.Exception("prefab loading error: no collider");
-
-        //set slope
-        float slope_delta = slope * rendered_vals.x;
-
-        //set collider boundaries
-        col.offset = new Vector2(rendered_vals.x / 2f, 0);
-        col.size = rendered_vals;
-
-        //TODO: handle mechanism tags
-        SetCharacterMech();
-
-        //TODO: handle stylistic tags
         string style = "";
         for (int i = tags.Length - 1; i >= 0; i--)
         {
@@ -182,8 +165,22 @@ public class Word
             |
             (style.IndexOf("B") != -1 ? FontStyles.Bold : FontStyles.Normal);
 
+        SetCharacterMech();
+
+        tmp.ForceMeshUpdate();
+
+        Vector2 rendered_vals = tmp.GetRenderedValues(false);
+
+        go.GetComponent<WordBlockBehavior>().content = this;
+        go.tag = "Word Block";
+
+        BoxCollider2D col = go.GetComponent<BoxCollider2D>();
+        if (col == null) throw new System.Exception("prefab loading error: no collider");
+
+        //set slope
+        float slope_delta = slope * rendered_vals.x;
+
         //store dimensions of the text block
-        R = new Vector2(lCursor.x + rendered_vals.x, lCursor.y + slope_delta);
         L = new Vector2(lCursor.x, lCursor.y);
         top = lCursor.y + rendered_vals.y / 2f;
 
@@ -198,7 +195,14 @@ public class Word
                 cover_w = cover_sprite.bounds.size.x;
             }
         }
-        R.x += cover_w;
+
+        //set collider boundaries
+        Vector2 box_size = rendered_vals;
+        box_size.x = Mathf.Max(rendered_vals.x, cover_w);
+        col.offset = new Vector2(box_size.x/2, 0);
+        col.size = rendered_vals;
+
+        R = new Vector2(lCursor.x + box_size.x, lCursor.y + slope_delta);
 
         return (new Vector2(R.x, R.y), go);
     }
@@ -218,9 +222,7 @@ public class Word
             cover_type = "default";
         }
 
-        //fetch sprite for cover object
-        cover_sprite = null;
-
+        //fetch sprite for cover objec
         GameObject cover_child = null;
         foreach (CoverObjectScriptable c in ScriptableObjectManager.Instance.CoverManager.cover_objects)
         {
@@ -233,6 +235,7 @@ public class Word
                 break;
             }
         }
+
         if (cover_child == null)
         {
             Debug.LogError("cover prefab not found for type: " + cover_type);
@@ -241,35 +244,42 @@ public class Word
         {
             cover_sprite = cover_child.GetComponent<SpriteRenderer>().sprite;
             cover_child.tag = "Cover Object";
-
-            try
+            //fetch image for img tag
+            if (t.GetSpecAt(0).Equals("img"))
             {
-                //fetch image for img tag
-                if (t.GetSpecAt(0).Equals("img"))
+                string par = t.GetSpecAt(1);
+                if (par != null)
                 {
-                    string par = t.GetSpecAt(1);
-                    cover_sprite = Resources.Load<Sprite>("Misc/" + par);
-                    cover_child.GetComponent<SpriteRenderer>().sprite = cover_sprite;
+                    Sprite sprite_tmp = Resources.Load<Sprite>("Misc/" + par);
+                    if (sprite_tmp != null)
+                    {
+                        cover_sprite = sprite_tmp;
+                    }
+                    else
+                    {
+                        //default 
+                        cover_sprite = Resources.Load<Sprite>("lamp_1");
+                    }
                 }
-                else if (t.GetSpecAt(0).Equals("npc"))
+                cover_child.GetComponent<SpriteRenderer>().sprite = cover_sprite;
+            }
+            else if (t.GetSpecAt(0).Equals("npc"))
+            {
+                is_npc = true;
+                string par = t.GetSpecAt(1);
+                if (par != null)
                 {
-                    is_npc = true;
-                    string par = t.GetSpecAt(1);
                     cover_child.GetComponent<NPCBehaviour>().SendMessage("Initialize", par);
                 }
-            }
-            //skip the indexoutofrangeexception
-            //because it is likely from having no parameters
-            catch(System.ArgumentException e)
-            {
-                Debug.Log(e);
             }
 
             //initialize collider
             cover_child.AddComponent<BoxCollider2D>();
             cover_child.GetComponent<BoxCollider2D>().isTrigger = true;
 
+            Debug.Log(cover_child);
             //TODO: set local position
+            
             cover_child.transform.localPosition = new Vector3(
                 cover_sprite.bounds.size.x / 2f,
                 (cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,

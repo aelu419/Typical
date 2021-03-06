@@ -6,6 +6,7 @@ public class ScriptableObjectManager : MonoBehaviour
 {
     public ScriptDispenser ScriptManager;
     public CoverDispenser CoverManager;
+    public NPCDispenser NPCManager;
 
     private static ScriptableObjectManager _instance;
     public static ScriptableObjectManager Instance => _instance;

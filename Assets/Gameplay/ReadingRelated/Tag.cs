@@ -53,8 +53,7 @@ public class Tag
     {
         if(specs.Length <= index)
         {
-            throw new System.ArgumentException("tag does not contain as much specifications: "
-                + index + " (" + ToString() + ")");
+            return null;
         }
         else
         {

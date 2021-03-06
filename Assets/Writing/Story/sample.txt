@@ -1,0 +1,1 @@
+Lorem <O npc sample/> <O img decoration1/> Ipsum <P Continue sample/>

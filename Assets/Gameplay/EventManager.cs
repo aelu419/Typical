@@ -107,7 +107,6 @@ public class EventManager : MonoBehaviour
         script_end_reached = false;
     }
 
-    public event Action<ScriptObjectScriptable> Transition;
     public void TransitionTo(ScriptObjectScriptable next, bool from_front)
     {
         if (ScriptableObjectManager.Instance.ScriptManager.SetNext(next))

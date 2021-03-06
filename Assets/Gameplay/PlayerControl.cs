@@ -166,7 +166,7 @@ public class PlayerControl : MonoBehaviour
 
         if (!in_climb)
         {
-            if (!Mathf.Approximately(relation_to_destination.x, 0))
+            if (!Approximately(relation_to_destination.x, 0))
             {
                 float x_vel = rigid.velocity.x;
 
@@ -255,7 +255,7 @@ public class PlayerControl : MonoBehaviour
 
         if (accelerating && 
             (relation_temp.x == relation_to_destination.x 
-            || Mathf.Approximately(hor_spd_temp, 0)))
+            || Approximately(hor_spd_temp, 0)))
         {
             stuck_time += Time.deltaTime;
             if(stuck_time > 0.5f)
@@ -310,9 +310,15 @@ public class PlayerControl : MonoBehaviour
     //update the stored relative position of the player to the cursor
     private void UpdateRelativePosition() {
         relation_to_destination = transform.position - destination;
-        relation_to_destination.x = Mathf.Approximately(relation_to_destination.x, 0) ? 0 : relation_to_destination.x;
-        relation_to_destination.y = Mathf.Approximately(relation_to_destination.y, 0) ? 0 : relation_to_destination.y;
-        relation_to_destination.z = Mathf.Approximately(relation_to_destination.z, 0) ? 0 : relation_to_destination.z;
+        relation_to_destination.x = Approximately(relation_to_destination.x, 0) ? 0 : relation_to_destination.x;
+        relation_to_destination.y = Approximately(relation_to_destination.y, 0) ? 0 : relation_to_destination.y;
+        relation_to_destination.z = Approximately(relation_to_destination.z, 0) ? 0 : relation_to_destination.z;
+    }
+
+    private bool Approximately(float a, float b)
+    {
+        return Mathf.Approximately(a, b);
+        //return Mathf.Abs(a - b) <= 0.05;
     }
 
     //handle collisions
@@ -335,17 +341,29 @@ public class PlayerControl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Cover Object"))
+        GameObject other = collision.gameObject;
+        if (other.CompareTag("Cover Object"))
         {
             Debug.Log("coming into contact with cover object");
+            NPCBehaviour n = other.GetComponent<NPCBehaviour>();
+            if (n != null)
+            {
+                n.SendMessage("Engage");
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Cover Object"))
+        GameObject other = collision.gameObject;
+        if (other.CompareTag("Cover Object"))
         {
             Debug.Log("exiting contact with cover object");
+            NPCBehaviour n = other.GetComponent<NPCBehaviour>();
+            if (n != null)
+            {
+                n.SendMessage("Disengage");
+            }
         }
     }
 

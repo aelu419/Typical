@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script_end_reached: 0
+  back_portal_opened: 0
 --- !u!114 &7960880239323466328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text_holder_prefab: {fileID: 5458326794372538523, guid: 1fa3b21f147cb1f42a627f43b85aabc5, type: 3}
   script_name: script
+  type_explicit: 0
   slope_min_max: {x: 0.3, y: -0.3}
   cursor_raw: 
   next_letter: 0
@@ -117,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptManager: {fileID: 11400000, guid: 5a65d1547c95d7c4ba2e625c141528af, type: 2}
   CoverManager: {fileID: 11400000, guid: e51b85e0084139845b64d5df0cbc0ab0, type: 2}
+  NPCManager: {fileID: 11400000, guid: eeb5887227b671042aa780d56bc629a7, type: 2}
 --- !u!114 &7960880239323466331
 MonoBehaviour:
   m_ObjectHideFlags: 0
