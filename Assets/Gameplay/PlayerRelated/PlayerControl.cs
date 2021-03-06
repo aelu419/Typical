@@ -8,9 +8,11 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public Rect collider_bounds;
 
     //player state machine related 
+    public float climb_threshold; //the threshold for height difference, above it triggers climbing
     [ReadOnly] public bool in_climb;
-    private bool light_toggle;
     private float climb_extent; //the initial height difference when initiating a climb
+
+    private bool light_toggle;
 
     // other flags
     [ReadOnly] public Vector3 spawn_root; //.x < 0 means there is no root assigned
@@ -146,12 +148,12 @@ public class PlayerControl : MonoBehaviour
 
         UpdateRelativePosition();
 
-
+        /*
         word_blocks_in_contact_str = "";
         for(int i = 0; i < word_blocks_in_contact.Count; i++)
         {
             word_blocks_in_contact_str += i + ": " + word_blocks_in_contact[i].content + " ";
-        }
+        }*/
 
         //control the motion of the player:
 
@@ -166,6 +168,7 @@ public class PlayerControl : MonoBehaviour
 
         if (!in_climb)
         {
+            rigid.gravityScale = 1.0f;
             if (!Approximately(relation_to_destination.x, 0))
             {
                 float x_vel = rigid.velocity.x;
@@ -218,10 +221,24 @@ public class PlayerControl : MonoBehaviour
                 float yMax = transform.position.y - charSize / 2f;
                 for(int i = 0; i < word_blocks_in_contact.Count; i++)
                 {
-                    if (word_blocks_in_contact[i].top > yMax)
+                    float hdiff = word_blocks_in_contact[i].top - yMax;
+                    if (hdiff > 0.0f)
                     {
-                        yMax = word_blocks_in_contact[i].top + charSize / 2f + 0.1f;
-                        in_climb = true;
+                        //teleport for small height gaps
+                        if (hdiff < climb_threshold)
+                        {
+                            transform.position = new Vector3(
+                                transform.position.x,
+                                word_blocks_in_contact[i].top + charSize / 2f + 0.1f,
+                                transform.position.z
+                            );
+                        }
+                        //climb for large height gaps
+                        else
+                        {
+                            yMax = word_blocks_in_contact[i].top + charSize / 2f + 0.1f;
+                            in_climb = true;
+                        }
                     }
                 }
 
@@ -239,20 +256,39 @@ public class PlayerControl : MonoBehaviour
         else
         {
             //while climbing:
+            rigid.gravityScale = 0.0f;
 
-            //set horizontal velocity to 0
-            rigid.velocity = new Vector2(0, climb_speed);
-
-            //stop climbing when destination is reached
-            if (relation_to_destination.y >= 0) {
-
-                in_climb = false;
-                climb_extent = 0;
-                rigid.velocity = new Vector2(0, 0);
+            /*
+            if (relation_to_destination.y < 0)
+            {
+                if (climb_buffer_ <= climb_buffer)
+                {
+                    rigid.velocity = new Vector2(0, 0);
+                    climb_buffer_ += Time.deltaTime;
+                }
+                else
+                {
+                    rigid.velocity = new Vector2(0, climb_speed);
+                }
             }
-
+            else
+            {
+                //stop climbing when destination is reached
+                rigid.velocity = new Vector2(0, 0);
+                if (climb_buffer_ > 0)
+                {
+                    climb_buffer_ -= Time.deltaTime;
+                }
+                else
+                {
+                    in_climb = false;
+                    climb_extent = 0;
+                }
+            }*/
         }
 
+        //glitch jump when stuck
+        /*
         if (accelerating && 
             (relation_temp.x == relation_to_destination.x 
             || Approximately(hor_spd_temp, 0)))
@@ -274,7 +310,7 @@ public class PlayerControl : MonoBehaviour
         else
         {
             stuck_time = 0.0f;
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -289,7 +325,6 @@ public class PlayerControl : MonoBehaviour
 
         animator.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
         animator.SetBool("in_climb", in_climb);
-        animator.SetFloat("climb_extent", climb_extent);
         if (animator.GetBool("light_toggle") != light_toggle)
         {
             //light toggle status changed

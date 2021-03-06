@@ -178,7 +178,7 @@ public class Word
         if (col == null) throw new System.Exception("prefab loading error: no collider");
 
         //set slope
-        float slope_delta = slope * rendered_vals.x;
+        float slope_delta = slope;// * rendered_vals.x;
 
         //store dimensions of the text block
         L = new Vector2(lCursor.x, lCursor.y);
@@ -199,10 +199,13 @@ public class Word
         //set collider boundaries
         Vector2 box_size = rendered_vals;
         box_size.x = Mathf.Max(rendered_vals.x, cover_w);
-        col.offset = new Vector2(box_size.x/2, 0);
-        col.size = rendered_vals;
-
         R = new Vector2(lCursor.x + box_size.x, lCursor.y + slope_delta);
+
+        //pad the collider to either sides for a bit to avoid not detecting collision
+        box_size.x += 0.2f;
+        col.offset = new Vector2(box_size.x/2, 0);
+        col.size = box_size;
+
 
         return (new Vector2(R.x, R.y), go);
     }

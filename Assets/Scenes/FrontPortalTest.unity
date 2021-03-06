@@ -247,6 +247,14 @@ PrefabInstance:
       propertyPath: type_explicit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7960880239323466327, guid: ace3568d2a87aea429cb3050a697d750, type: 3}
+      propertyPath: slope_min_max.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7960880239323466327, guid: ace3568d2a87aea429cb3050a697d750, type: 3}
+      propertyPath: slope_min_max.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7960880239323466330, guid: ace3568d2a87aea429cb3050a697d750, type: 3}
       propertyPath: m_Name
       value: General Manager

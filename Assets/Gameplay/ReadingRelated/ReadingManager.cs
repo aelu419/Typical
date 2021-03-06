@@ -724,7 +724,7 @@ public class ReadingManager: MonoBehaviour
         }
         else
         {
-            Debug.Log("testing " + cursor_raw[0] + ", " + cursor_raw[1]);
+            //Debug.Log("testing " + cursor_raw[0] + ", " + cursor_raw[1]);
             cursor_rendered = words[cursor_raw[0]].GetCharacterInfo(cursor_raw[1]);
 
             //update destination based on the cursor position
