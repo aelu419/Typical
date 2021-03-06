@@ -163,6 +163,8 @@ public class ReadingManager: MonoBehaviour
             loaded_words.Add(word_loader_temp.go);
         }
 
+        Vector2 spawn_displacement = new Vector2(0, player.charSize / 2f);
+
         //set spawn root
         if (ScriptableObjectManager.Instance.ScriptManager.load_mode)
         {
@@ -174,10 +176,9 @@ public class ReadingManager: MonoBehaviour
                 {
                     if (t.type.Equals("O"))
                     {
-                        Debug.Log("Front starting at " + i + " with word: " + words[i]);
-                        player.spawn_root = words[i].L;
-                        player.spawn_direction = true;
                         br = true;
+                        player.direction = true;
+                        player.SendMessage("SpawnAtRoot", words[i].R);
                         break;
                     }
                 }
@@ -199,10 +200,9 @@ public class ReadingManager: MonoBehaviour
                 {
                     if (t.type.Equals("O"))
                     {
-                        Debug.Log("Back starting at " + i + " with word: " + words[i]);
-                        player.spawn_root = words[i].L;
-                        player.spawn_direction = false;
                         br = true;
+                        player.direction = false;
+                        player.SendMessage("SpawnAtRoot", words[i].L);
                         break;
                     }
                 }
@@ -868,6 +868,7 @@ public class ReadingManager: MonoBehaviour
 
         List<Tag> hanging_tags = new List<Tag>();
         string hanging_word = "";
+
         //iterate through the script
         for(int cursor = 0; cursor < s.Length; cursor++)
         {

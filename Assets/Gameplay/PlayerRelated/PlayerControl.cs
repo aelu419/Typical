@@ -10,13 +10,9 @@ public class PlayerControl : MonoBehaviour
     //player state machine related 
     public float climb_threshold; //the threshold for height difference, above it triggers climbing
     [ReadOnly] public bool in_climb;
-    private float climb_extent; //the initial height difference when initiating a climb
+    //private float climb_extent; //the initial height difference when initiating a climb
 
     private bool light_toggle;
-
-    // other flags
-    [ReadOnly] public Vector3 spawn_root; //.x < 0 means there is no root assigned
-    [ReadOnly] public bool spawn_direction; //if true, face right; else face left
 
     //movement related
     public float climb_speed, accel, x_vel_max;
@@ -26,13 +22,13 @@ public class PlayerControl : MonoBehaviour
                                                        //sign change means the player has either 
                                                        //arrived or rushed pass the destination
     public bool direction; //true when facing right
-    private Vector3 relation_temp;
+    //private Vector3 relation_temp;
     //private ContactPoint2D[] cp;
 
     //connect to other game components
     private CameraControler cControler;
-    private ReadingManager rManager;
-    private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
+    //private ReadingManager rManager;
+    //private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     private Rigidbody2D rigid;
 
     private Animator animator;
@@ -76,9 +72,8 @@ public class PlayerControl : MonoBehaviour
         head_light_controller = transform.GetChild(0).GetComponent<HeadLightControl>();
 
         cControler = GameObject.FindGameObjectWithTag("General Manager").GetComponent<CameraControler>();
-        rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
+        //rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
 
-        renderer_ = GetComponent<SpriteRenderer>();
         box = GetComponent<BoxCollider2D>();
 
         sfx_lib = GetComponent<PlayerSFXLibrary>();
@@ -90,21 +85,20 @@ public class PlayerControl : MonoBehaviour
         //set coordinate related fields
         transform.localScale = new Vector3(charSize, charSize, charSize);
         UpdateRelativePosition();
-        relation_temp = new Vector3(
+        /*relation_temp = new Vector3(
             relation_to_destination.x,
             relation_to_destination.y,
             relation_to_destination.z
-            );
+            );*/
         
         collider_bounds = new Rect(
             box.bounds.min,
             box.bounds.size
             );
 
-        renderer_.enabled = false;
     }
 
-    public void SpawnAtRoot()
+    public void SpawnAtRoot(Vector2 spawn_root)
     {
         Debug.Log("spawned");
 
@@ -114,26 +108,15 @@ public class PlayerControl : MonoBehaviour
             0
             );
 
-        renderer_.enabled = true;
         light_progress = 0;
-        direction = spawn_direction;
-        head_light_controller.direction = spawn_direction;
+        head_light_controller.direction = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool accelerating = false;
-        float hor_spd_temp = rigid.velocity.x;
-
-        if (!renderer_.enabled)
-        {
-            if (spawn_root != null)
-            {
-                SpawnAtRoot();
-            }
-            return;
-        }
+        //bool accelerating = false;
+        //float hor_spd_temp = rigid.velocity.x;
 
         //basic variables for the rest of the method
         collider_bounds = new Rect(
@@ -142,10 +125,11 @@ public class PlayerControl : MonoBehaviour
             );
         //Debug.Log(collider_bounds.yMin + " to " + collider_bounds.yMax);
 
+        /*
         relation_temp = new Vector3(
             relation_to_destination.x,
             relation_to_destination.y,
-            relation_to_destination.z);
+            relation_to_destination.z);*/
 
         UpdateRelativePosition();
 
@@ -210,7 +194,7 @@ public class PlayerControl : MonoBehaviour
                     //accelerate accordingly
                     float dvdt = Mathf.Sign(relation_to_destination.x) * -1 * accel * Time.deltaTime;
                     //Debug.Log("accelerating " + dvdt);
-                    accelerating = true;
+                    //accelerating = true;
                     x_vel += dvdt;
 
                     //clamp to maximum velocity
@@ -246,7 +230,7 @@ public class PlayerControl : MonoBehaviour
                 if (in_climb)
                 {
                     destination.y = yMax;
-                    climb_extent = yMax - transform.position.y;
+                    //climb_extent = yMax - transform.position.y;
                     animator.SetBool("in_climb", true);
                 }
                 else
@@ -262,7 +246,7 @@ public class PlayerControl : MonoBehaviour
             //actual climbing
             if (animator.GetCurrentAnimatorStateInfo(1).IsName("Climb"))
             {
-                Debug.Log("climbing...");
+                //Debug.Log("climbing...");
                 if (relation_to_destination.y <= 0)
                 {
                     rigid.velocity = new Vector2(0, climb_speed);
@@ -272,7 +256,7 @@ public class PlayerControl : MonoBehaviour
                     in_climb = false;
                     animator.SetBool("in_climb", false);
                     rigid.velocity = Vector2.zero;
-                    climb_extent = 0;
+                    //climb_extent = 0;
                 }
             }
             else
@@ -358,8 +342,7 @@ public class PlayerControl : MonoBehaviour
         head_light_controller.direction = direction;
         head_light_controller.lerp_state = light_progress;
 
-        renderer_.flipX = !direction;
-        torso.flipX = !direction;
+        transform.rotation = Quaternion.Euler(0, direction ? 0 : 180f, 0);
     }
 
 
