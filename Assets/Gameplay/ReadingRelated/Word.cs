@@ -179,6 +179,11 @@ public class Word
 
         //set slope
         float slope_delta = slope;// * rendered_vals.x;
+        //trim small steps to avoid collision bug
+        if (slope_delta < 0.1f)
+        {
+            slope_delta = 0;
+        }
 
         //store dimensions of the text block
         L = new Vector2(lCursor.x, lCursor.y);
@@ -203,7 +208,7 @@ public class Word
 
         //pad the collider to either sides for a bit to avoid not detecting collision
         box_size.x += 0.2f;
-        col.offset = new Vector2(box_size.x/2, 0);
+        col.offset = new Vector2(box_size.x/2 - 0.1f, 0);
         col.size = box_size;
 
 

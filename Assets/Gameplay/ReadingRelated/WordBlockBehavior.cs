@@ -118,6 +118,7 @@ public class WordBlockBehavior : MonoBehaviour
                 content.tmp.fontMaterials = mats;
             }
         }
+        /*
         //has cover obj
         if (!collider_width_sync && transform.childCount != 0)
         {
@@ -136,7 +137,7 @@ public class WordBlockBehavior : MonoBehaviour
 
                 collider_width_sync = true;
             }
-        }
+        }*/
 
 
         /*

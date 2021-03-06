@@ -71,6 +71,7 @@ public class PlayerControl : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
 
         animator = GetComponent<Animator>();
+        animator.SetBool("in_climb", false);
         torso = transform.GetChild(1).GetComponent<SpriteRenderer>();
         head_light_controller = transform.GetChild(0).GetComponent<HeadLightControl>();
 
@@ -246,6 +247,8 @@ public class PlayerControl : MonoBehaviour
                 {
                     destination.y = yMax;
                     climb_extent = yMax - transform.position.y;
+                    animator.SetBool("in_climb", true);
+                    animator.SetBool("climb_done", false);
                 }
                 else
                 {
@@ -257,6 +260,31 @@ public class PlayerControl : MonoBehaviour
         {
             //while climbing:
             rigid.gravityScale = 0.0f;
+            //actual climbing
+            if (animator.GetCurrentAnimatorStateInfo(1).IsName("Climb"))
+            {
+                Debug.Log("climbing...");
+                if (relation_to_destination.y <= 0)
+                {
+                    rigid.velocity = new Vector2(0, climb_speed);
+                }
+                else
+                {
+                    animator.SetBool("climb_done", true);
+                    rigid.velocity = Vector2.zero;
+                }
+            }
+            //in-between states
+            else if (!animator.GetCurrentAnimatorStateInfo(1).IsName("Idle"))
+            {
+                rigid.velocity = Vector2.zero;
+            }
+            //exit back to idle
+            else
+            {
+                in_climb = false;
+                climb_extent = 0;
+            }
 
             /*
             if (relation_to_destination.y < 0)
@@ -324,7 +352,6 @@ public class PlayerControl : MonoBehaviour
         }
 
         animator.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
-        animator.SetBool("in_climb", in_climb);
         if (animator.GetBool("light_toggle") != light_toggle)
         {
             //light toggle status changed

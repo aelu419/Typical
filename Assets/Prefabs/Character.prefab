@@ -124,8 +124,8 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
+  climb_threshold: 0.22
   in_climb: 0
-  climb_buffer: 0.31
   spawn_root: {x: 0, y: 0, z: 0}
   spawn_direction: 0
   climb_speed: 2
@@ -620,11 +620,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f38662ab65e7d46abb6a56097b5f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extend_buffer: 0.5
   base_pos: {x: 0, y: 0, z: 0}
   regular_pos: {x: 0, y: 0, z: 0}
   extension: 0
-  fix: 0
 --- !u!95 &5830181066979981399
 Animator:
   serializedVersion: 3
