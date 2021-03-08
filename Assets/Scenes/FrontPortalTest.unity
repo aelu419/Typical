@@ -391,6 +391,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4616437715559796181, guid: ff7831a37228e314abaa18fafe5cb9fa, type: 3}
+      propertyPath: m_Maskable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4616437715559796181, guid: ff7831a37228e314abaa18fafe5cb9fa, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: c464e0f0a275ba747960164c5dac62f3, type: 2}
     - target: {fileID: 4616437716403090196, guid: ff7831a37228e314abaa18fafe5cb9fa, type: 3}
       propertyPath: m_Name
       value: Background
