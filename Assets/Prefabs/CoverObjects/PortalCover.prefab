@@ -124,3 +124,4 @@ MonoBehaviour:
   word_block: {fileID: 0}
   portal_animator: {fileID: 0}
   descriptor: 
+  sound: event:/Other/DoorOpen

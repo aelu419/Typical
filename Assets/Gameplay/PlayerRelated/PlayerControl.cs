@@ -43,10 +43,10 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public List<Word> word_blocks_in_contact;
     [ReadOnly] public string word_blocks_in_contact_str;
 
-    private float stuck_time = 0.0f; //to deal with really weird situations
+    //private float stuck_time = 0.0f; //to deal with really weird situations
 
     public float light_progress; //0 is shut off, 1 is up
-    private SpriteRenderer torso;
+    //private SpriteRenderer torso;
 
     private event System.Action on_first_frame;
 
@@ -72,7 +72,7 @@ public class PlayerControl : MonoBehaviour
 
         animator = GetComponent<Animator>();
         animator.SetBool("in_climb", false);
-        torso = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        //torso = transform.GetChild(1).GetComponent<SpriteRenderer>();
         head_light_controller = transform.GetChild(0).GetComponent<HeadLightControl>();
 
         cControler = GameObject.FindGameObjectWithTag("General Manager").GetComponent<CameraControler>();
@@ -343,7 +343,15 @@ public class PlayerControl : MonoBehaviour
         {
             //light toggle status changed
             //play oneshot squeaking sound for helmet raising/lowering
-            FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.squeak, transform.position);
+            if (light_toggle)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.helm_open, transform.position);
+            }
+            else
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.helm_close, transform.position);
+            }
+            
         }
         animator.SetBool("light_toggle", light_toggle);
 

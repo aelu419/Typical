@@ -54,7 +54,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d65c58fcd3acc489c69f9d9ecedc09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  squeak: event:/Player/Squeak
+  helm_open: event:/Player/HelmetOpen
+  helm_close: event:/Player/HelmetClose
 --- !u!114 &507486619242034053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,7 +306,6 @@ MonoBehaviour:
   light_min_max_off: {x: 1, y: 7, z: 1.021349, w: 2.09}
   light_min_max_on: {x: 2, y: 22, z: 3.449484, w: 11.19}
   current_setting: {x: 0, y: 0, z: 0, w: 0}
-  direction: 0
   lerp_state: 0
 --- !u!1 &3121171851927908632
 GameObject:

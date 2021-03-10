@@ -5,5 +5,5 @@ using UnityEngine;
 public class PlayerSFXLibrary : MonoBehaviour
 {
     [FMODUnity.EventRef]
-    public string squeak;
+    public string helm_open, helm_close;
 }
