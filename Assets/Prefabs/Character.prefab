@@ -192,7 +192,7 @@ MonoBehaviour:
   m_FalloffIntensity: 0.54
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_LightVolumeOpacity: 0.39
+  m_LightVolumeOpacity: 0.15
   m_ApplyToSortingLayers: 000000003b8eb233
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LightType: 3
-  m_BlendStyleIndex: 0
+  m_BlendStyleIndex: 1
   m_FalloffIntensity: 0.544
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 507486619242034050}
-  base_pos: {x: -0.53, y: -0.32999998, z: 0}
+  base_pos: {x: -3.73, y: -0.32999998, z: 0}
   regular_pos: {x: 0, y: 0, z: 0}
   extension: 0
 --- !u!95 &5830181066979981399

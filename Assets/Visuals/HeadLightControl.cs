@@ -13,7 +13,6 @@ public class HeadLightControl : MonoBehaviour
     public Vector4 light_min_max_on;
 
     [ReadOnly] public Vector4 current_setting;
-    [ReadOnly] public bool direction; //true is right
 
     private UnityEngine.Experimental.Rendering.Universal.Light2D head_light;
     private float speed = 5;
@@ -51,23 +50,6 @@ public class HeadLightControl : MonoBehaviour
             Mathf.Lerp(light_min_max_off.z, light_min_max_on.z, lerp_state),
             Mathf.Lerp(light_min_max_off.w, light_min_max_on.w, lerp_state)
             );
-
-        if (direction)
-        {
-            transform.localPosition = new Vector3(
-                right_direction.x,
-                right_direction.y,
-                right_direction.z);
-            transform.localRotation = Quaternion.Euler(new Vector3(0, 0, right_direction.w));
-        }
-        else
-        {
-            transform.localPosition = new Vector3(
-                left_direction.x,
-                left_direction.y,
-                left_direction.z);
-            transform.localRotation = Quaternion.Euler(new Vector3(0, 0, left_direction.w));
-        }
 
         head_light.intensity = current_setting.x * (1 + perturbation * Mathf.PerlinNoise(0, Time.time));
         head_light.pointLightInnerAngle = current_setting.y * (1 + perturbation * Mathf.PerlinNoise(0, speed * Time.time));

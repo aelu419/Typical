@@ -48,11 +48,15 @@ public class PlayerControl : MonoBehaviour
     public float light_progress; //0 is shut off, 1 is up
     private SpriteRenderer torso;
 
+    private event System.Action on_first_frame;
+
     void Awake()
     {
         destination = new Vector3(-1, 0, 0);
         destination_override = new Vector3(-1, 0, 0);
         word_blocks_in_contact = new List<Word>();
+
+        on_first_frame = null;
     }
 
     // Start is called before the first frame update
@@ -100,21 +104,26 @@ public class PlayerControl : MonoBehaviour
 
     public void SpawnAtRoot(Vector2 spawn_root)
     {
-        Debug.Log("spawned");
+        on_first_frame += () =>
+        {
+            transform.position = new Vector3(
+               spawn_root.x,
+               spawn_root.y + charSize / 2f,
+               0
+               );
 
-        transform.position = new Vector3(
-            spawn_root.x,
-            spawn_root.y + charSize / 2f,
-            0
-            );
-
-        light_progress = 0;
-        head_light_controller.direction = true;
+            light_progress = 0;
+        };
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (on_first_frame != null)
+        {
+            on_first_frame();
+            on_first_frame = null;
+        }
         //bool accelerating = false;
         //float hor_spd_temp = rigid.velocity.x;
 
@@ -339,7 +348,6 @@ public class PlayerControl : MonoBehaviour
         animator.SetBool("light_toggle", light_toggle);
 
         head_light_controller.light_ = light_toggle;
-        head_light_controller.direction = direction;
         head_light_controller.lerp_state = light_progress;
 
         transform.rotation = Quaternion.Euler(0, direction ? 0 : 180f, 0);
