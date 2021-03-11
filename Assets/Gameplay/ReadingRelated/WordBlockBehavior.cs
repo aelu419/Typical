@@ -8,7 +8,7 @@ public class WordBlockBehavior : MonoBehaviour
     [ReadOnly] public Word content;
     [ReadOnly] public string word_status;
 
-    private bool collider_width_sync;
+    //private bool collider_width_sync;
     [ReadOnly]
     public float light_intensity;
     //[ReadOnly] public Cover cover;
@@ -28,7 +28,7 @@ public class WordBlockBehavior : MonoBehaviour
     void Start()
     {
         light_intensity = -1;
-        collider_width_sync = false;
+        //collider_width_sync = false;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
 
         //EventManager.Instance.OnCorrectKeyPressed += ListenForEngageChange;
@@ -118,61 +118,7 @@ public class WordBlockBehavior : MonoBehaviour
                 content.tmp.fontMaterials = mats;
             }
         }
-        /*
-        //has cover obj
-        if (!collider_width_sync && transform.childCount != 0)
-        {
-            BoxCollider2D b2 = transform.GetChild(0).GetComponent<BoxCollider2D>();
-            if(b2 != null)
-            {
-                BoxCollider2D b1 = GetComponent<BoxCollider2D>();
-                b1.size = new Vector2(
-                    b2.size.x,
-                    b1.size.y
-                   );
-                b1.offset = new Vector2(
-                    b1.size.x/2f,
-                    b1.offset.y
-                    );
-
-                collider_width_sync = true;
-            }
-        }*/
-
-
-        /*
-        //generate cover object
-        if(content.cover_type != null 
-            && !content.cover_type.Equals("") 
-            && cover == null)
-        {
-            cover = new Cover(transform.GetChild(0).gameObject, content);
-        }*/
     }
-
-    /*
-    private void ListenForEngageChange()
-    {
-        Debug.Log("engage change");
-        //in the middle of typing the current word
-        if (content.has_typable && content.typed >= 1 && content.typed <= content.content.Length)
-        {
-            if (!engaged)
-            {
-                Debug.Log("word " + content + " is engaged");
-                engaged = true;
-                if (engage != null) engage();
-            }
-        } else
-        {
-            if (engaged)
-            {
-                Debug.Log("word " + content + " is disengaged");
-                engaged = false;
-                if (disengage != null) disengage();
-            }
-        }
-    }*/
 
     private float GetLightIntensity(float dist, float light_range)
     {

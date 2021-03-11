@@ -102,7 +102,6 @@ public class PortalManager : MonoBehaviour
                 Quaternion.identity,
                 transform);
 
-            //TODO: set portal data
             Portal p_ = go.GetComponent<Portal>();
             p_.SetDisplay(destinations[i], alphabet[destinations.Count - i - 1]);
             registeredListening[i] = alphabet[destinations.Count - i - 1];

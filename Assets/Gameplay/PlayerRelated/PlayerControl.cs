@@ -40,8 +40,8 @@ public class PlayerControl : MonoBehaviour
 
     private PlayerSFXLibrary sfx_lib;
 
-    [ReadOnly] public List<Word> word_blocks_in_contact;
-    [ReadOnly] public string word_blocks_in_contact_str;
+    [ReadOnly] public List<GameObject> word_blocks_in_contact;
+    //[ReadOnly] public string word_blocks_in_contact_str;
 
     //private float stuck_time = 0.0f; //to deal with really weird situations
 
@@ -54,7 +54,7 @@ public class PlayerControl : MonoBehaviour
     {
         destination = new Vector3(-1, 0, 0);
         destination_override = new Vector3(-1, 0, 0);
-        word_blocks_in_contact = new List<Word>();
+        word_blocks_in_contact = new List<GameObject>();
 
         on_first_frame = null;
     }
@@ -215,7 +215,10 @@ public class PlayerControl : MonoBehaviour
                 float yMax = transform.position.y - charSize / 2f;
                 for(int i = 0; i < word_blocks_in_contact.Count; i++)
                 {
-                    float hdiff = word_blocks_in_contact[i].top - yMax;
+                    //WordBlockBehavior block_content = word_blocks_in_contact[i].GetComponent<WordBlockBehavior>();
+                    float block_top = word_blocks_in_contact[i].GetComponent<BoxCollider2D>().bounds.max.y;
+
+                    float hdiff = block_top - yMax;
                     if (hdiff > 0.0f)
                     {
                         //teleport for small height gaps
@@ -223,14 +226,14 @@ public class PlayerControl : MonoBehaviour
                         {
                             transform.position = new Vector3(
                                 transform.position.x,
-                                word_blocks_in_contact[i].top + charSize / 2f + 0.1f,
+                                block_top + charSize / 2f + 0.1f,
                                 transform.position.z
                             );
                         }
                         //climb for large height gaps
                         else
                         {
-                            yMax = word_blocks_in_contact[i].top + charSize / 2f + 0.1f;
+                            yMax = block_top + charSize / 2f + 0.1f;
                             in_climb = true;
                         }
                     }
@@ -379,10 +382,12 @@ public class PlayerControl : MonoBehaviour
     //handle collisions
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.LogError("IMPLEMENT COLLISION ANIMATION, collision speed: " + collision.relativeVelocity.y);
+
         if (collision.gameObject.CompareTag("Word Block"))
         {
             //Debug.Log(collision.gameObject.GetComponent<WordBlockBehavior>().content.content);
-            word_blocks_in_contact.Add(collision.gameObject.GetComponent<WordBlockBehavior>().content);
+            word_blocks_in_contact.Add(collision.gameObject);
         }
     }
 
@@ -390,10 +395,12 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Word Block"))
         {
-            word_blocks_in_contact.Remove(collision.gameObject.GetComponent<WordBlockBehavior>().content);
+            word_blocks_in_contact.RemoveAll(
+                (GameObject go) => go.Equals(collision.gameObject)
+            );
         }
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject other = collision.gameObject;
@@ -419,6 +426,14 @@ public class PlayerControl : MonoBehaviour
             {
                 n.SendMessage("Disengage");
             }
+        }
+    }
+
+    public void OverrideCollisionType(GameObject go)
+    {
+        if (go.CompareTag("Word Block"))
+        {
+            word_blocks_in_contact.Add(go);
         }
     }
 

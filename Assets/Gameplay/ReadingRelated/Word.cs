@@ -197,15 +197,7 @@ public class Word
             if (t.type.Equals("O"))
             {
                 GameObject cov = FetchCover(t, go);
-                if (t.GetSpecAt(0) != "stump")
-                {
-                    cover_w = cover_sprite.bounds.size.x * cov.transform.localScale.x;
-                }
-                else
-                {
-                    cover_w = cov.GetComponent<BoxCollider2D>().size.x;
-                }
-                
+                cover_w = cov.GetComponent<BoxCollider2D>().size.x;
                 break;
             }
         }
@@ -294,7 +286,13 @@ public class Word
                     cover_child.GetComponent<NPCBehaviour>().SendMessage("Initialize", par);
                 }
             }
-            float[] cover_frame = { 0, 0 };
+            else if (t.GetSpecAt(0).Equals("stump"))
+            {
+                TextMeshPro txt = cover_child.GetComponent<TextMeshPro>();
+                txt.text = Stump.GetInitialText();
+                txt.ForceMeshUpdate(true, true);
+            }
+            /*float[] cover_frame = { 0, 0 };
             if (cover_sprite != null)
             {
                 cover_frame = new float[]
@@ -313,16 +311,23 @@ public class Word
                         cover_child.GetComponent<BoxCollider2D>().size.y
                     };
                 }
-            }
+            }*/
 
+            BoxCollider2D box = cover_child.GetComponent<BoxCollider2D>();
             //initialize collider
-            cover_child.AddComponent<BoxCollider2D>();
-            cover_child.GetComponent<BoxCollider2D>().isTrigger = true;
+            if (box == null)
+            {
+                box = cover_child.AddComponent<BoxCollider2D>();
+            }
+            if (t.GetSpecAt(0) != "stump")
+            {
+                box.isTrigger = true;
+            }
 
             //Debug.Log(cover_child);
             cover_child.transform.localPosition = new Vector3(
-                cover_child.transform.localScale.x * cover_frame[0] / 2f,
-                (cover_child.transform.localScale.y * cover_frame[1] + tmp.GetPreferredValues().y) / 2f,
+                box.bounds.size.x / 2f,
+                (box.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
                 0);
         }
 

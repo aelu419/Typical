@@ -24,12 +24,17 @@ public class InputGate : MonoBehaviour
         get { return backspace_blockers.Count == 0; }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         _instance = this;
         alphabet_blockers = new List<GameObject>();
         backspace_blockers = new List<GameObject>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     public void RegisterAlphabetBlocker(GameObject go)
@@ -41,7 +46,7 @@ public class InputGate : MonoBehaviour
     {
         if (!alphabet_blockers.Remove(go))
         {
-            throw new UnityException("cannot find " + go + " in alphabet blocker list");
+           Debug.LogError("cannot find " + go + " in alphabet blocker list");
         }
     }
 
@@ -54,7 +59,7 @@ public class InputGate : MonoBehaviour
     {
         if (!backspace_blockers.Remove(go))
         {
-            throw new UnityException("cannot find " + go + " in backspace blocker list");
+            Debug.LogError("cannot find " + go + " in backspace blocker list");
         }
     }
 

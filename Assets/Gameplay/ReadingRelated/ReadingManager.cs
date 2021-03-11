@@ -310,6 +310,7 @@ public class ReadingManager: MonoBehaviour
                 : AnyLetterPressed())
             //mechanism limits
             && NextWordTypable()
+            && InputGate.Instance.alphabet_typable
             ) 
         {
             EventManager.Instance.RaiseFrontPortalDisengaged();
@@ -411,7 +412,7 @@ public class ReadingManager: MonoBehaviour
         }
 
         //going backwards
-        if (!no_typable && Input.GetKeyDown(KeyCode.Backspace))
+        if (!no_typable && InputGate.Instance.backspace_typable && Input.GetKeyDown(KeyCode.Backspace))
         {
 
             //backspace automatically closes back portal, no matter what
