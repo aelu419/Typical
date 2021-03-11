@@ -197,7 +197,15 @@ public class Word
             if (t.type.Equals("O"))
             {
                 GameObject cov = FetchCover(t, go);
-                cover_w = cover_sprite.bounds.size.x * cov.transform.localScale.x;
+                if (t.GetSpecAt(0) != "stump")
+                {
+                    cover_w = cover_sprite.bounds.size.x * cov.transform.localScale.x;
+                }
+                else
+                {
+                    cover_w = cov.GetComponent<BoxCollider2D>().size.x;
+                }
+                
                 break;
             }
         }
@@ -251,8 +259,13 @@ public class Word
         }
         else
         {
-            cover_sprite = cover_child.GetComponent<SpriteRenderer>().sprite;
+            if (cover_child.GetComponent<SpriteRenderer>() != null)
+            {
+                cover_sprite = cover_child.GetComponent<SpriteRenderer>().sprite;
+            }
+
             cover_child.tag = "Cover Object";
+
             //fetch image for img tag
             if (t.GetSpecAt(0).Equals("img"))
             {
@@ -281,6 +294,26 @@ public class Word
                     cover_child.GetComponent<NPCBehaviour>().SendMessage("Initialize", par);
                 }
             }
+            float[] cover_frame = { 0, 0 };
+            if (cover_sprite != null)
+            {
+                cover_frame = new float[]
+                {
+                    cover_sprite.bounds.size.x,
+                    cover_sprite.bounds.size.y
+                };
+            }
+            else
+            {
+                if (t.GetSpecAt(0).Equals("stump"))
+                {
+                    cover_frame = new float[]
+                    {
+                        cover_child.GetComponent<BoxCollider2D>().size.x,
+                        cover_child.GetComponent<BoxCollider2D>().size.y
+                    };
+                }
+            }
 
             //initialize collider
             cover_child.AddComponent<BoxCollider2D>();
@@ -288,8 +321,8 @@ public class Word
 
             //Debug.Log(cover_child);
             cover_child.transform.localPosition = new Vector3(
-                cover_child.transform.localScale.x * cover_sprite.bounds.size.x / 2f,
-                (cover_child.transform.localScale.y * cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
+                cover_child.transform.localScale.x * cover_frame[0] / 2f,
+                (cover_child.transform.localScale.y * cover_frame[1] + tmp.GetPreferredValues().y) / 2f,
                 0);
         }
 
