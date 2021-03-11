@@ -8,6 +8,8 @@ public class LArm : MonoBehaviour
 
     public Transform player, claw;
     public SpriteRenderer sprite_;
+    [FMODUnity.EventRef]
+    public string continuous;
 
     // Start is called before the first frame update
     void Start()

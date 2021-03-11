@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7858274125369261682}
+  - component: {fileID: 2341779966319854773}
   - component: {fileID: -5934645462761660396}
   - component: {fileID: -620841039760764474}
   - component: {fileID: -5152332314181595230}
@@ -19,7 +19,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7858274125369261682
+--- !u!4 &2341779966319854773
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5112325548004538794}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,12 +73,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 156272709403431993, guid: cb5821053b8a2c5409b95acc11cf4249, type: 3}
+  m_Sprite: {fileID: -267108659321401178, guid: 2c512b3c31c4512419cfff34fc3fecde, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.96, y: 2.11}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -125,3 +125,5 @@ MonoBehaviour:
   portal_animator: {fileID: 0}
   descriptor: 
   sound: event:/Other/DoorOpen
+  initial_sprites:
+  - {fileID: -267108659321401178, guid: 2c512b3c31c4512419cfff34fc3fecde, type: 3}

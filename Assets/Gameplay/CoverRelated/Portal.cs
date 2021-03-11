@@ -14,9 +14,14 @@ public class Portal : MonoBehaviour
     [FMODUnity.EventRef]
     public string sound;
 
+    public Sprite[] initial_sprites;
+
+    private event System.Action on_enter_camera;
+
     //obj is instantiated externally
     private void Start()
     {
+        on_enter_camera += () => Debug.Log("portal enter camera");
         //portal gameobject contains child object ONLY when it is spawn
         //to the right of the script
         //itself, meaning that the child obj is the textmesh
@@ -34,12 +39,39 @@ public class Portal : MonoBehaviour
             }
         }
 
+        if (initial_sprites != null && initial_sprites.Length > 1)
+        {
+            on_enter_camera += () =>
+            {
+                GetComponent<SpriteRenderer>().sprite = initial_sprites[
+                    Mathf.FloorToInt(Random.value * initial_sprites.Length)
+                    ];
+            };
+        }
+
         portal_animator = gameObject.GetComponent<Animator>();
+        portal_animator.SetBool("open", false);
 
         //DIFFERENTIATE FRONT BACK PORTAL, ASSIGN BY READING MANAGER, NOT HERE!
         if (is_from_cover_prefab)
         {
-            portal_animator.SetBool("open", true);
+            on_enter_camera += () =>
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(sound, gameObject.transform.position);
+                portal_animator.SetBool("open", true);
+            };
+        }
+    }
+
+    float amp = 0.01f;
+    void Update()
+    {
+        if (on_enter_camera != null
+            && CameraControler.Instance.CAM.xMax > transform.position.x
+            && transform.position.x > CameraControler.Instance.CAM.xMin)
+        {
+            on_enter_camera();
+            on_enter_camera = null;
         }
     }
 

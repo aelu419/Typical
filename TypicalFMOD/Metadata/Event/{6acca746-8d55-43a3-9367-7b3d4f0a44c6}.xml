@@ -120,6 +120,7 @@
 	<object class="MixerBusFader" id="{245de5fb-ad9a-4ce5-8db2-d28c39cdcea6}" />
 	<object class="MixerBusEffectChain" id="{e31b152b-f39c-4c3d-8559-ac9aed2fd6be}">
 		<relationship name="effects">
+			<destination>{84ae88b5-5e3c-44ce-8f20-f1bc6e6833b6}</destination>
 			<destination>{1436980a-1ddd-4cbf-87fe-41f32f117efb}</destination>
 		</relationship>
 	</object>
@@ -135,7 +136,7 @@
 			<value>63</value>
 		</property>
 		<property name="HFDecayRatio">
-			<value>64</value>
+			<value>51</value>
 		</property>
 		<property name="diffusion">
 			<value>49</value>
@@ -154,5 +155,18 @@
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{59b2b660-1dc1-46ac-8eca-9daab6c83a65}" />
+	<object class="PitchShifterEffect" id="{84ae88b5-5e3c-44ce-8f20-f1bc6e6833b6}">
+		<property name="pitch">
+			<value>0.930000007</value>
+		</property>
+		<relationship name="automators">
+			<destination>{03203428-27bc-49cb-959c-751ab146d936}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusFader" id="{1436980a-1ddd-4cbf-87fe-41f32f117efb}" />
+	<object class="Automator" id="{03203428-27bc-49cb-959c-751ab146d936}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>pitch</value>
+		</property>
+	</object>
 </objects>

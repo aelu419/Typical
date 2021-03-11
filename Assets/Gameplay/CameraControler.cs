@@ -13,9 +13,16 @@ public class CameraControler : MonoBehaviour
     private ReadingManager rManager;
     private GameObject player;
 
+    private static CameraControler _instance;
+    public static CameraControler Instance
+    {
+        get { return _instance; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        _instance = this;
         //fetch main camera and get settings
         cam = Camera.main;
         player = GameObject.FindGameObjectWithTag("Player");

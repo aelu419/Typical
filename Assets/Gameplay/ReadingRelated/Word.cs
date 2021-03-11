@@ -15,7 +15,7 @@ public class Word
     [ReadOnly] public int index;
     [ReadOnly] public string cover_type;
     [ReadOnly] public Sprite cover_sprite;
-    private static Sprite default_cover_sprite;
+    //private static Sprite default_cover_sprite;
 
     [ReadOnly] public int typed; //number of typed letters in the word
     [ReadOnly] public WORD_TYPES word_mech; //the mechanism that the word block follows
@@ -60,7 +60,7 @@ public class Word
         UNTYPED_REFLECTOR_MAT_ = Resources.Load(
             "Fonts & Materials/" + UNTYPED_REFLECTOR_MAT) as Material;
 
-        default_cover_sprite = Resources.Load("DefaultCoverSprite") as Sprite;
+        //default_cover_sprite = Resources.Load("DefaultCoverSprite") as Sprite;
     }
 
     public Word(Tag[] tags, string content, float slope, int index, int typed)
@@ -196,8 +196,9 @@ public class Word
         {
             if (t.type.Equals("O"))
             {
-                FetchCover(t, go);
-                cover_w = cover_sprite.bounds.size.x;
+                GameObject cov = FetchCover(t, go);
+                cover_w = cover_sprite.bounds.size.x * cov.transform.localScale.x;
+                break;
             }
         }
 
@@ -211,14 +212,13 @@ public class Word
         col.offset = new Vector2(box_size.x/2, 0);
         col.size = box_size;
 
-
         return (new Vector2(R.x, R.y), go);
     }
 
 
     //fetch the cover object prefab according to the object tag
     // - see CoverDispenser and CoverObjectScriptable and their respective objects
-    private void FetchCover(Tag t, GameObject parent_obj)
+    private GameObject FetchCover(Tag t, GameObject parent_obj)
     {
         Debug.Log("fetching cover object for " + t);
         try
@@ -286,14 +286,14 @@ public class Word
             cover_child.AddComponent<BoxCollider2D>();
             cover_child.GetComponent<BoxCollider2D>().isTrigger = true;
 
-            Debug.Log(cover_child);
-            //TODO: set local position
-            
+            //Debug.Log(cover_child);
             cover_child.transform.localPosition = new Vector3(
-                cover_sprite.bounds.size.x / 2f,
-                (cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
+                cover_child.transform.localScale.x * cover_sprite.bounds.size.x / 2f,
+                (cover_child.transform.localScale.y * cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
                 0);
         }
+
+        return cover_child;
     }
 
     public void SetRawText()

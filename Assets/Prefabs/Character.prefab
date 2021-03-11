@@ -522,6 +522,7 @@ MonoBehaviour:
   player: {fileID: 507486619242034052}
   claw: {fileID: 3248247189445282621}
   sprite_: {fileID: 5324372790831406557}
+  continuous: 
 --- !u!1 &6706635312754696195
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,6 +623,8 @@ MonoBehaviour:
   base_pos: {x: -3.73, y: -0.32999998, z: 0}
   regular_pos: {x: 0, y: 0, z: 0}
   extension: 0
+  continuous: event:/Player/LArmStretch
+  hit: event:/Player/ClawHit
 --- !u!95 &5830181066979981399
 Animator:
   serializedVersion: 3

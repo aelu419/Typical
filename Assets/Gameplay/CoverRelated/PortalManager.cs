@@ -94,9 +94,9 @@ public class PortalManager : MonoBehaviour
             GameObject go = GameObject.Instantiate(
                 portal_prefab,
                 new Vector3(
-                    transform.position.x + 2 + Random.value * 0.3f - 0.15f,
+                    transform.position.x + 2,// + Random.value * 0.3f - 0.15f,
                     transform.position.y + block_raw_height / 2 
-                        + portional_h * block_whole_height + Random.value * 0.2f - 0.1f,
+                        + portional_h * block_whole_height,// + Random.value * 0.2f - 0.1f,
                     transform.position.z
                     ),
                 Quaternion.identity,
