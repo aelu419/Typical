@@ -8,8 +8,6 @@ public class LArm : MonoBehaviour
 
     public Transform player, claw;
     public SpriteRenderer sprite_;
-    [FMODUnity.EventRef]
-    public string continuous;
 
     // Start is called before the first frame update
     void Start()
@@ -19,17 +17,16 @@ public class LArm : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 p = player.position;
-        Vector3 c = claw.position;
-        Vector3 m = c;
-        Vector3 r = p - c;
+        Vector3 c = claw.localPosition;
+        Vector3 m = c / 2.0f;
+        //Vector3 r = p - c;
 
-        sprite_.size = new Vector2(r.magnitude / 2, sprite_.size.y);
-        transform.position = m;
+        sprite_.size = new Vector2(c.magnitude, sprite_.size.y);
+        transform.localPosition = m;
 
-        if (r.magnitude > 0.1)
+        if (c.magnitude > 0.1)
         {
-            float angle = Mathf.Atan2(r.y, r.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(c.y, c.x) * Mathf.Rad2Deg;
 
             transform.rotation = Quaternion.Euler(
                 new Vector3(
