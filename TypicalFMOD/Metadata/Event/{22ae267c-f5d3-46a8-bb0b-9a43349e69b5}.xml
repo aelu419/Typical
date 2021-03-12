@@ -259,10 +259,10 @@
 	</object>
 	<object class="LoopRegion" id="{cdbec58a-5560-4d4f-82cd-6b55b6994a3b}">
 		<property name="position">
-			<value>0.875</value>
+			<value>0.375</value>
 		</property>
 		<property name="length">
-			<value>1.75</value>
+			<value>2.625</value>
 		</property>
 		<relationship name="timeline">
 			<destination>{b8e870e7-19be-4717-abc4-c57340aec5b4}</destination>
@@ -271,7 +271,7 @@
 			<destination>{e7c27170-d004-49bb-ac0a-9836f46e0a67}</destination>
 		</relationship>
 		<relationship name="triggerConditions">
-			<destination>{9f3ab82b-ca9b-489e-a307-2f08b100121f}</destination>
+			<destination>{9a670f09-4499-43f4-94d9-ffb923232721}</destination>
 		</relationship>
 		<relationship name="transitionTimeline">
 			<destination>{415a1893-c350-442e-bd2d-906dabc4bc66}</destination>
@@ -353,20 +353,7 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{da1924df-e9dc-4920-b7cf-e2ed5f83a014}" />
-	<object class="ParameterCondition" id="{9f3ab82b-ca9b-489e-a307-2f08b100121f}">
-		<property name="minimum">
-			<value>0</value>
-		</property>
-		<property name="maximum">
-			<value>0.125</value>
-		</property>
-		<property name="isInverted">
-			<value>true</value>
-		</property>
-		<relationship name="parameter">
-			<destination>{4cdaa642-1d31-4bef-898f-fda2da0bdb5c}</destination>
-		</relationship>
-	</object>
+	<object class="EventCondition" id="{9a670f09-4499-43f4-94d9-ffb923232721}" />
 	<object class="TransitionTimeline" id="{415a1893-c350-442e-bd2d-906dabc4bc66}">
 		<property name="length">
 			<value>0.875</value>

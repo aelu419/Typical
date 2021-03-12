@@ -92,11 +92,25 @@ public class AmbientScore1 : CustomSong
 
     public override float GetLength(ContinuousInstrument part)
     {
+        switch (part.index)
+        {
+            case FINE:
+                return 1;
+            default:
+                break;
+        }
         return Mathf.Ceil(Random.value * 20) + 7;
     }
 
     public override float GetRest(ContinuousInstrument part)
     {
+        switch (part.index)
+        {
+            case FINE:
+                return Random.value < 0.1f ? 4 : 1;
+            default:
+                break;
+        }
         return Mathf.Ceil(Random.value * 10) + 3;
     }
 

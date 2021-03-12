@@ -195,7 +195,7 @@
 			<destination>{a3ef1448-b631-4cf7-bda9-be3291e148e2}</destination>
 		</relationship>
 		<relationship name="triggerConditions">
-			<destination>{822e699b-d42c-4494-951f-4ba1d0cbae7d}</destination>
+			<destination>{551d9bdc-48cc-440a-9493-70445e7c609a}</destination>
 		</relationship>
 		<relationship name="transitionTimeline">
 			<destination>{49cdc863-6a80-43ae-9f1a-dae8439426bb}</destination>
@@ -245,20 +245,7 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{7215a969-6315-4b00-9241-a62912538ed0}" />
-	<object class="ParameterCondition" id="{822e699b-d42c-4494-951f-4ba1d0cbae7d}">
-		<property name="minimum">
-			<value>0</value>
-		</property>
-		<property name="maximum">
-			<value>0.125</value>
-		</property>
-		<property name="isInverted">
-			<value>true</value>
-		</property>
-		<relationship name="parameter">
-			<destination>{4cdaa642-1d31-4bef-898f-fda2da0bdb5c}</destination>
-		</relationship>
-	</object>
+	<object class="EventCondition" id="{551d9bdc-48cc-440a-9493-70445e7c609a}" />
 	<object class="TransitionTimeline" id="{49cdc863-6a80-43ae-9f1a-dae8439426bb}">
 		<property name="length">
 			<value>0.375</value>

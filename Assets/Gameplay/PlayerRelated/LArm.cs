@@ -30,8 +30,8 @@ public class LArm : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(
                 new Vector3(
-                    0,
-                    0,
+                    transform.rotation.eulerAngles.x,
+                    transform.rotation.eulerAngles.y,
                     angle
                     ));
         }

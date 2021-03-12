@@ -11,6 +11,8 @@ public class Tonal : ContinuousInstrument
     float length_beat;
     public AnimationCurve envelope;
 
+    float base_note;
+
     public Tonal(
         int index, CustomSong song, string fmod_event_address, AnimationCurve envelope, 
         float noise_velocity, float noise_amplitude, float gain_master
@@ -28,6 +30,7 @@ public class Tonal : ContinuousInstrument
             if (rest <= 0)
             {
                 float note = song.GetNote(this);
+                base_note = note;
                 if (note == -1)
                 {
                     break;
@@ -70,6 +73,7 @@ public class Tonal : ContinuousInstrument
                         Debug.Log("Note finished");
                         t = -1;
                         song.BroadcastMessage("OnNoteFinished", index);
+                        //fmod_event.stop();
                         fmod_event.release();
                         continue;
                     }
@@ -86,6 +90,7 @@ public class Tonal : ContinuousInstrument
                         );*/
 
                     fmod_event.setParameterByName("Gain", e_gain * GetNoisyGain());
+                    //fmod_event.setParameterByName("Pitch", base_note + (Mathf.Sin(Time.time * trill_speed) > 0 ? 0 : 1));
 
                     fmod_event.set3DAttributes(
                         FMODUnity.RuntimeUtils.To3DAttributes(MusicManager.Instance.transform)

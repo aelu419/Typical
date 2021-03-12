@@ -94,7 +94,7 @@
 	</object>
 	<object class="EventMixerMaster" id="{7e3fdc9f-0e13-4f77-bb54-dedb743cab4f}">
 		<property name="volume">
-			<value>-0.5</value>
+			<value>-2</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{fd273304-810f-424d-bf7b-ea5a83d61f8d}</destination>
@@ -236,6 +236,8 @@
 	</object>
 	<object class="MixerBusEffectChain" id="{fd273304-810f-424d-bf7b-ea5a83d61f8d}">
 		<relationship name="effects">
+			<destination>{0fdfd22f-c0b6-436a-ac4c-537f93030ea9}</destination>
+			<destination>{b74953e9-aee2-4cf8-9661-b21fb419ad1d}</destination>
 			<destination>{df7230d1-fa18-4252-b092-4ff0e087049b}</destination>
 		</relationship>
 	</object>
@@ -339,6 +341,55 @@
 			<destination>{0fd11c01-3847-489f-be6b-c5e49d281cd8}</destination>
 			<destination>{7bddc2ad-2d82-40a6-ae0d-de48b9df7a6a}</destination>
 		</relationship>
+	</object>
+	<object class="ThreeEQEffect" id="{0fdfd22f-c0b6-436a-ac4c-537f93030ea9}">
+		<property name="lowGain">
+			<value>-6</value>
+		</property>
+		<property name="midGain">
+			<value>-12</value>
+		</property>
+		<property name="highGain">
+			<value>-40</value>
+		</property>
+		<property name="lowCrossover">
+			<value>440</value>
+		</property>
+		<property name="highCrossover">
+			<value>2300</value>
+		</property>
+	</object>
+	<object class="SFXReverbEffect" id="{b74953e9-aee2-4cf8-9661-b21fb419ad1d}">
+		<property name="decayTime">
+			<value>14500</value>
+		</property>
+		<property name="earlyDelay">
+			<value>60</value>
+		</property>
+		<property name="lateDelay">
+			<value>30</value>
+		</property>
+		<property name="HFDecayRatio">
+			<value>60.5</value>
+		</property>
+		<property name="diffusion">
+			<value>42.5</value>
+		</property>
+		<property name="lowShelfFrequency">
+			<value>290</value>
+		</property>
+		<property name="highCut">
+			<value>800</value>
+		</property>
+		<property name="earlyLateMix">
+			<value>64</value>
+		</property>
+		<property name="wetLevel">
+			<value>-13</value>
+		</property>
+		<property name="dryLevel">
+			<value>-7.5</value>
+		</property>
 	</object>
 	<object class="MixerBusFader" id="{df7230d1-fa18-4252-b092-4ff0e087049b}" />
 	<object class="AutomationPoint" id="{85dd4428-89d5-44a9-b374-3f0d29013520}">
