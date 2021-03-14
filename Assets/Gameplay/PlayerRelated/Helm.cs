@@ -17,5 +17,8 @@ public class Helm : MonoBehaviour
     void Update()
     {
         anim.SetBool("light_toggle", player_anim.GetBool("light_toggle"));
+        anim.SetBool("in_climb", player_anim.GetBool("in_climb"));
+        anim.SetBool("climb_done", player_anim.GetBool("climb_done"));
+        anim.SetFloat("speed", player_anim.GetFloat("speed"));
     }
 }

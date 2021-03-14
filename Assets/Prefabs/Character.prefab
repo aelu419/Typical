@@ -318,6 +318,7 @@ GameObject:
   - component: {fileID: 5858029624343598101}
   - component: {fileID: 1265953046174789117}
   - component: {fileID: 1792937221728068729}
+  - component: {fileID: 8273662986939299537}
   - component: {fileID: 1199507573621729195}
   m_Layer: 0
   m_Name: Torso
@@ -333,7 +334,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3121171851927908632}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -403,8 +404,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec66f5a0740d8594d9de28a519c34075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wobble_magnitude: 5
-  wobble_speed: 10
+  wobble_magnitude: 0
+  wobble_speed: 0
+--- !u!114 &8273662986939299537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3121171851927908632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71f0028225687a49b2dd785e193de3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vMin: 1.03
+  vMax: 6
+  lerp:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.25
+      inSlope: 0.10508798
+      outSlope: 0.10508798
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12069672
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.7858925
+      outSlope: 1.7858925
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.062888086
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  playback: 0
 --- !u!95 &1199507573621729195
 Animator:
   serializedVersion: 3
@@ -522,7 +562,6 @@ MonoBehaviour:
   player: {fileID: 507486619242034052}
   claw: {fileID: 3248247189445282621}
   sprite_: {fileID: 5324372790831406557}
-  continuous: 
 --- !u!1 &6706635312754696195
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +710,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7864496247219986501}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.07077324, w: 0.99749243}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
