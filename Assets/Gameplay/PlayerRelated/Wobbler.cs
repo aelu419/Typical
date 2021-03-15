@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
 public class Wobbler : MonoBehaviour
 {
-    Animator player_anim, torso_anim;
+    Animator player_anim, anim;
     //[ReadOnly]
     //public float speed;
 
@@ -16,23 +15,27 @@ public class Wobbler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player_anim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
-        torso_anim = GetComponent<Animator>();
+        player_anim = PlayerControl.Instance.GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         time = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Application.isPlaying)
+        if (!anim)
+        {
+            anim = GetComponent<Animator>();
+        }
+        if (player_anim)
         {
             float speed = player_anim.GetFloat("speed");
-            torso_anim.SetFloat("speed", speed);
-            torso_anim.SetBool("in_climb", player_anim.GetBool("in_climb"));
+            anim.SetFloat("speed", speed);
+            anim.SetBool("in_climb", player_anim.GetBool("in_climb"));
         }
         else
         {
-
+            player_anim = PlayerControl.Instance.GetComponent<Animator>();
         }
 
         time += Time.deltaTime * wobble_speed;

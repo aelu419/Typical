@@ -90,7 +90,7 @@ public class Portal : MonoBehaviour
 
         portal_animator.SetBool("open", true);
         //force update player direction to face right (true)
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().direction = true;
+        PlayerControl.Instance.direction = true;
 
         if (data.sp == PortalData.SpecialPortals.quit)
         {

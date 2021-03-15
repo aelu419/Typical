@@ -24,7 +24,7 @@ public class FrontPortal : MonoBehaviour
         else
         {
             //force update player direction to face left (false)
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().direction = false;
+            PlayerControl.Instance.direction = false;
 
             EventManager.Instance.TransitionTo(
                 ScriptableObjectManager.Instance.ScriptManager.CurrentScript.previous,

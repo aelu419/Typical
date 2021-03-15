@@ -25,7 +25,7 @@ public class NPCBehaviour : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
 
-        engaged = true;
+        //engaged = true;
         if (Application.isPlaying)
         {
             Disengage();
@@ -81,6 +81,7 @@ public class NPCBehaviour : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                PlayerControl.Instance.SendMessage("OnTalkToNPC");
                 NextLine();
             }
         }   
@@ -115,21 +116,15 @@ public class NPCBehaviour : MonoBehaviour
 
     public void Engage()
     {
-        //Debug.LogError("Impelement Engage");
-        if (!engaged)
-        {
-            bubble.gameObject.SetActive(true);
-            engaged = true;
-        }
+        PlayerControl.Instance.SendMessage("OnReachNPC");
+        bubble.gameObject.SetActive(true);
+        engaged = true;
     }
 
     public void Disengage()
     {
         //Debug.LogError("Implemenet Disengage");
-        if (engaged)
-        {
-            bubble.gameObject.SetActive(false);
-            engaged = false;
-        }
+        bubble.gameObject.SetActive(false);
+        engaged = false;
     }
 }

@@ -97,7 +97,7 @@ public class ReadingManager: MonoBehaviour
 
         //connect to rest of components
         cControler = GetComponent<CameraControler>();
-        player = GameObject.FindGameObjectWithTag("Player")
+        player = PlayerControl.Instance
             .GetComponent<PlayerControl>();
 
         no_typable = false;

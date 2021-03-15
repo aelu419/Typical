@@ -25,7 +25,7 @@ public class CameraControler : MonoBehaviour
         _instance = this;
         //fetch main camera and get settings
         cam = Camera.main;
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = PlayerControl.Instance.gameObject;
     }
 
     // Update is called once per frame

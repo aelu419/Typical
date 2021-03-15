@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    public static PlayerControl Instance
+    {
+        get { return _instance; }
+    }
+
+    private static PlayerControl _instance;
+
+    public PlayerSFXLibrary sfx_lib;
+
     public float charSize; //the height of the main character, in world units
     [ReadOnly] public Rect collider_bounds;
 
@@ -38,8 +47,6 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly]
     public HeadLightControl head_light_controller;
 
-    private PlayerSFXLibrary sfx_lib;
-
     [ReadOnly] public List<GameObject> word_blocks_in_contact;
     //[ReadOnly] public string word_blocks_in_contact_str;
 
@@ -57,11 +64,15 @@ public class PlayerControl : MonoBehaviour
         word_blocks_in_contact = new List<GameObject>();
 
         on_first_frame = null;
+
+
+        _instance = this;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+
         //register events
         EventManager.Instance.OnCorrectKeyPressed += CorrectKeyPressed;
         EventManager.Instance.OnIncorrectKeyPressed += IncorrectKeyPressed;
@@ -79,8 +90,6 @@ public class PlayerControl : MonoBehaviour
         //rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
 
         box = GetComponent<BoxCollider2D>();
-
-        sfx_lib = GetComponent<PlayerSFXLibrary>();
 
         //set character state
         in_climb = false;
@@ -377,6 +386,16 @@ public class PlayerControl : MonoBehaviour
     {
         return Mathf.Approximately(a, b);
         //return Mathf.Abs(a - b) <= 0.05;
+    }
+
+    public void OnReachNPC()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.npc_encounter, transform.position);
+    }
+
+    public void OnTalkToNPC()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.npc_talk, transform.position);
     }
 
     //handle collisions

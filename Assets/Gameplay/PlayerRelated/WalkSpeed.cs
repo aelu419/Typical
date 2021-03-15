@@ -15,7 +15,7 @@ public class WalkSpeed : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player_anim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+        player_anim = PlayerControl.Instance.GetComponent<Animator>();
         anim = GetComponent<Animator>();
 
         if (vMax <= vMin || vMin < 0)
