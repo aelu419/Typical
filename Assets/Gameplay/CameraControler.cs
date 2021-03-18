@@ -203,7 +203,9 @@ public class CameraControler : MonoBehaviour
         Vector3 shift_raw = new Vector3(current_key_animation_state * shift_magnitude * shift * shift_unit.x, 0, 0);
         Vector2 focus = (Vector2)(player.transform.position + shift_raw);
 
-        transform.position = new Vector3(focus.x, focus.y, -10);
+        transform.position = new Vector3(focus.x, 
+            Mathf.Lerp(transform.position.y, focus.y, PlayerControl.Instance.climb_speed * Time.deltaTime),
+            -10);
         
         CAM = new Rect(
             transform.position.x - cam_w / 2f,
