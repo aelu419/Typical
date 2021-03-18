@@ -9,7 +9,8 @@ public class PortalManager : MonoBehaviour
 
     private static PortalManager _instance;
     public static PortalManager Instance => _instance;
-    public Vector2 margin;
+    public float margin;
+    public Vector2 local;
 
     public List<PortalData> destinations;
     public List<GameObject> active_portals;
@@ -78,10 +79,10 @@ public class PortalManager : MonoBehaviour
             return;
         }
 
-        transform.position = new Vector3(beginning.x + margin.x, beginning.y, 0);
+        transform.position = new Vector3(beginning.x + local.x, beginning.y + local.y, 0);
         Vector2 s = portal_prefab.GetComponent<SpriteRenderer>().size;
         float block_raw_height = s.y;
-        float block_whole_height = s.y + 2 * margin.y;
+        float block_whole_height = s.y + 2 * margin;
 
         registeredListening = new KeyCode[destinations.Count];
         active_portals = new List<GameObject>();
@@ -95,8 +96,7 @@ public class PortalManager : MonoBehaviour
                 portal_prefab,
                 new Vector3(
                     transform.position.x + 2,// + Random.value * 0.3f - 0.15f,
-                    transform.position.y + block_raw_height / 2 
-                        + portional_h * block_whole_height,// + Random.value * 0.2f - 0.1f,
+                    transform.position.y + portional_h * block_whole_height,// + Random.value * 0.2f - 0.1f,
                     transform.position.z
                     ),
                 Quaternion.identity,

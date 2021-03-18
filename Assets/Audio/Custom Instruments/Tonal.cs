@@ -73,7 +73,7 @@ public class Tonal : ContinuousInstrument
                         Debug.Log("Note finished");
                         t = -1;
                         song.BroadcastMessage("OnNoteFinished", index);
-                        //fmod_event.stop();
+                        fmod_event.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                         fmod_event.release();
                         continue;
                     }

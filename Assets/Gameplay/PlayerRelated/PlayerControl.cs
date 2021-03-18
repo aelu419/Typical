@@ -74,9 +74,8 @@ public class PlayerControl : MonoBehaviour
     {
 
         //register events
-        EventManager.Instance.OnCorrectKeyPressed += CorrectKeyPressed;
-        EventManager.Instance.OnIncorrectKeyPressed += IncorrectKeyPressed;
-        EventManager.Instance.OnCharacterDeleted += OnCharacterDeleted;
+        EventManager.Instance.OnProgression += OnProgression;
+        EventManager.Instance.OnRegression += OnRegression;
 
         //connect to rest of the game
         rigid = GetComponent<Rigidbody2D>();
@@ -86,8 +85,7 @@ public class PlayerControl : MonoBehaviour
         //torso = transform.GetChild(1).GetComponent<SpriteRenderer>();
         head_light_controller = transform.GetChild(0).GetComponent<HeadLightControl>();
 
-        cControler = GameObject.FindGameObjectWithTag("General Manager").GetComponent<CameraControler>();
-        //rManager = GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>();
+        cControler = CameraControler.Instance;
 
         box = GetComponent<BoxCollider2D>();
 
@@ -160,6 +158,7 @@ public class PlayerControl : MonoBehaviour
 
         //control the motion of the player:
 
+        /* ---deprecated---
         //freeze the character if it is not inside camera range
         if (transform.position.x < cControler.CAM.xMin
             || transform.position.x > cControler.CAM.xMax)
@@ -168,6 +167,7 @@ public class PlayerControl : MonoBehaviour
             rigid.velocity = Vector2.zero;
             return;
         }
+        */
 
         if (!in_climb)
         {
@@ -456,20 +456,12 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void OnCharacterDeleted()
+    private void OnProgression()
+    {
+        direction = true;
+    }
+    private void OnRegression()
     {
         direction = false;
-    }
-
-    private void CorrectKeyPressed()
-    {
-        direction = true;
-        //Debug.Log("correct!");
-    }
-    private void IncorrectKeyPressed()
-    {
-        //player turns no matter the input correctness
-        direction = true;
-        //Debug.Log("incorrect!");
     }
 }

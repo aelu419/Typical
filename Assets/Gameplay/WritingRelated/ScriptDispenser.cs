@@ -46,6 +46,6 @@ public class ScriptDispenser : ScriptableObject
         load_mode = true;
         Debug.LogError("implement player pref reading for configuring start screen script");
         index = 0;
-        Debug.Log("current script is: " + CurrentScript);
+        //Debug.Log("current script is: " + CurrentScript);
     }
 }

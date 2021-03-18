@@ -314,7 +314,7 @@ public class ReadingManager: MonoBehaviour
             ) 
         {
             EventManager.Instance.RaiseFrontPortalDisengaged();
-            EventManager.Instance.RaiseCorrectKeyPressed();
+            EventManager.Instance.RaiseProgression();
 
             // skip unmatching sequence caused by backspacing (see skip_over_puncuation)
             for (int i = 0; i < loaded_words.Count; i++)
@@ -412,7 +412,9 @@ public class ReadingManager: MonoBehaviour
         }
 
         //going backwards
-        if (!no_typable && InputGate.Instance.backspace_typable && Input.GetKeyDown(KeyCode.Backspace))
+        if (!no_typable 
+            && InputGate.Instance.backspace_typable 
+            && Input.GetKeyDown(KeyCode.Backspace))
         {
 
             //backspace automatically closes back portal, no matter what
@@ -452,7 +454,7 @@ public class ReadingManager: MonoBehaviour
                     EventManager.Instance.RaiseBackPortalClose();
                 }
 
-                EventManager.Instance.RaiseCharacterDeleted();
+                EventManager.Instance.RaiseRegression();
                 int[] cursor_override = new int[] { -1, -1 };
 
                 //in the span of the current word:
@@ -647,13 +649,6 @@ public class ReadingManager: MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             // see player controller
-        }
-        
-        //any other key is pressed
-        else if (Input.anyKeyDown)
-        {
-            if (AnyLetterPressed())
-                EventManager.Instance.RaiseIncorrectKeyPressed();
         }
 
         UpdateRenderedCursor();

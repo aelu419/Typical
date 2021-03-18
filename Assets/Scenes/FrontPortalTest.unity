@@ -132,11 +132,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5025352785689961878, guid: bd30c4fe4cc8bc745a5bc49d316fb10f, type: 3}
       propertyPath: margin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5025352785689961878, guid: bd30c4fe4cc8bc745a5bc49d316fb10f, type: 3}
       propertyPath: margin.y
-      value: 0.12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5025352785689961879, guid: bd30c4fe4cc8bc745a5bc49d316fb10f, type: 3}
       propertyPath: m_Name
@@ -268,6 +268,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1200735920861090334, guid: 32df62f3b869aa9438819f3f75de0a07, type: 3}
+      propertyPath: key_efficacy
+      value: 0.303
+      objectReference: {fileID: 0}
+    - target: {fileID: 1200735920861090334, guid: 32df62f3b869aa9438819f3f75de0a07, type: 3}
+      propertyPath: key_threshold
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1200735920861090334, guid: 32df62f3b869aa9438819f3f75de0a07, type: 3}
+      propertyPath: shift_duration
+      value: 0.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 1200735920861090334, guid: 32df62f3b869aa9438819f3f75de0a07, type: 3}
+      propertyPath: shift_magnitude
+      value: 2.37
+      objectReference: {fileID: 0}
     - target: {fileID: 1633462531847131768, guid: 32df62f3b869aa9438819f3f75de0a07, type: 3}
       propertyPath: m_Name
       value: Main Camera

@@ -74,8 +74,8 @@ public class AmbientScore1 : CustomSong
         ambient_instrument = new Atonal(AMBIENT, this, ambient,
             ambient_flucuation_speed, ambient_fluctuation_amplitude, ambient_gain_master);
 
-        StartCoroutine(coarse_instrument.Iterate());
-        StartCoroutine(fine_instrument.Iterate());
+        //StartCoroutine(coarse_instrument.Iterate());
+        //StartCoroutine(fine_instrument.Iterate());
 
         StartCoroutine(whisper_instrument.Iterate());
         StartCoroutine(ambient_instrument.Iterate());

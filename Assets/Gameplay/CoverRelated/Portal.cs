@@ -63,7 +63,7 @@ public class Portal : MonoBehaviour
         }
     }
 
-    float amp = 0.01f;
+    //float amp = 0.01f;
     void Update()
     {
         if (on_enter_camera != null

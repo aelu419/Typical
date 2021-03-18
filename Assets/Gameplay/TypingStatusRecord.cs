@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class TypingStatusRecord : MonoBehaviour
 {
     [ReadOnly] public float timer;
@@ -51,4 +52,4 @@ public class TypingStatusRecord : MonoBehaviour
             correct_presses + incorrect_presses == 0 ? 
                 1.0f : accuracy = (float)correct_presses / (incorrect_presses + correct_presses);
     }
-}
+}*/

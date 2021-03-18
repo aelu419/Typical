@@ -10,32 +10,26 @@ public class EventManager : MonoBehaviour
     {
         Debug.Log("Event Manager instantiated");
         _instance = this;
+
+        front_portal = false;
+        back_portal = false;
     }
 
-    public event Action OnCorrectKeyPressed;
-    public void RaiseCorrectKeyPressed()
+    public event Action OnProgression;
+    public void RaiseProgression()
     {
-        if (OnCorrectKeyPressed != null)
+        if (OnProgression != null)
         {
-            OnCorrectKeyPressed();
+            OnProgression();
         }
     }
 
-    public event Action OnIncorrectKeyPressed;
-    public void RaiseIncorrectKeyPressed()
+    public event Action OnRegression;
+    public void RaiseRegression()
     {
-        if(OnIncorrectKeyPressed != null)
+        if(OnRegression != null)
         {
-            OnIncorrectKeyPressed();
-        }
-    }
-
-    public event Action OnCharacterDeleted;
-    public void RaiseCharacterDeleted()
-    {
-        if(OnCharacterDeleted != null)
-        {
-            OnCharacterDeleted();
+            OnRegression();
         }
     }
 
@@ -51,22 +45,13 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public bool back_portal_opened;
-
-    public bool BackPortalOpened
-    {
-        get
-        {
-            return back_portal_opened;
-        }
-    }
-
+    public bool back_portal;
     public event Action<Vector2> OnBackPortalOpen;
     public void RaiseBackPortalOpen(Vector2 end)
     {
-        if (OnBackPortalOpen != null && !back_portal_opened)
+        if (OnBackPortalOpen != null && !back_portal)
         {
-            back_portal_opened = true;
+            back_portal = true;
             Debug.Log("portals are now available");
             OnBackPortalOpen(end);
         }
@@ -75,35 +60,39 @@ public class EventManager : MonoBehaviour
     public event Action OnBackPortalClose;
     public void RaiseBackPortalClose()
     {
-        if (OnBackPortalClose != null && back_portal_opened)
-        {
-            back_portal_opened = false;
+        if (OnBackPortalClose != null && back_portal)
+        {            
+            back_portal = false;
             Debug.Log("portals are not unavailable");
             OnBackPortalClose();
         }
     }
 
+    public bool front_portal;
     public event Action OnFrontPortalEngage;
     public void RaiseFrontPortalEngaged()
     {
         if (OnFrontPortalEngage != null)
         {
+            front_portal = true;
             OnFrontPortalEngage();
         }
     }
-
+    
     public event Action OnFrontPortalDisengage;
     public void RaiseFrontPortalDisengaged()
     {
-        if (OnFrontPortalDisengage != null)
+        if (OnFrontPortalDisengage != null && front_portal)
         {
+            front_portal = false;
             OnFrontPortalDisengage();
         }
     }
 
     public void ScriptLoaded()
     {
-        back_portal_opened = false;
+        front_portal = false;
+        back_portal = false;
         script_end_reached = false;
     }
 
@@ -111,7 +100,6 @@ public class EventManager : MonoBehaviour
     {
         if (ScriptableObjectManager.Instance.ScriptManager.SetNext(next))
         {
-            back_portal_opened = !from_front;
             ScriptableObjectManager.Instance.ScriptManager.load_mode = from_front;
             StartExitingScene();
         }
@@ -136,6 +124,8 @@ public class EventManager : MonoBehaviour
     {
         if (OnStartEnteringScene != null)
         {
+            front_portal = false;
+            back_portal = false;
             OnStartEnteringScene();
         }
     }
