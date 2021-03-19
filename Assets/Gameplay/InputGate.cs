@@ -16,12 +16,12 @@ public class InputGate : MonoBehaviour
 
     public bool alphabet_typable
     {
-        get { return alphabet_blockers.Count == 0; }
+        get { return alphabet_blockers.Count == 0 && !EventManager.Instance.Game_Paused; }
     }
 
     public bool backspace_typable
     {
-        get { return backspace_blockers.Count == 0; }
+        get { return backspace_blockers.Count == 0 && !EventManager.Instance.Game_Paused; }
     }
 
     private void OnEnable()

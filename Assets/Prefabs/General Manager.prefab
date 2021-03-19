@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7960880239323466329}
   - component: {fileID: 7960880239323466327}
   - component: {fileID: 3836140412541322890}
-  - component: {fileID: 7960880239323466324}
   - component: {fileID: 7960880239323466325}
   - component: {fileID: 7960880239323466331}
+  - component: {fileID: 5232982337458822589}
   m_Layer: 0
   m_Name: General Manager
   m_TagString: General Manager
@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script_end_reached: 0
-  back_portal_opened: 0
+  back_portal: 0
+  front_portal: 0
 --- !u!114 &7960880239323466327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,23 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 980f656eb5bde1d4d98aeffafea665fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7960880239323466324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7960880239323466330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f90f0d2fe90af64989626f572aa8184, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
-  correct_presses: 0
-  incorrect_presses: 0
-  accuracy: 0
-  speed: 0
 --- !u!114 &7960880239323466325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +111,22 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &5232982337458822589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7960880239323466330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0

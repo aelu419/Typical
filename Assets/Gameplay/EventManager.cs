@@ -130,6 +130,13 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    private bool _game_paused;
+    public bool Game_Paused
+    {
+        get { return _game_paused; }
+        set { _game_paused = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

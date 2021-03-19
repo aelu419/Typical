@@ -21,11 +21,13 @@ public class pauseMenu : MonoBehaviour
         }
     }
     public void Resume() {
+        EventManager.Instance.Game_Paused = false;
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gamePaused = false;
     }
     void Pause() {
+        EventManager.Instance.Game_Paused = true;
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         gamePaused = true;

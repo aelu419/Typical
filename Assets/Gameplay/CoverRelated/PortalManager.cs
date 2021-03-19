@@ -133,7 +133,7 @@ public class PortalManager : MonoBehaviour
         {
             for(int i = 0; i < registeredListening.Length; i++)
             {
-                if (Input.GetKeyDown(registeredListening[i]))
+                if (InputGate.Instance.alphabet_typable && Input.GetKeyDown(registeredListening[i]))
                 {
                     active_portals[i].GetComponent<Portal>().OnPortalOpen();
                     registeredListening = new KeyCode[] { };
