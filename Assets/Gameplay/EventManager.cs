@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
@@ -12,32 +10,26 @@ public class EventManager : MonoBehaviour
     {
         Debug.Log("Event Manager instantiated");
         _instance = this;
+
+        front_portal = false;
+        back_portal = false;
     }
 
-    public event Action OnCorrectKeyPressed;
-    public void RaiseCorrectKeyPressed()
+    public event Action OnProgression;
+    public void RaiseProgression()
     {
-        if (OnCorrectKeyPressed != null)
+        if (OnProgression != null)
         {
-            OnCorrectKeyPressed();
+            OnProgression();
         }
     }
 
-    public event Action OnIncorrectKeyPressed;
-    public void RaiseIncorrectKeyPressed()
+    public event Action OnRegression;
+    public void RaiseRegression()
     {
-        if(OnIncorrectKeyPressed != null)
+        if(OnRegression != null)
         {
-            OnIncorrectKeyPressed();
-        }
-    }
-
-    public event Action OnCharacterDeleted;
-    public void RaiseCharacterDeleted()
-    {
-        if(OnCharacterDeleted != null)
-        {
-            OnCharacterDeleted();
+            OnRegression();
         }
     }
 
@@ -53,39 +45,68 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    private bool portal_opened;
-    public event Action<Vector2> OnPortalOpen;
-    public void RaisePortalOpen(Vector2 end)
+    public bool back_portal;
+    public event Action<Vector2> OnBackPortalOpen;
+    public void RaiseBackPortalOpen(Vector2 end)
     {
-        if (OnPortalOpen != null && !portal_opened)
+        if (OnBackPortalOpen != null && !back_portal)
         {
-            portal_opened = true;
+            back_portal = true;
             Debug.Log("portals are now available");
-            OnPortalOpen(end);
+            OnBackPortalOpen(end);
         }
     }
 
-    public bool PortalOpened
+    public event Action OnBackPortalClose;
+    public void RaiseBackPortalClose()
     {
-        get
-        {
-            return portal_opened;
+        if (OnBackPortalClose != null && back_portal)
+        {            
+            back_portal = false;
+            Debug.Log("portals are not unavailable");
+            OnBackPortalClose();
         }
     }
-    public event Action OnPortalClose;
-    public void RaisePortalClose()
+
+    public bool front_portal;
+    public event Action OnFrontPortalEngage;
+    public void RaiseFrontPortalEngaged()
     {
-        if (OnPortalClose != null && portal_opened)
+        if (OnFrontPortalEngage != null)
         {
-            portal_opened = false;
-            Debug.Log("portals are not unavailable");
-            OnPortalClose();
+            front_portal = true;
+            OnFrontPortalEngage();
+        }
+    }
+    
+    public event Action OnFrontPortalDisengage;
+    public void RaiseFrontPortalDisengaged()
+    {
+        if (OnFrontPortalDisengage != null && front_portal)
+        {
+            front_portal = false;
+            OnFrontPortalDisengage();
         }
     }
 
     public void ScriptLoaded()
     {
+        front_portal = false;
+        back_portal = false;
         script_end_reached = false;
+    }
+
+    public void TransitionTo(ScriptObjectScriptable next, bool from_front)
+    {
+        if (ScriptableObjectManager.Instance.ScriptManager.SetNext(next))
+        {
+            ScriptableObjectManager.Instance.ScriptManager.load_mode = from_front;
+            StartExitingScene();
+        }
+        else
+        {
+            Debug.LogError("Next scene is not set!");
+        }
     }
 
     public event Action OnStartExitingScene;
@@ -103,7 +124,8 @@ public class EventManager : MonoBehaviour
     {
         if (OnStartEnteringScene != null)
         {
-            portal_opened = false;
+            front_portal = false;
+            back_portal = false;
             OnStartEnteringScene();
         }
     }

@@ -10,6 +10,7 @@ public class ScriptObjectScriptable : ScriptableObject
     public ScriptTextSource source;
     public Writer text_writer;
     public TextAsset text_asset;
+    public ScriptObjectScriptable previous;
 
     public string Text
     {

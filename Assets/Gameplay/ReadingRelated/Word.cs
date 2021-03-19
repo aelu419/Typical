@@ -15,7 +15,7 @@ public class Word
     [ReadOnly] public int index;
     [ReadOnly] public string cover_type;
     [ReadOnly] public Sprite cover_sprite;
-    private static Sprite default_cover_sprite;
+    //private static Sprite default_cover_sprite;
 
     [ReadOnly] public int typed; //number of typed letters in the word
     [ReadOnly] public WORD_TYPES word_mech; //the mechanism that the word block follows
@@ -26,6 +26,9 @@ public class Word
     //markers for texual contents of the word block
     [ReadOnly] public bool has_typable; //if the word has any typable letter in it
     [ReadOnly] public int first_typable, last_typable;
+
+    //marks if the word is actually an npc
+    [ReadOnly] public bool is_npc;
 
     public static string
         TYPED_MAT = "AveriaRegular Typed",
@@ -57,7 +60,7 @@ public class Word
         UNTYPED_REFLECTOR_MAT_ = Resources.Load(
             "Fonts & Materials/" + UNTYPED_REFLECTOR_MAT) as Material;
 
-        default_cover_sprite = Resources.Load("DefaultCoverSprite") as Sprite;
+        //default_cover_sprite = Resources.Load("DefaultCoverSprite") as Sprite;
     }
 
     public Word(Tag[] tags, string content, float slope, int index, int typed)
@@ -67,37 +70,19 @@ public class Word
         {
             return;
         }
+
         this.tags = tags;
         this.content = content;
         this.slope = slope;
         this.index = index;
         this.typed = typed;
 
-        has_typable = false;
-        first_typable = last_typable = -1;
-        for(int i = 0; i < content.Length; i++)
-        {
-            if (char.IsLetter(content[i]))
-            {
-                //when first encountering typed letter:
-                if (!has_typable)
-                {
-                    has_typable = true;
-                    first_typable = i;
-                    last_typable = i;
-                }
-                //for subsequent typed letters
-                else
-                {
-                    last_typable = i;
-                }
-            }
-        }
+        is_npc = false;
 
         //figure out what the mechanism of the text is, based on the last hanging tag
         //that is mechanism-related
-
-        for(int i = tags.Length - 1; i >= 0; i--)
+        //also, insert special typables for npc
+        for (int i = tags.Length - 1; i >= 0; i--)
         {
             if (tags[i].type.Equals("H"))
             {
@@ -112,6 +97,40 @@ public class Word
             else if (i == 0)
             {
                 this.word_mech = WORD_TYPES.plain;
+            }
+
+            //configure NPC
+            if (tags[i].type.Equals("O"))
+            {
+                Debug.Log("initiating object type with: " + tags[i]);
+                if (tags[i].GetSpecAt(0).Equals("npc"))
+                {
+                    Debug.Log("initiating npc");
+                    is_npc = true;
+                    this.content = "xx";
+                }
+            }
+        }
+
+        has_typable = false;
+        first_typable = -1;
+        last_typable = -1;
+        for(int i = 0; i < this.content.Length; i++)
+        {
+            if (char.IsLetter(this.content[i]))
+            {
+                //when first encountering typed letter:
+                if (!has_typable)
+                {
+                    has_typable = true;
+                    first_typable = i;
+                    last_typable = i;
+                }
+                //for subsequent typed letters
+                else
+                {
+                    last_typable = i;
+                }
             }
         }
     }
@@ -129,26 +148,6 @@ public class Word
         if (tmp == null)
             throw new System.Exception("prefab loading error: no TMP component");
         tmp.text = " "+content;
-        tmp.ForceMeshUpdate();
-        Vector2 rendered_vals = tmp.GetRenderedValues(false);
-
-        go.GetComponent<WordBlockBehavior>().content = this;
-        go.tag = "Word Block";
-
-        BoxCollider2D col = go.GetComponent<BoxCollider2D>();
-        if (col == null) throw new System.Exception("prefab loading error: no collider");
-
-        //set slope
-        float slope_delta = slope * rendered_vals.x;
-
-        //set collider boundaries
-        col.offset = new Vector2(rendered_vals.x / 2f, 0);
-        col.size = rendered_vals;
-
-        //TODO: handle mechanism tags
-        SetCharacterMech();
-
-        //TODO: handle stylistic tags
         string style = "";
         for (int i = tags.Length - 1; i >= 0; i--)
         {
@@ -166,8 +165,27 @@ public class Word
             |
             (style.IndexOf("B") != -1 ? FontStyles.Bold : FontStyles.Normal);
 
+        SetCharacterMech();
+
+        tmp.ForceMeshUpdate();
+
+        Vector2 rendered_vals = tmp.GetRenderedValues(false);
+
+        go.GetComponent<WordBlockBehavior>().content = this;
+        go.tag = "Word Block";
+
+        BoxCollider2D col = go.GetComponent<BoxCollider2D>();
+        if (col == null) throw new System.Exception("prefab loading error: no collider");
+
+        //set slope
+        float slope_delta = slope;// * rendered_vals.x;
+        //trim small steps to avoid collision bug
+        if (slope_delta < 0.1f)
+        {
+            slope_delta = 0;
+        }
+
         //store dimensions of the text block
-        R = new Vector2(lCursor.x + rendered_vals.x, lCursor.y + slope_delta);
         L = new Vector2(lCursor.x, lCursor.y);
         top = lCursor.y + rendered_vals.y / 2f;
 
@@ -178,18 +196,29 @@ public class Word
         {
             if (t.type.Equals("O"))
             {
-                FetchCover(t, go);
-                cover_w = cover_sprite.bounds.size.x;
+                GameObject cov = FetchCover(t, go);
+                cover_w = cov.GetComponent<BoxCollider2D>().size.x;
+                break;
             }
         }
-        R.x += cover_w;
+
+        //set collider boundaries
+        Vector2 box_size = rendered_vals;
+        box_size.x = Mathf.Max(rendered_vals.x, cover_w);
+        R = new Vector2(lCursor.x + box_size.x, lCursor.y + slope_delta);
+
+        //(deprecated)pad the collider to either sides for a bit to avoid not detecting collision
+        //box_size.x += 0.2f;
+        col.offset = new Vector2(box_size.x/2, 0);
+        col.size = box_size;
 
         return (new Vector2(R.x, R.y), go);
     }
 
+
     //fetch the cover object prefab according to the object tag
     // - see CoverDispenser and CoverObjectScriptable and their respective objects
-    private void FetchCover(Tag t, GameObject parent_obj)
+    private GameObject FetchCover(Tag t, GameObject parent_obj)
     {
         Debug.Log("fetching cover object for " + t);
         try
@@ -202,9 +231,7 @@ public class Word
             cover_type = "default";
         }
 
-        //fetch sprite for cover object
-        cover_sprite = null;
-
+        //fetch sprite for cover objec
         GameObject cover_child = null;
         foreach (CoverObjectScriptable c in ScriptableObjectManager.Instance.CoverManager.cover_objects)
         {
@@ -217,42 +244,94 @@ public class Word
                 break;
             }
         }
+
         if (cover_child == null)
         {
             Debug.LogError("cover prefab not found for type: " + cover_type);
         }
         else
         {
-            cover_sprite = cover_child.GetComponent<SpriteRenderer>().sprite;
+            if (cover_child.GetComponent<SpriteRenderer>() != null)
+            {
+                cover_sprite = cover_child.GetComponent<SpriteRenderer>().sprite;
+            }
+
             cover_child.tag = "Cover Object";
 
-            try
+            //fetch image for img tag
+            if (t.GetSpecAt(0).Equals("img"))
             {
-                //fetch image for img tag
-                if (t.GetSpecAt(0).Equals("img"))
+                string par = t.GetSpecAt(1);
+                if (par != null)
                 {
-                    string par = t.GetSpecAt(1);
-                    cover_sprite = Resources.Load<Sprite>("Misc/" + par);
-                    cover_child.GetComponent<SpriteRenderer>().sprite = cover_sprite;
+                    Sprite sprite_tmp = Resources.Load<Sprite>("Misc/" + par);
+                    if (sprite_tmp != null)
+                    {
+                        cover_sprite = sprite_tmp;
+                    }
+                    else
+                    {
+                        //default 
+                        cover_sprite = Resources.Load<Sprite>("lamp_1");
+                    }
+                }
+                cover_child.GetComponent<SpriteRenderer>().sprite = cover_sprite;
+            }
+            else if (t.GetSpecAt(0).Equals("npc"))
+            {
+                is_npc = true;
+                string par = t.GetSpecAt(1);
+                if (par != null)
+                {
+                    cover_child.GetComponent<NPCBehaviour>().SendMessage("Initialize", par);
                 }
             }
-            //skip the indexoutofrangeexception
-            //because it is likely from having no parameters
-            catch(System.ArgumentException e)
+            else if (t.GetSpecAt(0).Equals("stump"))
             {
-                Debug.Log(e);
+                TextMeshPro txt = cover_child.GetComponent<TextMeshPro>();
+                txt.text = Stump.GetInitialText();
+                txt.ForceMeshUpdate(true, true);
+            }
+            /*float[] cover_frame = { 0, 0 };
+            if (cover_sprite != null)
+            {
+                cover_frame = new float[]
+                {
+                    cover_sprite.bounds.size.x,
+                    cover_sprite.bounds.size.y
+                };
+            }
+            else
+            {
+                if (t.GetSpecAt(0).Equals("stump"))
+                {
+                    cover_frame = new float[]
+                    {
+                        cover_child.GetComponent<BoxCollider2D>().size.x,
+                        cover_child.GetComponent<BoxCollider2D>().size.y
+                    };
+                }
+            }*/
+
+            BoxCollider2D box = cover_child.GetComponent<BoxCollider2D>();
+            //initialize collider
+            if (box == null)
+            {
+                box = cover_child.AddComponent<BoxCollider2D>();
+            }
+            if (t.GetSpecAt(0) != "stump")
+            {
+                box.isTrigger = true;
             }
 
-            //initialize collider
-            cover_child.AddComponent<BoxCollider2D>();
-            cover_child.GetComponent<BoxCollider2D>().isTrigger = true;
-
-            //TODO: set local position
+            //Debug.Log(cover_child);
             cover_child.transform.localPosition = new Vector3(
-                cover_sprite.bounds.size.x / 2f,
-                (cover_sprite.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
+                box.bounds.size.x / 2f,
+                (box.bounds.size.y + tmp.GetPreferredValues().y) / 2f,
                 0);
         }
+
+        return cover_child;
     }
 
     public void SetRawText()

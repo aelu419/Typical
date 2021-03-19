@@ -10,6 +10,11 @@ public class ScriptDispenser : ScriptableObject
     private int index;
     public ScriptObjectScriptable[] scripts;
 
+    //true: enter from the front of the script
+    //false: enter from the back of the script, and set all words as typed out
+    //(see ReadingManager for implementation)
+    public bool load_mode;
+
     public ScriptObjectScriptable CurrentScript {
         get
         {
@@ -19,11 +24,15 @@ public class ScriptDispenser : ScriptableObject
 
     public bool SetNext(ScriptObjectScriptable next)
     {
+        if (next == null)
+        {
+            return false;
+        }
         for(int i = 0; i < scripts.Length; i++)
         {
             if (next.Equals(scripts[i]))
             {
-                Debug.Log(next);
+                Debug.Log("Next scene: " + next);
                 index = i;
                 return true;
             }
@@ -33,8 +42,10 @@ public class ScriptDispenser : ScriptableObject
 
     private void OnEnable()
     {
+        //by default: load_mode is considered true
+        load_mode = true;
         Debug.LogError("implement player pref reading for configuring start screen script");
         index = 0;
-        Debug.Log("current script is: " + CurrentScript);
+        //Debug.Log("current script is: " + CurrentScript);
     }
 }

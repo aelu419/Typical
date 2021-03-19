@@ -46,5 +46,6 @@ MonoBehaviour:
   portal_prefab: {fileID: 4443940831122930180, guid: 7bc32ba5156783b4bb8605e3feed3a58, type: 3}
   portal_animator: {fileID: 9100000, guid: 1f9f100ae144de941a8d9e472b59dabf, type: 2}
   margin: 0
+  local: {x: 0, y: 1.25}
   destinations: []
   active_portals: []

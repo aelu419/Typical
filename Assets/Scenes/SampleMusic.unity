@@ -329,6 +329,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1500076823080976131, guid: aae23884e9d9a6a46ae585da01ef763d, type: 3}
+      propertyPath: coarse_gain_master
+      value: 0.113
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500076823080976131, guid: aae23884e9d9a6a46ae585da01ef763d, type: 3}
+      propertyPath: ambient_gain_master
+      value: 0.277
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500076823080976131, guid: aae23884e9d9a6a46ae585da01ef763d, type: 3}
+      propertyPath: whisper_gain_master
+      value: 0.506
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500076823080976131, guid: aae23884e9d9a6a46ae585da01ef763d, type: 3}
+      propertyPath: coarse_fluctuation_amplitude
+      value: 0.113
+      objectReference: {fileID: 0}
     - target: {fileID: 1500076823080976132, guid: aae23884e9d9a6a46ae585da01ef763d, type: 3}
       propertyPath: m_Name
       value: MusicManager

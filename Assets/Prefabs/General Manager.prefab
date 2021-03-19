@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7960880239323466326}
   - component: {fileID: 7960880239323466329}
-  - component: {fileID: 7960880239323466328}
   - component: {fileID: 7960880239323466327}
+  - component: {fileID: 3836140412541322890}
   - component: {fileID: 7960880239323466324}
   - component: {fileID: 7960880239323466325}
   - component: {fileID: 7960880239323466331}
@@ -49,26 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script_end_reached: 0
---- !u!114 &7960880239323466328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7960880239323466330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03332985554a35343a304e6c69ad3af1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CAM:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  BUFFER_SIZE: 10
-  CAM_SPEED: 30
+  back_portal_opened: 0
 --- !u!114 &7960880239323466327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,9 +64,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text_holder_prefab: {fileID: 5458326794372538523, guid: 1fa3b21f147cb1f42a627f43b85aabc5, type: 3}
   script_name: script
+  type_explicit: 0
   slope_min_max: {x: 0.3, y: -0.3}
   cursor_raw: 
   next_letter: 0
+--- !u!114 &3836140412541322890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7960880239323466330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980f656eb5bde1d4d98aeffafea665fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7960880239323466324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptManager: {fileID: 11400000, guid: 5a65d1547c95d7c4ba2e625c141528af, type: 2}
   CoverManager: {fileID: 11400000, guid: e51b85e0084139845b64d5df0cbc0ab0, type: 2}
+  NPCManager: {fileID: 11400000, guid: eeb5887227b671042aa780d56bc629a7, type: 2}
 --- !u!114 &7960880239323466331
 MonoBehaviour:
   m_ObjectHideFlags: 0

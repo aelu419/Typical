@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Portal : MonoBehaviour
@@ -12,11 +11,17 @@ public class Portal : MonoBehaviour
     public Animator portal_animator; //the important parameter is 'open' (bool)
 
     public string descriptor;
+    [FMODUnity.EventRef]
+    public string sound;
 
+    public Sprite[] initial_sprites;
+
+    private event System.Action on_enter_camera;
 
     //obj is instantiated externally
     private void Start()
     {
+        on_enter_camera += () => Debug.Log("portal enter camera");
         //portal gameobject contains child object ONLY when it is spawn
         //to the right of the script
         //itself, meaning that the child obj is the textmesh
@@ -34,12 +39,39 @@ public class Portal : MonoBehaviour
             }
         }
 
-        portal_animator = gameObject.GetComponent<Animator>();
+        if (initial_sprites != null && initial_sprites.Length > 1)
+        {
+            on_enter_camera += () =>
+            {
+                GetComponent<SpriteRenderer>().sprite = initial_sprites[
+                    Mathf.FloorToInt(Random.value * initial_sprites.Length)
+                    ];
+            };
+        }
 
+        portal_animator = gameObject.GetComponent<Animator>();
+        portal_animator.SetBool("open", false);
+
+        //DIFFERENTIATE FRONT BACK PORTAL, ASSIGN BY READING MANAGER, NOT HERE!
         if (is_from_cover_prefab)
         {
-            EventManager.Instance.OnPortalOpen += OnScriptPortalOpen;
-            EventManager.Instance.OnPortalClose += OnScriptPortalClose;
+            on_enter_camera += () =>
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(sound, gameObject.transform.position);
+                portal_animator.SetBool("open", true);
+            };
+        }
+    }
+
+    //float amp = 0.01f;
+    void Update()
+    {
+        if (on_enter_camera != null
+            && CameraControler.Instance.CAM.xMax > transform.position.x
+            && transform.position.x > CameraControler.Instance.CAM.xMin)
+        {
+            on_enter_camera();
+            on_enter_camera = null;
         }
     }
 
@@ -51,10 +83,14 @@ public class Portal : MonoBehaviour
         descriptor = "[" + k.ToString() + "] " + data.description;
     }
 
-    //TODO: implement transition to another scene, link to portal manager
+    //transition forward to the next scene indicated by this portal's portal data
     public void OnPortalOpen()
     {
+        FMODUnity.RuntimeManager.PlayOneShot(sound, gameObject.transform.position);
+
         portal_animator.SetBool("open", true);
+        //force update player direction to face right (true)
+        PlayerControl.Instance.direction = true;
 
         if (data.sp == PortalData.SpecialPortals.quit)
         {
@@ -66,38 +102,10 @@ public class Portal : MonoBehaviour
         {
             //transition to specific scene
             //set dispenser to display with next script loaded
-            ScriptDispenser disp = ScriptableObjectManager.Instance.ScriptManager;
-            if (disp.SetNext(data.destination))
-            {
-                EventManager.Instance.OnStartEnteringScene += OnStartEnteringScene;
-                EventManager.Instance.StartExitingScene();
-            }
-            else
-            {
-                Debug.LogError("cannot set next script");
-            }
+            EventManager.Instance.TransitionTo(data.destination, true);
         }
     }
 
-    private void OnStartEnteringScene()
-    {
-        //configure
-        Debug.LogError("implement next scene configuration");
-        //load scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        EventManager.Instance.OnStartEnteringScene -= OnStartEnteringScene;
-    }
-
-    private void OnScriptPortalOpen(Vector2 v)
-    {
-        Debug.Log("opening script end portal");
-        portal_animator.SetBool("open", true);
-    }
-    private void OnScriptPortalClose()
-    {
-        Debug.Log("closing script end portal");
-        portal_animator.SetBool("open", false);
-    }
 }
 
 [System.Serializable]

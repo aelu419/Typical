@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSFXLibrary : MonoBehaviour
+[CreateAssetMenu(menuName = "Typical Customs/Dispensers/Player SFX Lib")]
+public class PlayerSFXLibrary : ScriptableObject
 {
     [FMODUnity.EventRef]
-    public string squeak;
+    public string helm_open, helm_close, npc_encounter, npc_talk;
 }

@@ -82,7 +82,7 @@
 	</object>
 	<object class="EventMixerMaster" id="{a0585bd3-0f13-48e9-ae11-2b2263d82e6c}">
 		<property name="volume">
-			<value>-5</value>
+			<value>-0.5</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{c725386b-e1a5-48d3-be5d-9ba44a3839c1}</destination>
@@ -167,7 +167,7 @@
 			<value>0</value>
 		</property>
 		<property name="length">
-			<value>26</value>
+			<value>20</value>
 		</property>
 		<relationship name="timeline">
 			<destination>{07e323f4-dae4-4919-8514-7a4078f3a36a}</destination>
@@ -267,39 +267,51 @@
 	</object>
 	<object class="SFXReverbEffect" id="{0bd95d49-acfa-4fea-897d-88ef2597192c}">
 		<property name="decayTime">
-			<value>2200</value>
+			<value>500</value>
 		</property>
 		<property name="earlyDelay">
-			<value>52</value>
+			<value>78</value>
 		</property>
 		<property name="lateDelay">
-			<value>12.5</value>
+			<value>68</value>
+		</property>
+		<property name="HFReference">
+			<value>5400</value>
 		</property>
 		<property name="HFDecayRatio">
-			<value>28</value>
+			<value>44.5</value>
 		</property>
 		<property name="diffusion">
 			<value>18</value>
 		</property>
 		<property name="density">
-			<value>10.5</value>
+			<value>18</value>
+		</property>
+		<property name="lowShelfGain">
+			<value>-9.5</value>
+		</property>
+		<property name="highCut">
+			<value>13500</value>
+		</property>
+		<property name="earlyLateMix">
+			<value>67</value>
 		</property>
 		<property name="wetLevel">
 			<value>0</value>
 		</property>
-		<property name="dryLevel">
-			<value>-28</value>
-		</property>
 	</object>
 	<object class="ThreeEQEffect" id="{bb8139d7-1007-4041-894d-43d2deffdccb}">
 		<property name="lowGain">
-			<value>-13.5</value>
-		</property>
-		<property name="highGain">
 			<value>-18.5</value>
 		</property>
+		<property name="midGain">
+			<value>-2.5</value>
+		</property>
 		<property name="lowCrossover">
-			<value>240</value>
+			<value>100</value>
+		</property>
+		<property name="highCrossover">
+			<value>2200</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{01273051-8611-4085-82e9-4ab554e24040}" />

@@ -9,8 +9,8 @@ public class PortalManager : MonoBehaviour
 
     private static PortalManager _instance;
     public static PortalManager Instance => _instance;
-
     public float margin;
+    public Vector2 local;
 
     public List<PortalData> destinations;
     public List<GameObject> active_portals;
@@ -35,8 +35,8 @@ public class PortalManager : MonoBehaviour
 
     void Start()
     {
-        EventManager.Instance.OnPortalOpen += OnPortalOpen;
-        EventManager.Instance.OnPortalClose += OnPortalClose;
+        EventManager.Instance.OnBackPortalOpen += OnBackPortalOpen;
+        EventManager.Instance.OnBackPortalClose += OnBackPortalClose;
 
         //fetch destinations from current scene data
     }
@@ -44,6 +44,8 @@ public class PortalManager : MonoBehaviour
     public PortalData InitializePortalFromTag(Tag t)
     {
         string[] specs = t.Specs;
+        Debug.Log("Portal Specs Length: " + specs.Length);
+
         if (t.Specs.Length < 2)
         {
             throw new UnityException("portal tag" + t + " lack sufficient specs, need description and destination");
@@ -61,8 +63,12 @@ public class PortalManager : MonoBehaviour
 
     //open portals according to script and location
     //beginning marks the left middle position of the collection of portal blocks
-    private void OnPortalOpen(Vector2 beginning)
+    private void OnBackPortalOpen(Vector2 beginning)
     {
+        if (active_portals.Count > 0)
+        {
+            return;
+        }
         foreach (PortalData pd in destinations)
         {
             Debug.Log(pd.description);
@@ -73,7 +79,7 @@ public class PortalManager : MonoBehaviour
             return;
         }
 
-        transform.position = new Vector3(beginning.x, beginning.y, 0);
+        transform.position = new Vector3(beginning.x + local.x, beginning.y + local.y, 0);
         Vector2 s = portal_prefab.GetComponent<SpriteRenderer>().size;
         float block_raw_height = s.y;
         float block_whole_height = s.y + 2 * margin;
@@ -89,15 +95,13 @@ public class PortalManager : MonoBehaviour
             GameObject go = GameObject.Instantiate(
                 portal_prefab,
                 new Vector3(
-                    transform.position.x + 2 + Random.value * 0.3f - 0.15f,
-                    transform.position.y + block_raw_height / 2 
-                        + portional_h * block_whole_height + Random.value * 0.2f - 0.1f,
+                    transform.position.x + 2,// + Random.value * 0.3f - 0.15f,
+                    transform.position.y + portional_h * block_whole_height,// + Random.value * 0.2f - 0.1f,
                     transform.position.z
                     ),
                 Quaternion.identity,
                 transform);
 
-            //TODO: set portal data
             Portal p_ = go.GetComponent<Portal>();
             p_.SetDisplay(destinations[i], alphabet[destinations.Count - i - 1]);
             registeredListening[i] = alphabet[destinations.Count - i - 1];
@@ -107,7 +111,7 @@ public class PortalManager : MonoBehaviour
     }
 
     //close all portals opened
-    private void OnPortalClose()
+    private void OnBackPortalClose()
     {
         //no longer listen to key presses
         registeredListening = new KeyCode[] { };
@@ -118,6 +122,7 @@ public class PortalManager : MonoBehaviour
                 Destroy(go);
             }
         }
+        active_portals = new List<GameObject>();
     }
 
     // Update is called once per frame
