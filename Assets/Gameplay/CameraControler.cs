@@ -34,6 +34,12 @@ public class CameraControler : MonoBehaviour
 
     public AnimationCurve easing;
 
+    [Range(0, 1000)]
+    public float shake_freq;
+    Vector2 shake;
+    [Range(0, 1)]
+    public float shake_scale;
+
     float base_size;
     float _zoom;
     public float zoom
@@ -71,8 +77,8 @@ public class CameraControler : MonoBehaviour
         base_size = cam.orthographicSize;
         zoom = 1;
 
-        StudioListener sl = GetComponent<StudioListener>();
-        sl.attenuationObject = player;
+        //StudioListener sl = GetComponent<StudioListener>();
+        //sl.attenuationObject = player;
 
         EventManager.Instance.OnProgression += () => UpdateKeyWeight(1);
         EventManager.Instance.OnRegression += () => UpdateKeyWeight(-1);
@@ -84,6 +90,32 @@ public class CameraControler : MonoBehaviour
 
         key_timer = 0;
         key_weight = 0;
+
+        shake = Vector2.zero;
+    }
+
+    public IEnumerator Shake(float magnitude, float duration)
+    {
+        if (duration <= 0)
+        {
+            throw new System.ArgumentException("duration must be >= 0 !");
+        }
+        float t = 0;
+        float anchorX = Random.value * 10;
+        float anchorY = Random.value * 10;
+
+        shake = Vector2.zero;
+        float shake_scale_curr;
+        while (t < duration)
+        {
+            shake_scale_curr = magnitude * shake_scale * (duration - t) / duration;
+            shake.x = (Mathf.PerlinNoise(t * shake_freq, anchorX) - 0.5f) * shake_scale_curr;
+            shake.y = (Mathf.PerlinNoise(t * shake_freq, anchorY) - 0.5f) * shake_scale_curr;
+            t += Time.deltaTime;
+            yield return null;
+        }
+        shake = Vector2.zero;
+        yield return null;
     }
 
     //right is true
@@ -203,13 +235,13 @@ public class CameraControler : MonoBehaviour
         Vector3 shift_raw = new Vector3(current_key_animation_state * shift_magnitude * shift * shift_unit.x, 0, 0);
         Vector2 focus = (Vector2)(player.transform.position + shift_raw);
 
-        transform.position = new Vector3(focus.x, 
-            Mathf.Lerp(transform.position.y, focus.y, PlayerControl.Instance.climb_speed * Time.deltaTime),
+        cam.transform.position = new Vector3(focus.x + shake.x, 
+            Mathf.Lerp(cam.transform.position.y, focus.y, PlayerControl.Instance.climb_speed * Time.deltaTime) + shake.y,
             -10);
         
         CAM = new Rect(
-            transform.position.x - cam_w / 2f,
-            transform.position.y - cam_h / 2f,
+            cam.transform.position.x - cam_w / 2f,
+            cam.transform.position.y - cam_h / 2f,
             cam_w, cam_h);
     }
 }

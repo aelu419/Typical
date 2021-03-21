@@ -401,7 +401,11 @@ public class PlayerControl : MonoBehaviour
     //handle collisions
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.LogError("IMPLEMENT COLLISION ANIMATION, collision speed: " + collision.relativeVelocity.y);
+        //Debug.LogError("IMPLEMENT COLLISION ANIMATION, collision speed: " + collision.relativeVelocity.y);
+        if (collision.relativeVelocity.y > 0)
+        {
+            StartCoroutine(CameraControler.Instance.Shake(collision.relativeVelocity.y, 0.1f));
+        }
 
         if (collision.gameObject.CompareTag("Word Block"))
         {

@@ -156,8 +156,6 @@ MonoBehaviour:
   key_threshold: 4
   shift: 0
   key_efficacy: 0.565
-  key_weight: 0
-  key_weight_pinned: 0
   easing:
     serializedVersion: 2
     m_Curve:
@@ -182,4 +180,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  t: 0
+  shake_freq: 90
+  shake_scale: 0.127

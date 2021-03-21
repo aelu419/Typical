@@ -341,7 +341,7 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  outputType: 
+  outputType: AUTODETECT
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,7 +478,7 @@ MonoBehaviour:
       Value: Desktop
       HasValue: 1
     SpeakerMode:
-      Value: 3
+      Value: 6
       HasValue: 1
     VirtualChannelCount:
       Value: 128
@@ -523,7 +523,7 @@ MonoBehaviour:
       Value: 1
       HasValue: 1
     Overlay:
-      Value: 0
+      Value: 1
       HasValue: 1
     Logging:
       Value: 0
