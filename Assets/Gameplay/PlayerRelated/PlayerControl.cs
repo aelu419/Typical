@@ -404,7 +404,7 @@ public class PlayerControl : MonoBehaviour
         //Debug.LogError("IMPLEMENT COLLISION ANIMATION, collision speed: " + collision.relativeVelocity.y);
         if (collision.relativeVelocity.y > 0)
         {
-            StartCoroutine(CameraControler.Instance.Shake(collision.relativeVelocity.y, 0.1f));
+            StartCoroutine(CameraControler.Instance.Shake(collision.relativeVelocity.y, 0.25f));
         }
 
         if (collision.gameObject.CompareTag("Word Block"))

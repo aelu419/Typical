@@ -151,11 +151,11 @@ MonoBehaviour:
     width: 0
     height: 0
   BUFFER_SIZE: 30
-  shift_magnitude: 2.4
-  shift_duration: 1.86
-  key_threshold: 4
+  shift_magnitude: 2.37
+  shift_duration: 0.97
+  key_threshold: 3
   shift: 0
-  key_efficacy: 0.565
+  key_efficacy: 0.303
   easing:
     serializedVersion: 2
     m_Curve:
@@ -180,5 +180,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  shake_freq: 90
-  shake_scale: 0.127
+  shake_freq: 84
+  shake_scale: 0.264

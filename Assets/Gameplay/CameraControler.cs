@@ -34,10 +34,10 @@ public class CameraControler : MonoBehaviour
 
     public AnimationCurve easing;
 
-    [Range(0, 1000)]
+    [Range(0, 100)]
     public float shake_freq;
-    Vector2 shake;
-    [Range(0, 1)]
+    Vector3 shake;
+    [Range(0, 0.3f)]
     public float shake_scale;
 
     float base_size;
@@ -91,7 +91,7 @@ public class CameraControler : MonoBehaviour
         key_timer = 0;
         key_weight = 0;
 
-        shake = Vector2.zero;
+        shake = Vector3.zero;
     }
 
     public IEnumerator Shake(float magnitude, float duration)
@@ -103,6 +103,7 @@ public class CameraControler : MonoBehaviour
         float t = 0;
         float anchorX = Random.value * 10;
         float anchorY = Random.value * 10;
+        float anchorZ = Random.value * 10;
 
         shake = Vector2.zero;
         float shake_scale_curr;
@@ -111,6 +112,7 @@ public class CameraControler : MonoBehaviour
             shake_scale_curr = magnitude * shake_scale * (duration - t) / duration;
             shake.x = (Mathf.PerlinNoise(t * shake_freq, anchorX) - 0.5f) * shake_scale_curr;
             shake.y = (Mathf.PerlinNoise(t * shake_freq, anchorY) - 0.5f) * shake_scale_curr;
+            shake.z = 30 * (Mathf.PerlinNoise(t * shake_freq, anchorZ) - 0.5f) * shake_scale_curr;
             t += Time.deltaTime;
             yield return null;
         }
@@ -238,6 +240,11 @@ public class CameraControler : MonoBehaviour
         cam.transform.position = new Vector3(focus.x + shake.x, 
             Mathf.Lerp(cam.transform.position.y, focus.y, PlayerControl.Instance.climb_speed * Time.deltaTime) + shake.y,
             -10);
+
+        cam.transform.rotation = Quaternion.Euler(
+            cam.transform.rotation.eulerAngles.x,
+            cam.transform.rotation.eulerAngles.y,
+            shake.z);
         
         CAM = new Rect(
             cam.transform.position.x - cam_w / 2f,
