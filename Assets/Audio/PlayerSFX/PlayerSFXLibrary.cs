@@ -6,5 +6,5 @@ using UnityEngine;
 public class PlayerSFXLibrary : ScriptableObject
 {
     [FMODUnity.EventRef]
-    public string helm_open, helm_close, npc_encounter, npc_talk;
+    public string helm_open, helm_close, npc_encounter, npc_talk, collision;
 }

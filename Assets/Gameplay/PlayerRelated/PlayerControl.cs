@@ -402,9 +402,11 @@ public class PlayerControl : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.LogError("IMPLEMENT COLLISION ANIMATION, collision speed: " + collision.relativeVelocity.y);
-        if (collision.relativeVelocity.y > 0)
+        if (collision.relativeVelocity.y > 0.3f)
         {
+            FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.collision, transform.position);
             StartCoroutine(CameraControler.Instance.Shake(collision.relativeVelocity.y, 0.25f));
+            GetComponent<ParticleSystem>().Play();
         }
 
         if (collision.gameObject.CompareTag("Word Block"))

@@ -16,3 +16,4 @@ MonoBehaviour:
   helm_close: event:/Player/HelmetClose
   npc_encounter: event:/Player/TWBell_Instrument
   npc_talk: event:/Player/TWScroll_Instrument
+  collision: event:/Player/ClawHit
