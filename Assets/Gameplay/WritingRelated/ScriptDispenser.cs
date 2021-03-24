@@ -1,14 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "Typical Customs/Dispensers/Script Dispenser")]
 public class ScriptDispenser : ScriptableObject
 {
-    private int index;
     public ScriptObjectScriptable[] scripts;
+
+    public ScriptObjectScriptable main_menu_no_save;
+    public ScriptObjectScriptable main_menu_has_save;
+    public ScriptObjectScriptable tutorial;
+
+    private static ScriptObjectScriptable _current;
+
+    public const string
+        MAINMENU = "_mainmenu",
+        QUIT = "_quit",
+        SAVE = "_save",
+        TUTORIAL = "_tutorial";
+
+    public static bool first_load = true; //the first time for a script to be loaded, this is set once per game session
 
     //true: enter from the front of the script
     //false: enter from the back of the script, and set all words as typed out
@@ -18,34 +28,107 @@ public class ScriptDispenser : ScriptableObject
     public ScriptObjectScriptable CurrentScript {
         get
         {
-            return scripts[index];
+            if (first_load)
+            {
+                //Debug.Log("loading for the first time");
+                if (GameSave.PassedTutorial)
+                {
+                    //fetch main menu
+                    if (GameSave.HasSavedScene)
+                    {
+                        _current = main_menu_has_save;
+                    }
+                    else
+                    {
+                        _current = main_menu_no_save;
+                    }
+                }
+                else
+                {
+                    _current = tutorial;
+                }
+            }
+            return _current;
         }
     }
 
-    public bool SetNext(ScriptObjectScriptable next)
+    public string Previous
     {
-        if (next == null)
+        get
         {
-            return false;
-        }
-        for(int i = 0; i < scripts.Length; i++)
-        {
-            if (next.Equals(scripts[i]))
+            ScriptObjectScriptable p = Fetch(CurrentScript.previous);
+            if (p != null)
             {
-                Debug.Log("Next scene: " + next);
-                index = i;
-                return true;
+                return p.name_;
+            }
+            else
+            {
+                if (GameSave.PassedTutorial && _current.name_.Equals(TUTORIAL))
+                {
+                    return MAINMENU;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
-        return false;
+    }
+
+    public void SetCurrentScript(string destination)
+    {
+        _current = Fetch(destination);
+    }
+
+    public ScriptObjectScriptable LoadSaved()
+    {
+        string s = GameSave.SavedScene;
+        for(int i = 0; i < scripts.Length; i++)
+        {
+            if (scripts[i].name_.Equals(s))
+            {
+                Debug.Log("found game save on " + s);
+                return scripts[i];
+            }
+        }
+        Debug.LogError("saved scene called \"" + s + "\" cannot be found");
+        return null;
+    }
+
+    public ScriptObjectScriptable Fetch(string name)
+    {
+        if (name.Equals(MAINMENU))
+        {
+            if (GameSave.HasSavedScene)
+            {
+                return main_menu_has_save;
+            }
+            else
+            {
+                return main_menu_no_save;
+            }
+        }
+        else if (name.Equals(SAVE))
+        {
+            return LoadSaved();
+        }
+        else
+        {
+            foreach (ScriptObjectScriptable s in scripts)
+            {
+                if (s.name_.Equals(name))
+                {
+                    return s;
+                }
+            }
+            return null;
+        }
     }
 
     private void OnEnable()
     {
-        //by default: load_mode is considered true
+        GameSave.ClearSave();
         load_mode = true;
-        Debug.LogError("implement player pref reading for configuring start screen script");
-        index = 0;
-        //Debug.Log("current script is: " + CurrentScript);
+        _current = LoadSaved();
     }
 }

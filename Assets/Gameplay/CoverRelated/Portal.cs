@@ -77,7 +77,7 @@ public class Portal : MonoBehaviour
 
     public void SetDisplay(PortalData pd, KeyCode k)
     {
-        Debug.Log(pd + ", " + k);
+        //Debug.Log(pd + ", " + k);
         data = pd;
         data.control = k;
         descriptor = "[" + k.ToString() + "] " + data.description;
@@ -92,7 +92,7 @@ public class Portal : MonoBehaviour
         //force update player direction to face right (true)
         PlayerControl.Instance.direction = true;
 
-        if (data.sp == PortalData.SpecialPortals.quit)
+        if (data.IsQuit)
         {
             Debug.Log("quitting, please implement progress saving mechanism!");
             Application.Quit();
@@ -106,73 +106,4 @@ public class Portal : MonoBehaviour
         }
     }
 
-}
-
-[System.Serializable]
-public class PortalData
-{
-    public string description;
-    public ScriptObjectScriptable destination;
-    public static PortalData default_portal_data;
-    public SpecialPortals sp;
-
-    private const string QUIT = "_quit";
-    private const string MAIN_MENU = "_mainmenu";
-
-    public KeyCode control;
-
-    public enum SpecialPortals
-    {
-        none,
-        quit
-    }
-
-    static PortalData()
-    {
-        default_portal_data = new PortalData(
-            "main menu", 
-            ScriptableObjectManager.Instance.ScriptManager.scripts[0]
-            );
-    }
-
-    public static PortalData GetCloneOfDefault()
-    {
-        return new PortalData(
-            "main menu",
-            ScriptableObjectManager.Instance.ScriptManager.scripts[0]
-            );
-    }
-
-    public PortalData(string description, ScriptObjectScriptable destination)
-    {
-        sp = SpecialPortals.none; //only string destination can result in special portals
-        this.description = description;
-        this.destination = destination;
-    }
-
-    public PortalData(string description, string destination_name)
-    {
-        sp = SpecialPortals.none;
-        this.description = description;
-        foreach(ScriptObjectScriptable d in 
-            ScriptableObjectManager.Instance.ScriptManager.scripts)
-        {
-            if (d.name_.Equals(destination_name))
-            {
-                this.destination = d;
-            }
-        }
-        if(this.destination == null)
-        {
-            switch(destination_name)
-            {
-                case QUIT:
-                    sp = SpecialPortals.quit;
-                    break;
-                default:
-                    throw new System.Exception("destination called " + destination_name
-                            + " cannot be found");
-            }
-        }
-    }
 }

@@ -1,5 +1,0 @@
-<O img title/>...
-<P Start Game section1/>
-<P Test Scene sample/>
-<P Tutorial _tutorial/>
-<P Quit _quit/>

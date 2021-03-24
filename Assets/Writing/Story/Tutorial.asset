@@ -15,5 +15,9 @@ MonoBehaviour:
   name_: _tutorial
   source: 0
   text_writer: {fileID: 0}
-  text_asset: {fileID: 4900000, guid: 5d4d073bd2d5e504a9b75838d791f850, type: 3}
-  previous: {fileID: 11400000, guid: dc26a9c2c672bd1499b9f09fa610158c, type: 2}
+  text: type this line to continue.
+  previous: 
+  next:
+  - begin _mainmenu
+  music: {fileID: 0}
+  slope_min_max: {x: 0, y: 0}

@@ -52,7 +52,6 @@ public class EventManager : MonoBehaviour
         if (OnBackPortalOpen != null && !back_portal)
         {
             back_portal = true;
-            Debug.Log("portals are now available");
             OnBackPortalOpen(end);
         }
     }
@@ -63,7 +62,6 @@ public class EventManager : MonoBehaviour
         if (OnBackPortalClose != null && back_portal)
         {            
             back_portal = false;
-            Debug.Log("portals are not unavailable");
             OnBackPortalClose();
         }
     }
@@ -94,19 +92,16 @@ public class EventManager : MonoBehaviour
         front_portal = false;
         back_portal = false;
         script_end_reached = false;
+        ScriptDispenser.first_load = false;
     }
 
-    public void TransitionTo(ScriptObjectScriptable next, bool from_front)
+    public void TransitionTo(string next, bool from_front)
     {
-        if (ScriptableObjectManager.Instance.ScriptManager.SetNext(next))
-        {
-            ScriptableObjectManager.Instance.ScriptManager.load_mode = from_front;
-            StartExitingScene();
-        }
-        else
-        {
-            Debug.LogError("Next scene is not set!");
-        }
+        Debug.Log("transitioning to " + next + " from " + (from_front ? "front" : "back"));
+        ScriptDispenser sManager = ScriptableObjectManager.Instance.ScriptManager;
+        sManager.SetCurrentScript(next);
+        ScriptableObjectManager.Instance.ScriptManager.load_mode = from_front;
+        StartExitingScene();
     }
 
     public event Action OnStartExitingScene;

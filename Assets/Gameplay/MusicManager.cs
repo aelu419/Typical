@@ -28,6 +28,8 @@ public class MusicManager : MonoBehaviour
 
     Transform cam; //music manager position is pinned to main camera
 
+    public CustomSong ambient;
+
     private void OnEnable()
     {
         mm = this;
@@ -41,6 +43,18 @@ public class MusicManager : MonoBehaviour
         BeatLength = 1.0f / (BPM / 60.0f);
 
         cam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+    }
+
+    public void PlaySong(CustomSong song)
+    {
+        if (song == null)
+        {
+            Debug.LogError("no song loaded");
+        }
+        else
+        {
+            Debug.LogError("implement song playing!");
+        }
     }
 
     // Update is called once per frame

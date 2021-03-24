@@ -10,9 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01e605533d030a0408fbb64405f77198, type: 3}
-  m_Name: MainMenu
+  m_Name: MainMenuWithSave
   m_EditorClassIdentifier: 
   name_: _mainmenu
   source: 0
   text_writer: {fileID: 0}
-  text_asset: {fileID: 4900000, guid: 29135547c28b376408d87c2bf58f4222, type: 3}
+  text: <O img title/><O lamp/>...
+  previous: 
+  next:
+  - continue _save
+  - new game _part1
+  - tutorial _tutorial
+  - test scene sample
+  - quit _quit
+  music: {fileID: 0}
+  slope_min_max: {x: 0, y: 0}

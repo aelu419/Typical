@@ -27,7 +27,7 @@ public class FrontPortal : MonoBehaviour
             PlayerControl.Instance.direction = false;
 
             EventManager.Instance.TransitionTo(
-                ScriptableObjectManager.Instance.ScriptManager.CurrentScript.previous,
+                ScriptableObjectManager.Instance.ScriptManager.Previous,
                 false
                 );
         }

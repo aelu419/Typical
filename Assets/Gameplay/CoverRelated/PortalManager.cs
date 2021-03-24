@@ -37,27 +37,23 @@ public class PortalManager : MonoBehaviour
     {
         EventManager.Instance.OnBackPortalOpen += OnBackPortalOpen;
         EventManager.Instance.OnBackPortalClose += OnBackPortalClose;
-
-        //fetch destinations from current scene data
     }
 
-    public PortalData InitializePortalFromTag(Tag t)
+    public void Configure(ScriptObjectScriptable current)
     {
-        string[] specs = t.Specs;
-        Debug.Log("Portal Specs Length: " + specs.Length);
-
-        if (t.Specs.Length < 2)
+        //fetch destinations from current scene data
+        destinations = new List<PortalData>();
+        if (current.next == null || current.next.Length == 0)
         {
-            throw new UnityException("portal tag" + t + " lack sufficient specs, need description and destination");
+            destinations.Add(PortalData.GetDefault());
         }
         else
         {
-            string description = "";
-            for(int i = 0; i < specs.Length - 1; i++)
+            for (int i = 0; i < current.next.Length; i++)
             {
-                description += specs[i] + " ";
+                //Debug.Log("fetching portal destination: " + current.next[i]);
+                destinations.Add(PortalData.Fetch(current.next[i]));
             }
-            return new PortalData(description, specs[specs.Length - 1]);
         }
     }
 
@@ -69,10 +65,11 @@ public class PortalManager : MonoBehaviour
         {
             return;
         }
+        /*
         foreach (PortalData pd in destinations)
         {
             Debug.Log(pd.description);
-        }
+        }*/
         if (destinations == null || destinations.Count == 0)
         {
             Debug.LogError("no destination specified, skipping portal opening procedure");

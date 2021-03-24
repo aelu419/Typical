@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01e605533d030a0408fbb64405f77198, type: 3}
-  m_Name: Sample
+  m_Name: part1
   m_EditorClassIdentifier: 
-  name_: sample
+  name_: part1
   source: 0
   text_writer: {fileID: 0}
-  text: 123% Lorem <O npc sample/> <O img decoration1/> <O stump/> Ipsum <P Continue
-    sample/>
+  text: abc
   previous: _mainmenu
-  next: []
+  next:
+  - ' _mainmenu'
   music: {fileID: 0}
   slope_min_max: {x: 0, y: 0}

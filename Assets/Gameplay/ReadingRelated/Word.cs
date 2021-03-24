@@ -102,7 +102,7 @@ public class Word
             //configure NPC
             if (tags[i].type.Equals("O"))
             {
-                Debug.Log("initiating object type with: " + tags[i]);
+                //Debug.Log("initiating object type with: " + tags[i]);
                 if (tags[i].GetSpecAt(0).Equals("npc"))
                 {
                     Debug.Log("initiating npc");
@@ -220,7 +220,7 @@ public class Word
     // - see CoverDispenser and CoverObjectScriptable and their respective objects
     private GameObject FetchCover(Tag t, GameObject parent_obj)
     {
-        Debug.Log("fetching cover object for " + t);
+        //Debug.Log("fetching cover object for " + t);
         try
         {
             cover_type = t.GetSpecAt(0);

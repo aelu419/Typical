@@ -14,7 +14,6 @@ public class ReadingManager: MonoBehaviour
     private CameraControler cControler;
     private PlayerControl player;
 
-
     //whether use correct letter control or use letter pressed control
     public bool type_explicit;
 
@@ -53,47 +52,20 @@ public class ReadingManager: MonoBehaviour
     {
         EMPTY_WORD = new Word(null, null, 0, -1);
         typing_word = EMPTY_WORD;
-        //Debug.Log("script dispenser instance = " + 
-        //ScriptableObjectManager.Instance.ScriptManager.name);
-        ScriptObjectScriptable current =
-            ScriptableObjectManager.Instance.ScriptManager.CurrentScript;
+
+        ScriptDispenser sManager = ScriptableObjectManager.Instance.ScriptManager;
+        ScriptObjectScriptable current = sManager.CurrentScript;
+
         script_name = current.name_;
-        words = ParseScript(current.Text);
-
-        //pick out the portals
-        List<PortalData> ports = new List<PortalData>();
-        for(int i = 0; i < words.Count - 1; i++)
+        if (sManager.Previous == null)
         {
-            Word w = words[i];
-            Tag[] t = w.tags;
-            foreach (Tag t_ in t)
-            {
-                if (t_.appearance == Tag.TagAppearanceType.self_closing
-                    && t_.type.Equals("P"))
-                {
-                    try
-                    {
-                        ports.Add(PortalManager.Instance.InitializePortalFromTag(t_));
-                    }
-                    catch(System.Exception e)
-                    {
-                        Debug.LogError("defunct portal tag: " + t_.ToString());
-                        Debug.LogError("\t" + e.Message);
-                    }
-                    finally
-                    {
-                        words.Remove(w);
-                        i--;
-                    }
-                }
-            }
+            words = ParseScript("<O lamp/> " + current.Text);
         }
-        if(ports.Count == 0)
+        else
         {
-            ports.Add(PortalData.GetCloneOfDefault());
+            words = ParseScript("<O front_portal/> " + current.Text);
         }
-
-        PortalManager.Instance.destinations = ports;
+        slope_min_max = current.slope_min_max;
 
         //connect to rest of components
         cControler = GetComponent<CameraControler>();
@@ -157,13 +129,11 @@ public class ReadingManager: MonoBehaviour
         (Vector2 cursor, GameObject go) word_loader_temp;
         for (int i = 0; i < words.Count; i++)
         {
-            Debug.Log("configuring " + words[i]);
+            //Debug.Log("configuring " + words[i]);
             word_loader_temp = words[i].ToPrefab(text_holder_prefab, cursor);
             cursor = word_loader_temp.cursor; //update cursor
             loaded_words.Add(word_loader_temp.go);
         }
-
-        Vector2 spawn_displacement = new Vector2(0, player.charSize / 2f);
 
         //set spawn root
         if (ScriptableObjectManager.Instance.ScriptManager.load_mode)
@@ -210,7 +180,11 @@ public class ReadingManager: MonoBehaviour
             }
         }
 
+        //initialize the rest of the script
         EventManager.Instance.ScriptLoaded();
+        MusicManager.Instance.PlaySong(current.music);
+        PortalManager.Instance.Configure(current);
+
         if (!ScriptableObjectManager.Instance.ScriptManager.load_mode)
         {
             EventManager.Instance.RaiseScriptEndReached();
@@ -787,16 +761,6 @@ public class ReadingManager: MonoBehaviour
         Regex open_tag = new Regex(@"<[^\/]+>");
         Regex close_tag = new Regex(@"<\s*(\/).*>");
         Regex self_close_tag = new Regex(@"<.*(\/)>");
-
-        //append portal at start
-        if (!script_name.Equals("_mainmenu"))
-        {
-            s = "<O front_portal/>" + s;
-        }
-        else
-        {
-            s = "<O lamp/>" + s;
-        }
 
         //remove redundant line swaps
         s = s.Replace('\n', ' ');

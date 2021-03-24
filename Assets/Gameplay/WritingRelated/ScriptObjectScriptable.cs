@@ -9,8 +9,14 @@ public class ScriptObjectScriptable : ScriptableObject
     public string name_;
     public ScriptTextSource source;
     public Writer text_writer;
-    public TextAsset text_asset;
-    public ScriptObjectScriptable previous;
+    //public TextAsset text_asset;
+    [TextArea]
+    public string text;
+    public string previous;
+    public string [] next;
+
+    public CustomSong music;
+    public Vector2 slope_min_max = Vector2.zero;
 
     public string Text
     {
@@ -18,7 +24,7 @@ public class ScriptObjectScriptable : ScriptableObject
         {
             if(source == ScriptTextSource.TEXT_ASSET)
             {
-                return text_asset.text;
+                return text;
             }
             else
             {
