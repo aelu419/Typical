@@ -395,7 +395,7 @@ public class ReadingManager: MonoBehaviour
                     typing_word = words[cursor_raw[0]];
                 }
             } while (cursor_raw[0] < words.Count
-                && !char.IsLetter(next_letter)
+                && !char.IsLetterOrDigit(next_letter)
                 && next_letter != '\0');
 
             UpdateRenderedCursor();
@@ -467,7 +467,7 @@ public class ReadingManager: MonoBehaviour
                     while (cursor_raw[1] > 0)
                     {
                         cursor_raw[1]--;
-                        if (char.IsLetter(words[cursor_raw[0]].content[cursor_raw[1]]))
+                        if (char.IsLetterOrDigit(words[cursor_raw[0]].content[cursor_raw[1]]))
                         {
                             break;
                         }
@@ -598,7 +598,7 @@ public class ReadingManager: MonoBehaviour
                             next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
 
                             skipped_through_punctuation = 
-                                skipped_through_punctuation || !char.IsLetter(next_letter);
+                                skipped_through_punctuation || !char.IsLetterOrDigit(next_letter);
                         }
                     }
                 }
@@ -612,11 +612,11 @@ public class ReadingManager: MonoBehaviour
                     next_letter = words[cursor_raw[0]].content[cursor_raw[1]];
 
                     skipped_through_punctuation =
-                        skipped_through_punctuation || !char.IsLetter(next_letter);
+                        skipped_through_punctuation || !char.IsLetterOrDigit(next_letter);
 
                 }
 
-            } while (!char.IsLetter(next_letter));
+            } while (!char.IsLetterOrDigit(next_letter));
 
             //when the sequence skips over non-letter characters
             //the next letter should be kept the same and the cursor should be moved right by 1

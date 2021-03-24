@@ -141,7 +141,7 @@ public class ReadingDeprecated: MonoBehaviour
         //head -> temp1 -> ... -> curr, all the way to the last letter of the sentence
         for(int i = 0; i < rawArr.Length; i++)
         {
-            if (isLetter(rawArr[i]))
+            if (char.IsLetterOrDigit(rawArr[i]))
             {
                 if(head == null)
                 {
@@ -180,18 +180,6 @@ public class ReadingDeprecated: MonoBehaviour
 
         //Debug.Log(i+": "+ displayString);
         mesh.text = displayString;
-    }
-
-    //return if the given char is a upper or lower case letter in the latin alphabet
-    bool isLetter(char i)
-    {
-        int iVal = (int)i;
-        if( (iVal >= 'A' && iVal <= 'Z')
-            || (iVal >= 'a' && iVal <= 'z'))
-        {
-            return true;
-        }
-        return false;
     }
 
     void TriggerEnding()
