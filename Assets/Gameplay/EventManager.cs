@@ -97,8 +97,16 @@ public class EventManager : MonoBehaviour
 
     public void TransitionTo(string next, bool from_front)
     {
-        Debug.Log("transitioning to " + next + " from " + (from_front ? "front" : "back"));
+
         ScriptDispenser sManager = ScriptableObjectManager.Instance.ScriptManager;
+        if (sManager.CurrentScript.name_.Equals(ScriptDispenser.TUTORIAL)
+            && next.Equals(ScriptDispenser.MAINMENU)
+            )
+        {
+            GameSave.PassedTutorial = true;
+        }
+
+        Debug.Log("transitioning to " + next + " from " + (from_front ? "front" : "back"));
         sManager.SetCurrentScript(next);
         ScriptableObjectManager.Instance.ScriptManager.load_mode = from_front;
         StartExitingScene();
