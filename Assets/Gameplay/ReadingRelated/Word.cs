@@ -117,7 +117,7 @@ public class Word
         last_typable = -1;
         for(int i = 0; i < this.content.Length; i++)
         {
-            if (char.IsLetter(this.content[i]))
+            if (char.IsLetterOrDigit(this.content[i]))
             {
                 //when first encountering typed letter:
                 if (!has_typable)

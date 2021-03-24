@@ -406,7 +406,12 @@ public class PlayerControl : MonoBehaviour
         {
             FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.collision, transform.position);
             StartCoroutine(CameraControler.Instance.Shake(collision.relativeVelocity.y, 0.25f));
-            GetComponent<ParticleSystem>().Play();
+            ParticleSystem sprinkle = GetComponent<ParticleSystem>();
+            sprinkle.Emit(2
+                + Mathf.CeilToInt(
+                    Mathf.Max(0, Mathf.Log(collision.relativeVelocity.y, 2)))
+                    );
+            //.Play();
         }
 
         if (collision.gameObject.CompareTag("Word Block"))

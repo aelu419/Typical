@@ -1009,7 +1009,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
@@ -5115,7 +5115,7 @@ GameObject:
   - component: {fileID: 5958245989288943800}
   - component: {fileID: 1792937221728068729}
   - component: {fileID: 8273662986939299537}
-  - component: {fileID: 1199507573621729195}
+  - component: {fileID: 8167194639198209978}
   m_Layer: 0
   m_Name: Torso
   m_TagString: Untagged
@@ -5254,7 +5254,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   playback: 0
---- !u!95 &1199507573621729195
+--- !u!95 &8167194639198209978
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0

@@ -63,6 +63,11 @@ public class InputGate : MonoBehaviour
         }
     }
 
+    public static bool AnyTypableDown ()
+    {
+        return Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.Escape);
+    }
+
     // Update is called once per frame
     void Update()
     {

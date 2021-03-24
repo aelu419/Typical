@@ -305,9 +305,10 @@ public class ReadingManager: MonoBehaviour
         // handle input
         if (next_letter != '\0'
             //correct key is pressed
-            && (type_explicit 
-                ? Input.GetKeyDown(next_letter.ToString().ToLower()) 
-                : AnyLetterPressed())
+            && (type_explicit
+                ? Input.GetKeyDown(next_letter.ToString().ToLower())
+                : InputGate.AnyTypableDown()
+                )
             //mechanism limits
             && NextWordTypable()
             && InputGate.Instance.alphabet_typable
@@ -676,37 +677,6 @@ public class ReadingManager: MonoBehaviour
                     return true;
             }
         }
-    }
-
-    //determine if a letter is pressed
-    private bool AnyLetterPressed() {
-        return
-            Input.GetKeyDown(KeyCode.A)
-            | Input.GetKeyDown(KeyCode.B)
-            | Input.GetKeyDown(KeyCode.C)
-            | Input.GetKeyDown(KeyCode.D)
-            | Input.GetKeyDown(KeyCode.E)
-            | Input.GetKeyDown(KeyCode.F)
-            | Input.GetKeyDown(KeyCode.G)
-            | Input.GetKeyDown(KeyCode.H)
-            | Input.GetKeyDown(KeyCode.I)
-            | Input.GetKeyDown(KeyCode.J)
-            | Input.GetKeyDown(KeyCode.K)
-            | Input.GetKeyDown(KeyCode.L)
-            | Input.GetKeyDown(KeyCode.M)
-            | Input.GetKeyDown(KeyCode.N)
-            | Input.GetKeyDown(KeyCode.O)
-            | Input.GetKeyDown(KeyCode.P)
-            | Input.GetKeyDown(KeyCode.Q)
-            | Input.GetKeyDown(KeyCode.R)
-            | Input.GetKeyDown(KeyCode.S)
-            | Input.GetKeyDown(KeyCode.T)
-            | Input.GetKeyDown(KeyCode.U)
-            | Input.GetKeyDown(KeyCode.V)
-            | Input.GetKeyDown(KeyCode.W)
-            | Input.GetKeyDown(KeyCode.X)
-            | Input.GetKeyDown(KeyCode.Y)
-            | Input.GetKeyDown(KeyCode.Z);
     }
 
     //update the rendered cursor position on screen according to a given raw cursor unit by char count
