@@ -113,9 +113,9 @@ public class PlayerControl : MonoBehaviour
     {
         on_first_frame += () =>
         {
-            transform.position = new Vector3(
+            rigid.position = new Vector3(
                spawn_root.x,
-               spawn_root.y + charSize / 2f,
+               spawn_root.y + charSize / 2f + 0.2f,
                0
                );
 
@@ -131,37 +131,20 @@ public class PlayerControl : MonoBehaviour
             on_first_frame();
             on_first_frame = null;
         }
-        //bool accelerating = false;
-        //float hor_spd_temp = rigid.velocity.x;
 
         //basic variables for the rest of the method
         collider_bounds = new Rect(
             box.bounds.min,
             box.bounds.size
             );
-        //Debug.Log(collider_bounds.yMin + " to " + collider_bounds.yMax);
 
-        /*
-        relation_temp = new Vector3(
-            relation_to_destination.x,
-            relation_to_destination.y,
-            relation_to_destination.z);*/
-
-        UpdateRelativePosition();
-
-        /*
-        word_blocks_in_contact_str = "";
-        for(int i = 0; i < word_blocks_in_contact.Count; i++)
-        {
-            word_blocks_in_contact_str += i + ": " + word_blocks_in_contact[i].content + " ";
-        }*/
 
         //control the motion of the player:
 
         /* ---deprecated---
         //freeze the character if it is not inside camera range
-        if (transform.position.x < cControler.CAM.xMin
-            || transform.position.x > cControler.CAM.xMax)
+        if (rigid.position.x < cControler.CAM.xMin
+            || rigid.position.x > cControler.CAM.xMax)
         {
             //Debug.Log("outside camera scope");
             rigid.velocity = Vector2.zero;
@@ -169,9 +152,23 @@ public class PlayerControl : MonoBehaviour
         }
         */
 
+        rigid.gravityScale = 1.0f;
+        //change of destination by external scripts
+        bool new_order = destination_override.x >= 0;
+        if (new_order)
+        {
+            destination = new Vector3(
+                destination_override.x,
+                destination.y,
+                destination.z);
+            destination_override = new Vector3(-1, 0, 0);
+        }
+
+        UpdateRelativePosition();
+
         if (!in_climb)
         {
-            rigid.gravityScale = 1.0f;
+
             if (!Approximately(relation_to_destination.x, 0))
             {
                 float x_vel = rigid.velocity.x;
@@ -179,13 +176,6 @@ public class PlayerControl : MonoBehaviour
                 //stopping distance under constant acceleration
                 float stopping_distance_x = rigid.velocity.x * rigid.velocity.x / 2 / accel;
 
-                //change of destination by external scripts
-                bool new_order = destination_override.x >= 0;
-                if (new_order)
-                {
-                    destination = destination_override;
-                    destination_override = new Vector3(-1, 0, 0);
-                }
 
                 //decide first if should decelerate or accelerate
                 bool should_decel =
@@ -211,8 +201,7 @@ public class PlayerControl : MonoBehaviour
                 {
                     //accelerate accordingly
                     float dvdt = Mathf.Sign(relation_to_destination.x) * -1 * accel * Time.deltaTime;
-                    //Debug.Log("accelerating " + dvdt);
-                    //accelerating = true;
+
                     x_vel += dvdt;
 
                     //clamp to maximum velocity
@@ -221,7 +210,8 @@ public class PlayerControl : MonoBehaviour
 
                 rigid.velocity = new Vector2(x_vel, rigid.velocity.y);
 
-                float yMax = transform.position.y - charSize / 2f;
+
+                float yMax = rigid.position.y - charSize / 2f;
                 for(int i = 0; i < word_blocks_in_contact.Count; i++)
                 {
                     //WordBlockBehavior block_content = word_blocks_in_contact[i].GetComponent<WordBlockBehavior>();
@@ -233,8 +223,8 @@ public class PlayerControl : MonoBehaviour
                         //teleport for small height gaps
                         if (hdiff < climb_threshold)
                         {
-                            transform.position = new Vector3(
-                                transform.position.x,
+                            rigid.position = new Vector3(
+                                rigid.position.x,
                                 block_top + charSize / 2f + 0.1f,
                                 transform.position.z
                             );
@@ -251,13 +241,19 @@ public class PlayerControl : MonoBehaviour
                 if (in_climb)
                 {
                     destination.y = yMax;
-                    //climb_extent = yMax - transform.position.y;
+                    //climb_extent = yMax - rigid.position.y;
                     animator.SetBool("in_climb", true);
                 }
                 else
                 {
-                    destination.y = transform.position.y;
+                    destination.y = rigid.position.y;
                 }
+            }
+            else
+            {
+                rigid.position = destination;
+                relation_to_destination.x = 0;
+                rigid.velocity = new Vector2(0, rigid.velocity.y);
             }
         }
         else
@@ -357,11 +353,11 @@ public class PlayerControl : MonoBehaviour
             //play oneshot squeaking sound for helmet raising/lowering
             if (light_toggle)
             {
-                FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.helm_open, transform.position);
+                FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.helm_open, rigid.position);
             }
             else
             {
-                FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.helm_close, transform.position);
+                FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.helm_close, rigid.position);
             }
             
         }
@@ -376,7 +372,7 @@ public class PlayerControl : MonoBehaviour
 
     //update the stored relative position of the player to the cursor
     private void UpdateRelativePosition() {
-        relation_to_destination = transform.position - destination;
+        relation_to_destination = (Vector3)rigid.position - destination;
         relation_to_destination.x = Approximately(relation_to_destination.x, 0) ? 0 : relation_to_destination.x;
         relation_to_destination.y = Approximately(relation_to_destination.y, 0) ? 0 : relation_to_destination.y;
         relation_to_destination.z = Approximately(relation_to_destination.z, 0) ? 0 : relation_to_destination.z;
@@ -384,18 +380,18 @@ public class PlayerControl : MonoBehaviour
 
     private bool Approximately(float a, float b)
     {
-        return Mathf.Approximately(a, b);
-        //return Mathf.Abs(a - b) <= 0.05;
+        //return Mathf.Approximately(a, b);
+        return Mathf.Abs(a - b) <= 0.005;
     }
 
     public void OnReachNPC()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.npc_encounter, transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.npc_encounter, rigid.position);
     }
 
     public void OnTalkToNPC()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.npc_talk, transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.npc_talk, rigid.position);
     }
 
     //handle collisions
@@ -404,7 +400,7 @@ public class PlayerControl : MonoBehaviour
         //Debug.LogError("IMPLEMENT COLLISION ANIMATION, collision speed: " + collision.relativeVelocity.y);
         if (collision.relativeVelocity.y > 0.3f)
         {
-            FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.collision, transform.position);
+            FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.collision, rigid.position);
             StartCoroutine(CameraControler.Instance.Shake(collision.relativeVelocity.y, 0.25f));
             ParticleSystem sprinkle = GetComponent<ParticleSystem>();
             sprinkle.Emit(2

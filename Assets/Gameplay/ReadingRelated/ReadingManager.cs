@@ -57,6 +57,8 @@ public class ReadingManager: MonoBehaviour
         ScriptObjectScriptable current = sManager.CurrentScript;
 
         script_name = current.name_;
+        slope_min_max = current.slope_min_max;
+
         if (sManager.Previous == null)
         {
             words = ParseScript("<O lamp/> " + current.Text);
@@ -65,7 +67,6 @@ public class ReadingManager: MonoBehaviour
         {
             words = ParseScript("<O front_portal/> " + current.Text);
         }
-        slope_min_max = current.slope_min_max;
 
         //connect to rest of components
         cControler = GetComponent<CameraControler>();

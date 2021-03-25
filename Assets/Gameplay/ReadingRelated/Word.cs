@@ -74,6 +74,7 @@ public class Word
         this.tags = tags;
         this.content = content;
         this.slope = slope;
+        Debug.Log(slope);
         this.index = index;
         this.typed = typed;
 

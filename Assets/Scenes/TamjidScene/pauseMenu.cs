@@ -73,10 +73,15 @@ public class pauseMenu : MonoBehaviour
         {
             Debug.Log("Currently in main menu, quit directly!");
             Application.Quit();
+        } else if (ScriptableObjectManager.Instance.ScriptManager.CurrentScript.name_.Equals(ScriptDispenser.TUTORIAL))
+        {
+            Debug.Log("Currently in tutorial, not saving");
+            EventManager.Instance.TransitionTo(ScriptDispenser.MAINMENU, false);
+            Time.timeScale = 1.0f;
         }
         else
         {
-            Debug.Log("Not in main menu, saving and then quitting!");
+            Debug.Log("Currently in plot, saving and then quitting!");
             GameSave.SaveProgress();
             EventManager.Instance.TransitionTo(ScriptDispenser.MAINMENU, false);
             Time.timeScale = 1.0f;

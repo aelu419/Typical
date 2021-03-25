@@ -127,7 +127,7 @@ public class ScriptDispenser : ScriptableObject
 
     private void OnEnable()
     {
-        GameSave.ClearSave();
+        //GameSave.ClearSave();
         load_mode = true;
         _current = LoadSaved();
     }

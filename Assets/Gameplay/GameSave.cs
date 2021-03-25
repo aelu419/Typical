@@ -81,17 +81,13 @@ public class GameSave
                 return PassedTutorial;
             }
         }
-        set
-        {
-            if (value)
-            {
-                PlayerPrefs.SetInt(TUTORIAL, 1);
-            }
-            else
-            {
-                PlayerPrefs.SetInt(TUTORIAL, 0);
-            }
-            PlayerPrefs.Save();
-        }
+    }
+
+    public static void SaveTutorial(bool passed)
+    {
+        PlayerPrefs.SetInt(TUTORIAL, passed ? 1 : 0);
+        PlayerPrefs.Save();
+        Debug.Log("tutorial state set to: " + PlayerPrefs.GetInt(TUTORIAL));
+        return;
     }
 }

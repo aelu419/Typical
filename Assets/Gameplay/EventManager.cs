@@ -103,7 +103,7 @@ public class EventManager : MonoBehaviour
             && next.Equals(ScriptDispenser.MAINMENU)
             )
         {
-            GameSave.PassedTutorial = true;
+            GameSave.SaveTutorial(true);
         }
 
         Debug.Log("transitioning to " + next + " from " + (from_front ? "front" : "back"));
