@@ -16,6 +16,7 @@ public class ScriptObjectScriptable : ScriptableObject
     public string [] next;
 
     public CustomSong music;
+    public Material background;
     public Vector2 slope_min_max = Vector2.zero;
 
     public string Text

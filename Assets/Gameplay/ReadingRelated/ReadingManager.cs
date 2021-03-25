@@ -181,21 +181,19 @@ public class ReadingManager: MonoBehaviour
             }
         }
 
-        //initialize the rest of the script
-        EventManager.Instance.ScriptLoaded();
-        MusicManager.Instance.PlaySong(current.music);
-        PortalManager.Instance.Configure(current);
-
-        if (!ScriptableObjectManager.Instance.ScriptManager.load_mode)
+        first_frame += () =>
         {
-            EventManager.Instance.RaiseScriptEndReached();
-        }
+            //initialize the rest of the script
+            EventManager.Instance.ScriptLoaded(current);
+
+            if (!ScriptableObjectManager.Instance.ScriptManager.load_mode)
+            {
+                EventManager.Instance.RaiseScriptEndReached();
+            }
+        };
 
         //update player position
         UpdateRenderedCursor();
-
-        //Debug.Log("starting at " + cursor_raw[0] + "'s " + cursor_raw[1] + "'th letter");
-        //Debug.Log("the next letter is: " + next_letter);
     }
 
     // Update is called once per frame

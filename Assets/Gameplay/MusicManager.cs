@@ -43,10 +43,12 @@ public class MusicManager : MonoBehaviour
         BeatLength = 1.0f / (BPM / 60.0f);
 
         cam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        EventManager.Instance.OnScriptLoaded += PlaySong;
     }
 
-    public void PlaySong(CustomSong song)
+    private void PlaySong(ScriptObjectScriptable current)
     {
+        CustomSong song = current.music;
         if (song == null)
         {
             Debug.LogError("no song loaded");

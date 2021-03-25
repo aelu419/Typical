@@ -28,18 +28,19 @@ public class PortalManager : MonoBehaviour
 
     //portal manager is always initialized to the current portal manager in the scene
     private void Awake()
-
     {
         _instance = this;
     }
 
     void Start()
     {
+
         EventManager.Instance.OnBackPortalOpen += OnBackPortalOpen;
         EventManager.Instance.OnBackPortalClose += OnBackPortalClose;
+        EventManager.Instance.OnScriptLoaded += Configure;
     }
 
-    public void Configure(ScriptObjectScriptable current)
+    private void Configure(ScriptObjectScriptable current)
     {
         //fetch destinations from current scene data
         destinations = new List<PortalData>();

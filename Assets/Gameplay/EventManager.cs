@@ -87,12 +87,14 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void ScriptLoaded()
+    public event Action<ScriptObjectScriptable> OnScriptLoaded;
+    public void ScriptLoaded(ScriptObjectScriptable current)
     {
         front_portal = false;
         back_portal = false;
         script_end_reached = false;
-        ScriptDispenser.first_load = false;
+
+        if (OnScriptLoaded != null) { OnScriptLoaded(current); }
     }
 
     public void TransitionTo(string next, bool from_front)
