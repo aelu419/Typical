@@ -12,11 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0008e10d94636dd4b9fb5b9bf66bc473, type: 3}
   m_Name: _ScriptDispenser
   m_EditorClassIdentifier: 
-  scripts:
+  init_scripts:
   - {fileID: 11400000, guid: 95a78729aee99b642849b98cac0b8d1d, type: 2}
   - {fileID: 11400000, guid: 62bdc81d2fce9284294104f40c734078, type: 2}
-  - {fileID: 11400000, guid: 0a93afb92caff9a4697aa0aa58a5e53f, type: 2}
+  scripts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   main_menu_no_save: {fileID: 11400000, guid: b95317c20703c0f43b4c373b8fadfae5, type: 2}
   main_menu_has_save: {fileID: 11400000, guid: dc26a9c2c672bd1499b9f09fa610158c, type: 2}
   tutorial: {fileID: 11400000, guid: 62bdc81d2fce9284294104f40c734078, type: 2}
+  parseable: {fileID: 4900000, guid: f027fb1e5f9418c49a7c8ccc675d6774, type: 3}
   load_mode: 1

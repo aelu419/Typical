@@ -33,7 +33,7 @@ public class Atonal : ContinuousInstrument
 
     public IEnumerator Iterate()
     {
-        while (song.enabled)
+        while (song.player.enabled)
         {
             if (enable)
             {

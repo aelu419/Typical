@@ -6,12 +6,12 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
     public const float SAMPLING_FREQUENCY = 44100.0f;
-    private static MusicManager mm;
+    private static MusicManager _instance;
     public static MusicManager Instance
     {
         get
         {
-            return mm;
+            return _instance;
         }
     }
 
@@ -29,10 +29,11 @@ public class MusicManager : MonoBehaviour
     Transform cam; //music manager position is pinned to main camera
 
     public CustomSong ambient;
+    CustomSong playing;
 
     private void OnEnable()
     {
-        mm = this;
+        _instance = this;
     }
 
     // Start is called before the first frame update
@@ -52,10 +53,21 @@ public class MusicManager : MonoBehaviour
         if (song == null)
         {
             Debug.LogError("no song loaded");
+            playing = ambient;
         }
         else
         {
             Debug.LogError("implement song playing!");
+            playing = song;
+        }
+
+        playing.Initialize(this);
+
+        //kickstart all the atonal instruments
+        foreach (Atonal a in playing.atonals)
+        {
+            StartCoroutine(a.Iterate());
+            a.Start();
         }
     }
 

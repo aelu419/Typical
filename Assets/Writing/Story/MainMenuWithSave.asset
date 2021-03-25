@@ -19,7 +19,7 @@ MonoBehaviour:
   previous: 
   next:
   - continue _save
-  - new game _part1
+  - new game part1
   - tutorial _tutorial
   - test scene sample
   - quit _quit

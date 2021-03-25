@@ -1,9 +1,12 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "Typical Customs/Dispensers/Script Dispenser")]
 public class ScriptDispenser : ScriptableObject
 {
+    public ScriptObjectScriptable[] init_scripts;
+    [System.NonSerialized]
     public ScriptObjectScriptable[] scripts;
 
     public ScriptObjectScriptable main_menu_no_save;
@@ -11,6 +14,9 @@ public class ScriptDispenser : ScriptableObject
     public ScriptObjectScriptable tutorial;
 
     private static ScriptObjectScriptable _current;
+
+    public TextAsset parseable;
+
 
     public const string
         MAINMENU = "_mainmenu",
@@ -125,9 +131,69 @@ public class ScriptDispenser : ScriptableObject
         }
     }
 
+    private List<ScriptObjectScriptable> Parse()
+    {
+        List<ScriptObjectScriptable> s = new List<ScriptObjectScriptable>();
+        string p = parseable.text;
+        string[] lines = p.Split('\n');
+
+        for (int i = 0; i < lines.Length;)
+        {
+            string header = Extract(lines[i++]);
+            string previous = Extract(lines[i++]);
+            List<string> nexts = new List<string>();
+            while (lines[i][0] == '[')
+            {
+                nexts.Add(Extract(lines[i++]));
+            }
+
+            string script = "";
+            while (i < lines.Length)
+            {
+                if (lines[i].Length == 0)
+                {
+                    i++;
+                    if (i >= lines.Length) break;
+                }
+                else if (lines[i][0] == '[')
+                {
+                    break;
+                }
+                script += " " + lines[i];
+                i++;
+            }
+            
+            ScriptObjectScriptable chapter = CreateInstance<ScriptObjectScriptable>();
+
+            chapter.name_ = header;
+            chapter.previous = previous;
+            chapter.next = nexts.ToArray();
+            chapter.text = script;
+
+            s.Add(chapter);
+        }
+        return s;
+    }
+
+    private string Extract (string full)
+    {
+        //Debug.Log(full);
+        int start = full.IndexOf('[');
+        int end = full.IndexOf(']');
+        return full.Substring(start + 1, end - start - 1);
+    }
+
     private void OnEnable()
     {
-        //GameSave.ClearSave();
+        List<ScriptObjectScriptable> all = Parse();
+        all.AddRange(init_scripts);
+        scripts = all.ToArray();
+
+        foreach (ScriptObjectScriptable s in scripts)
+        {
+            Debug.Log("\t" + s.name_);
+        }
+
         load_mode = true;
         _current = LoadSaved();
     }
