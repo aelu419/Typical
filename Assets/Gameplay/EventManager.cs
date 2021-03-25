@@ -88,7 +88,7 @@ public class EventManager : MonoBehaviour
     }
 
     public event Action<ScriptObjectScriptable> OnScriptLoaded;
-    public void ScriptLoaded(ScriptObjectScriptable current)
+    public void RaiseOnScriptLoaded(ScriptObjectScriptable current)
     {
         front_portal = false;
         back_portal = false;

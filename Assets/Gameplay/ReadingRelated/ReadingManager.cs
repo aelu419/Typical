@@ -56,6 +56,7 @@ public class ReadingManager: MonoBehaviour
         ScriptDispenser sManager = ScriptableObjectManager.Instance.ScriptManager;
         ScriptObjectScriptable current = sManager.CurrentScript;
 
+        Debug.Log("reading script " + current.name_);
         script_name = current.name_;
         slope_min_max = current.slope_min_max;
 
@@ -184,7 +185,7 @@ public class ReadingManager: MonoBehaviour
         first_frame += () =>
         {
             //initialize the rest of the script
-            EventManager.Instance.ScriptLoaded(current);
+            EventManager.Instance.RaiseOnScriptLoaded(current);
 
             if (!ScriptableObjectManager.Instance.ScriptManager.load_mode)
             {

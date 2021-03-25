@@ -30,8 +30,6 @@ public class SceneTransitioner : MonoBehaviour
 
     private void OnStartEnteringScene()
     {
-        //configure
-        Debug.LogError("implement next scene configuration");
         //load scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         EventManager.Instance.OnStartEnteringScene -= OnStartEnteringScene;

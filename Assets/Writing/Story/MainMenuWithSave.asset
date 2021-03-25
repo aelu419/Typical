@@ -24,4 +24,5 @@ MonoBehaviour:
   - test scene sample
   - quit _quit
   music: {fileID: 0}
+  background: {fileID: 2100000, guid: c464e0f0a275ba747960164c5dac62f3, type: 2}
   slope_min_max: {x: 0, y: 0}

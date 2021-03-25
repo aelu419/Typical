@@ -20,7 +20,6 @@ public class Background : MonoBehaviour
     {
         GetComponent<UnityEngine.UI.Image>().material = 
             current.background == null ? default_material : current.background;
-        Debug.Log(current.background);
     }
 
     // Update is called once per frame

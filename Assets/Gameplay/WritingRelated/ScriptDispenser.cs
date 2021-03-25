@@ -28,7 +28,7 @@ public class ScriptDispenser : ScriptableObject
     public ScriptObjectScriptable CurrentScript {
         get
         {
-            if (first_load)
+            if (first_load && _current == null)
             {
                 //Debug.Log("loading for the first time");
                 if (GameSave.PassedTutorial)

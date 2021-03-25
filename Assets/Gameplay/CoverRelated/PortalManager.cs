@@ -34,7 +34,6 @@ public class PortalManager : MonoBehaviour
 
     void Start()
     {
-
         EventManager.Instance.OnBackPortalOpen += OnBackPortalOpen;
         EventManager.Instance.OnBackPortalClose += OnBackPortalClose;
         EventManager.Instance.OnScriptLoaded += Configure;
