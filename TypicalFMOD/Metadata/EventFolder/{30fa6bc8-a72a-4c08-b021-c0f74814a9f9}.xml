@@ -5,7 +5,7 @@
 			<value>Whisper</value>
 		</property>
 		<relationship name="folder">
-			<destination>{7d4c71bd-c238-4970-bf4d-af25d09c080b}</destination>
+			<destination>{ec530fe9-a684-454d-ad1d-8a0254694f2f}</destination>
 		</relationship>
 	</object>
 </objects>
