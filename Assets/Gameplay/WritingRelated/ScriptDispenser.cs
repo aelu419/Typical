@@ -36,6 +36,14 @@ public class ScriptDispenser : ScriptableObject
         {
             if (first_load && _current == null)
             {
+                //during first load, debug all the scripts by trying to parse each of them
+                foreach (ScriptObjectScriptable s in scripts)
+                {
+                    GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>().ParseScript(
+                        s.text
+                        );
+                }
+
                 //Debug.Log("loading for the first time");
                 if (GameSave.PassedTutorial)
                 {

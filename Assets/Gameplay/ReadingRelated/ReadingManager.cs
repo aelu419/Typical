@@ -759,7 +759,7 @@ public class ReadingManager: MonoBehaviour
         Regex tag = new Regex(@"<\s*(\/?)(\s*[^>])+\s*(\/?)\s*>");
 
         Regex open_tag = new Regex(@"<[^\/]+>");
-        Regex close_tag = new Regex(@"<\s*(\/).*>");
+        Regex close_tag = new Regex(@"<\s*(\/)[A-Z]>");
         Regex self_close_tag = new Regex(@"<.*(\/)>");
 
         //remove redundant line swaps
