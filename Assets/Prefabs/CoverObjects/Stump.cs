@@ -34,7 +34,7 @@ public class Stump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Rect cam = CameraControler.Instance.CAM;
+        Rect cam = CameraController.Instance.CAM;
         if (cam.xMin < transform.position.x
             && transform.position.x < cam.xMax)
         {

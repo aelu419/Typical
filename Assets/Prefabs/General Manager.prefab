@@ -65,8 +65,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text_holder_prefab: {fileID: 5458326794372538523, guid: 1fa3b21f147cb1f42a627f43b85aabc5, type: 3}
   script_name: script
-  type_explicit: 0
-  slope_min_max: {x: 0.3, y: -0.3}
+  type_explicit: 1
+  slope_min_max: {x: 0, y: 0}
   cursor_raw: 
   next_letter: 0
 --- !u!114 &3836140412541322890

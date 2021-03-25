@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class pauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
     public static bool gamePaused = false;
     public GameObject pauseMenuUI;
@@ -54,7 +54,7 @@ public class pauseMenu : MonoBehaviour
     }
     public void muteGame() {
         Debug.Log("Muting game....");
-        FMODUnity.RuntimeManager.MuteAllEvents(!GameSave.ToggleMute());
+        CameraController.Instance.Mute(!GameSave.ToggleMute());
 
         foreach (UnityEngine.UI.Button b in buttons)
         {

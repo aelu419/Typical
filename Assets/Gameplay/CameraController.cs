@@ -4,7 +4,7 @@ using UnityEngine;
 
 using FMODUnity;
 
-public class CameraControler : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     [ExecuteAlways]
     [ReadOnly] public Rect CAM; //the range of the camera as a rectangle, in world units
@@ -54,8 +54,8 @@ public class CameraControler : MonoBehaviour
         get { return _zoom; }
     }
 
-    private static CameraControler _instance;
-    public static CameraControler Instance
+    private static CameraController _instance;
+    public static CameraController Instance
     {
         get { return _instance; }
     }
@@ -63,6 +63,35 @@ public class CameraControler : MonoBehaviour
     private void OnEnable()
     {
         _instance = this;
+    }
+
+    /**
+     * audio management
+     */
+    string masterBusString = "bus:/";
+    FMOD.Studio.Bus masterBus;
+    public void Mute(bool muted)
+    {
+        masterBus = RuntimeManager.GetBus(masterBusString);
+        masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //RuntimeManager.PauseAllEvents(muted);
+        if (muted)
+        {
+            pauseAfterDelay(1);
+        }
+        else
+        {
+            masterBus.setMute(false);
+            MusicManager.Instance.Restart();
+        }
+    }
+    IEnumerator pauseAfterDelay(float t)
+    {
+        yield return new WaitForSeconds(t);
+        masterBus = RuntimeManager.GetBus(masterBusString);
+        masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        masterBus.setPaused(true);
+        yield return null;
     }
 
     // Start is called before the first frame update
@@ -92,6 +121,9 @@ public class CameraControler : MonoBehaviour
         key_weight = 0;
 
         shake = Vector3.zero;
+
+        GetComponent<StudioListener>().attenuationObject = gameObject;
+        GetComponent<StudioListener>().enabled = !GameSave.Muted;
     }
 
     public IEnumerator Shake(float magnitude, float duration)

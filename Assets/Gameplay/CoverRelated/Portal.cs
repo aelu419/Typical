@@ -67,8 +67,8 @@ public class Portal : MonoBehaviour
     void Update()
     {
         if (on_enter_camera != null
-            && CameraControler.Instance.CAM.xMax > transform.position.x
-            && transform.position.x > CameraControler.Instance.CAM.xMin)
+            && CameraController.Instance.CAM.xMax > transform.position.x
+            && transform.position.x > CameraController.Instance.CAM.xMin)
         {
             on_enter_camera();
             on_enter_camera = null;

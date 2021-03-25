@@ -26,8 +26,6 @@ public class MusicManager : MonoBehaviour
     [Range(0, 1)]
     public float GLOBAL_VOLUME;
 
-    Transform cam; //music manager position is pinned to main camera
-
     public CustomSong ambient;
     CustomSong playing;
 
@@ -42,9 +40,12 @@ public class MusicManager : MonoBehaviour
         timer = 0.0f;
         beat = 0.0f;
         BeatLength = 1.0f / (BPM / 60.0f);
-
-        cam = GameObject.FindGameObjectWithTag("MainCamera").transform;
         EventManager.Instance.OnScriptLoaded += PlaySong;
+    }
+
+    public void Restart()
+    {
+        PlaySong(ScriptableObjectManager.Instance.ScriptManager.CurrentScript);
     }
 
     private void PlaySong(ScriptObjectScriptable current)
@@ -76,8 +77,8 @@ public class MusicManager : MonoBehaviour
     {
         timer += Time.deltaTime;
         beat = timer / 60.0f * BPM;
+        transform.position = CameraController.Instance.transform.position;
 
-        transform.position = cam.position;
     }
 
     /*

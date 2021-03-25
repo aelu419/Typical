@@ -11,7 +11,7 @@ public class ReadingManager: MonoBehaviour
     public List<Word> words;
     public string script_name;
 
-    private CameraControler cControler;
+    private CameraController cControler;
     private PlayerControl player;
 
     //whether use correct letter control or use letter pressed control
@@ -70,7 +70,7 @@ public class ReadingManager: MonoBehaviour
         }
 
         //connect to rest of components
-        cControler = GetComponent<CameraControler>();
+        cControler = GetComponent<CameraController>();
         player = PlayerControl.Instance
             .GetComponent<PlayerControl>();
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1633462531847131769}
   - component: {fileID: 8176779960459741103}
   - component: {fileID: 4836907034581024751}
-  - component: {fileID: 1200735920861090334}
+  - component: {fileID: 4561297107226738680}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
   ListenerNumber: -1
---- !u!114 &1200735920861090334
+--- !u!114 &4561297107226738680
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1633462531847131768}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03332985554a35343a304e6c69ad3af1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ca385a5877a2054c81a5953322acc62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CAM:
@@ -151,9 +151,9 @@ MonoBehaviour:
     width: 0
     height: 0
   BUFFER_SIZE: 30
-  shift_magnitude: 2.37
-  shift_duration: 0.97
-  key_threshold: 3
+  shift_magnitude: 2.3
+  shift_duration: 2.24
+  key_threshold: 5
   shift: 0
   key_efficacy: 0.303
   easing:
@@ -162,8 +162,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -180,5 +180,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  shake_freq: 84
-  shake_scale: 0.264
+  shake_freq: 27.6
+  shake_scale: 0.045

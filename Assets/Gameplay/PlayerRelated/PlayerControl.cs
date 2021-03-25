@@ -35,7 +35,7 @@ public class PlayerControl : MonoBehaviour
     //private ContactPoint2D[] cp;
 
     //connect to other game components
-    private CameraControler cControler;
+    private CameraController cControler;
     //private ReadingManager rManager;
     //private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     private Rigidbody2D rigid;
@@ -85,7 +85,7 @@ public class PlayerControl : MonoBehaviour
         //torso = transform.GetChild(1).GetComponent<SpriteRenderer>();
         head_light_controller = transform.GetChild(0).GetComponent<HeadLightControl>();
 
-        cControler = CameraControler.Instance;
+        cControler = CameraController.Instance;
 
         box = GetComponent<BoxCollider2D>();
 
@@ -401,7 +401,7 @@ public class PlayerControl : MonoBehaviour
         if (collision.relativeVelocity.y > 0.3f)
         {
             FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.collision, rigid.position);
-            StartCoroutine(CameraControler.Instance.Shake(collision.relativeVelocity.y, 0.25f));
+            StartCoroutine(CameraController.Instance.Shake(collision.relativeVelocity.y, 0.25f));
             ParticleSystem sprinkle = GetComponent<ParticleSystem>();
             sprinkle.Emit(2
                 + Mathf.CeilToInt(
