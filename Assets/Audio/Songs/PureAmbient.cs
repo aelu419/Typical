@@ -22,7 +22,7 @@ public class PureAmbient : CustomSong
     [Range(0, 1)]
     public float ambient_gain_master;
 
-    Atonal whisper_instrument, ambient_instrument;
+    protected Atonal whisper_instrument, ambient_instrument;
 
     //ID of instruments under the song
     const int WHISPER = 0, AMBIENT = 1;

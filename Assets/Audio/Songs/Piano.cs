@@ -18,9 +18,19 @@ public class Piano : PureAmbient
 
     IEnumerator PianoRoutine()
     {
+        FMOD.Studio.EventInstance note = RuntimeManager.CreateInstance(piano);
         while (player.enabled)
         {
-            yield return null;
+            note.setParameterByName("pan", Random.value * 2.0f - 1.0f);
+            note.setParameterByName("eqL", Random.value);
+            note.setParameterByName("eqM", Random.value);
+            note.setParameterByName("eqH", Random.value);
+            note.setParameterByName("pitch", Mathf.RoundToInt(Random.value * 12 - 6));
+
+            note.start();
+            note.release();
+
+            yield return new WaitForSeconds(7.5f + Random.value * 5);
         }
         yield return null;
     }
