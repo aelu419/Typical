@@ -69,7 +69,7 @@ public class Markov
 
         //pick first word from corpus
         string initial_state = "";
-        while(initial_state.Length < size-1)
+        while(initial_state.Length < size)
         {
             initial_state = corpus_words[Mathf.FloorToInt(Random.value * corpus_words.Length)]+' ';
         }
@@ -92,7 +92,7 @@ public class Markov
                     Debug.Log("terminating line early: " + next);
                     break;
                 }
-            } while (next != ' ');
+            } while (next != ' ' && result.Length < length * 20);
         }
         //if this is reached, then the sentence has not terminated by puncutation
         //punctuation will be manually added

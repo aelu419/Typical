@@ -222,13 +222,13 @@ public class PlayerControl : MonoBehaviour
                 int n_contacts = rigid.GetContacts(contacts);
                 for(int i = 0; i < n_contacts; i++)
                 {
-                    
+                    if (!contacts[i].collider.gameObject.CompareTag("Word Block")) break;
                     //WordBlockBehavior block_content = word_blocks_in_contact[i].GetComponent<WordBlockBehavior>();
                     float block_top = contacts[i].collider.bounds.max.y;
                     //word_blocks_in_contact[i].GetComponent<BoxCollider2D>().bounds.max.y;
                     //Debug.Log(contacts[i] + " with " + contacts[i].collider.gameObject.name);
                     float hdiff = block_top - yMax;
-                    if (hdiff > 0.0f || contacts[i].normal.x != 0)
+                    if (hdiff > 0.0f || Mathf.Approximately(Mathf.Abs(contacts[i].normal.x), 1))
                     {
                         //teleport for small height gaps
                         if (hdiff < climb_threshold)

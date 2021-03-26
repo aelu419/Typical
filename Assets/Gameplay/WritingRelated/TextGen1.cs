@@ -12,10 +12,19 @@ public class TextGen1 : Writer
     {
         string sample_in = input.ToLower().Replace('\n', ' ');
         Markov m = new Markov(sample_in, 4);
+        string str = "";
         for (int i = 0; i < 10; i++)
         {
-            Debug.Log(m.Run(10));
+            try
+            {
+                str += m.Run(10) + ' ';
+                
+            }catch(System.Exception _)
+            {
+
+            }
         }
-        return "sample output";
+        //add scoring, selecting, and concatenating
+        return str;
     }
 }

@@ -191,10 +191,10 @@ public class ReadingManager: MonoBehaviour
             {
                 EventManager.Instance.RaiseScriptEndReached();
             }
-        };
 
-        //update player position
-        UpdateRenderedCursor();
+            //update player position
+            UpdateRenderedCursor();
+        };
     }
 
     // Update is called once per frame
@@ -670,7 +670,7 @@ public class ReadingManager: MonoBehaviour
                 cursor_rendered.topLeft.x + words[cursor_raw[0]].L.x
                 - player.collider_bounds.width / 2f
             );
-            Debug.Log("update destination!");
+            //Debug.Log("update destination!");
         }
     }
 

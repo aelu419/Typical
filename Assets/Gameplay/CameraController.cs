@@ -78,6 +78,7 @@ public class CameraController : MonoBehaviour
         if (muted)
         {
             pauseAfterDelay(1);
+            masterBus.setMute(true);
         }
         else
         {
@@ -124,6 +125,8 @@ public class CameraController : MonoBehaviour
 
         GetComponent<StudioListener>().attenuationObject = gameObject;
         GetComponent<StudioListener>().enabled = !GameSave.Muted;
+
+        Mute(GameSave.Muted);
     }
 
     public IEnumerator Shake(float magnitude, float duration)
