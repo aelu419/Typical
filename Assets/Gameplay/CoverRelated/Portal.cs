@@ -21,7 +21,7 @@ public class Portal : MonoBehaviour
     //obj is instantiated externally
     private void Start()
     {
-        on_enter_camera += () => Debug.Log("portal enter camera");
+        //on_enter_camera += () => Debug.Log("portal enter camera");
         //portal gameobject contains child object ONLY when it is spawn
         //to the right of the script
         //itself, meaning that the child obj is the textmesh

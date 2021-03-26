@@ -58,7 +58,7 @@ public class MusicManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("implement song playing!");
+            //Debug.LogError("implement song playing!");
             playing = song;
         }
 

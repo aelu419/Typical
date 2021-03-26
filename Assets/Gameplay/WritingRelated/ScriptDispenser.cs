@@ -97,6 +97,7 @@ public class ScriptDispenser : ScriptableObject
     public ScriptObjectScriptable LoadSaved()
     {
         string s = GameSave.SavedScene;
+        if (s.Equals("")) { return null; }
         for(int i = 0; i < scripts.Length; i++)
         {
             if (scripts[i].name_.Equals(s))
@@ -199,7 +200,7 @@ public class ScriptDispenser : ScriptableObject
 
         foreach (ScriptObjectScriptable s in scripts)
         {
-            Debug.Log("\t" + s.name_);
+            Debug.Log("script loaded: " + s.name_);
         }
 
         load_mode = true;

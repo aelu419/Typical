@@ -15,17 +15,7 @@ MonoBehaviour:
   init_scripts:
   - {fileID: 11400000, guid: 95a78729aee99b642849b98cac0b8d1d, type: 2}
   - {fileID: 11400000, guid: 62bdc81d2fce9284294104f40c734078, type: 2}
-  scripts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 563779673f94cd04c9ec784b842edd2c, type: 2}
   main_menu_no_save: {fileID: 11400000, guid: b95317c20703c0f43b4c373b8fadfae5, type: 2}
   main_menu_has_save: {fileID: 11400000, guid: dc26a9c2c672bd1499b9f09fa610158c, type: 2}
   tutorial: {fileID: 11400000, guid: 62bdc81d2fce9284294104f40c734078, type: 2}
