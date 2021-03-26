@@ -30,6 +30,7 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either 
                                                        //arrived or rushed pass the destination
+    public bool new_order;
     public bool direction; //true when facing right
     //private Vector3 relation_temp;
     //private ContactPoint2D[] cp;
@@ -47,7 +48,8 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly]
     public HeadLightControl head_light_controller;
 
-    [ReadOnly] public List<GameObject> word_blocks_in_contact;
+    public ContactPoint2D[] contacts;
+    //[ReadOnly] public List<GameObject> word_blocks_in_contact;
     //[ReadOnly] public string word_blocks_in_contact_str;
 
     //private float stuck_time = 0.0f; //to deal with really weird situations
@@ -59,12 +61,10 @@ public class PlayerControl : MonoBehaviour
 
     void Awake()
     {
-        destination = new Vector3(-1, 0, 0);
-        destination_override = new Vector3(-1, 0, 0);
-        word_blocks_in_contact = new List<GameObject>();
+        destination = Vector3.zero;
+        destination_override = Vector3.zero;
 
         on_first_frame = null;
-
 
         _instance = this;
     }
@@ -92,6 +92,8 @@ public class PlayerControl : MonoBehaviour
         //set character state
         in_climb = false;
         light_toggle = false;
+        new_order = false;
+        contacts = new ContactPoint2D[50];
 
         //set coordinate related fields
         transform.localScale = new Vector3(charSize, charSize, charSize);
@@ -121,6 +123,12 @@ public class PlayerControl : MonoBehaviour
 
             light_progress = 0;
         };
+    }
+
+    public void UpdateDestination(float new_x)
+    {
+        destination_override = new Vector3(new_x, 0, 0);
+        new_order = true;
     }
 
     // Update is called once per frame
@@ -154,14 +162,14 @@ public class PlayerControl : MonoBehaviour
 
         rigid.gravityScale = 1.0f;
         //change of destination by external scripts
-        bool new_order = destination_override.x >= 0;
         if (new_order)
         {
             destination = new Vector3(
                 destination_override.x,
                 destination.y,
                 destination.z);
-            destination_override = new Vector3(-1, 0, 0);
+            destination_override = Vector3.zero;
+            new_order = false;
         }
 
         UpdateRelativePosition();
@@ -210,15 +218,17 @@ public class PlayerControl : MonoBehaviour
 
                 rigid.velocity = new Vector2(x_vel, rigid.velocity.y);
 
-
                 float yMax = rigid.position.y - charSize / 2f;
-                for(int i = 0; i < word_blocks_in_contact.Count; i++)
+                int n_contacts = rigid.GetContacts(contacts);
+                for(int i = 0; i < n_contacts; i++)
                 {
+                    
                     //WordBlockBehavior block_content = word_blocks_in_contact[i].GetComponent<WordBlockBehavior>();
-                    float block_top = word_blocks_in_contact[i].GetComponent<BoxCollider2D>().bounds.max.y;
-
+                    float block_top = contacts[i].collider.bounds.max.y;
+                    //word_blocks_in_contact[i].GetComponent<BoxCollider2D>().bounds.max.y;
+                    //Debug.Log(contacts[i] + " with " + contacts[i].collider.gameObject.name);
                     float hdiff = block_top - yMax;
-                    if (hdiff > 0.0f)
+                    if (hdiff > 0.0f || contacts[i].normal.x != 0)
                     {
                         //teleport for small height gaps
                         if (hdiff < climb_threshold)
@@ -413,7 +423,7 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Word Block"))
         {
             //Debug.Log(collision.gameObject.GetComponent<WordBlockBehavior>().content.content);
-            word_blocks_in_contact.Add(collision.gameObject);
+            //word_blocks_in_contact.Add(collision.gameObject);
         }
     }
 
@@ -421,9 +431,9 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Word Block"))
         {
-            word_blocks_in_contact.RemoveAll(
-                (GameObject go) => go.Equals(collision.gameObject)
-            );
+            //word_blocks_in_contact.RemoveAll(
+                //(GameObject go) => go.Equals(collision.gameObject)
+            //);
         }
     }
     
@@ -459,7 +469,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (go.CompareTag("Word Block"))
         {
-            word_blocks_in_contact.Add(go);
+            //word_blocks_in_contact.Add(go);
         }
     }
 

@@ -39,5 +39,16 @@ MonoBehaviour:
       You can use
       it to reveal hidden text
 
-      If you can''t see the road ahead, use the
-      light!'
+      If you can''t see the road ahead, use the light!'
+  - name: 3
+    script: 'ESC pauses the game
+
+      And that''s all the normal controls
+
+      Now,
+      the game may glitch and you may get stuck,
+
+      We hope this doesn''t happen,
+      but just in case...
+
+      Try to save and reload if that happens.'

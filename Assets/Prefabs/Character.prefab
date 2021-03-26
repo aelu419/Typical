@@ -70,9 +70,9 @@ MonoBehaviour:
   destination: {x: -1, y: 0, z: 0}
   destination_override: {x: -1, y: 0, z: 0}
   relation_to_destination: {x: 0, y: 0, z: 0}
+  new_order: 0
   direction: 0
   head_light_controller: {fileID: 0}
-  word_blocks_in_contact: []
   light_progress: 0
 --- !u!50 &507486619242034054
 Rigidbody2D:
@@ -90,7 +90,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 889f1a7c30fb31748aaeb1de686a5e29, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1

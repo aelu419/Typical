@@ -105,7 +105,7 @@ public class Word
                 //Debug.Log("initiating object type with: " + tags[i]);
                 if (tags[i].GetSpecAt(0).Equals("npc"))
                 {
-                    Debug.Log("initiating npc");
+                    //Debug.Log("initiating npc");
                     is_npc = true;
                     this.content = "xx";
                 }

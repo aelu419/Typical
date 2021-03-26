@@ -42,7 +42,7 @@ public class Markov
         {
             string state = corpus.Substring(i, size);
             char next = corpus.Substring(i + size, 1).ToCharArray()[0];
-            Debug.Log("state: " + state + "\t next: " + next + " = " + (int)next);
+            //Debug.Log("state: " + state + "\t next: " + next + " = " + (int)next);
 
             if (table.ContainsKey(state))
             {
@@ -69,9 +69,9 @@ public class Markov
 
         //pick first word from corpus
         string initial_state = "";
-        while(initial_state.Length < size)
+        while(initial_state.Length < size-1)
         {
-            initial_state = corpus_words[Mathf.FloorToInt(Random.value * corpus_words.Length)];
+            initial_state = corpus_words[Mathf.FloorToInt(Random.value * corpus_words.Length)]+' ';
         }
         string window = initial_state.Substring(0, size);
 
@@ -87,7 +87,11 @@ public class Markov
                 window = window.Substring(1) + next;
 
                 //terminate sentence if certain symbols are reached
-                if (END_OF_LINE.Contains(next)) break;
+                if (END_OF_LINE.Contains(next))
+                {
+                    Debug.Log("terminating line early: " + next);
+                    break;
+                }
             } while (next != ' ');
         }
         //if this is reached, then the sentence has not terminated by puncutation
@@ -108,7 +112,7 @@ public class Markov
             int sum = 0;
             for(int i = 0; i < ALPHABET.Count; i++)
             {
-                tally[i] = row[i] + i > 0 ? tally[i - 1] : 0;
+                tally[i] = row[i] + (i > 0 ? tally[i - 1] : 0);
                 sum += row[i];
             }
             float index = Random.value * sum;

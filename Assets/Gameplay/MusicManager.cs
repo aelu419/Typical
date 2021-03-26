@@ -67,8 +67,11 @@ public class MusicManager : MonoBehaviour
         //kickstart all the atonal instruments
         foreach (Atonal a in playing.atonals)
         {
-            StartCoroutine(a.Iterate());
-            a.Start();
+            if (a != null)
+            {
+                StartCoroutine(a.Iterate());
+                a.Start();
+            }
         }
     }
 

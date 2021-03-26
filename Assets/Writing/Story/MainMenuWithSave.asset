@@ -21,6 +21,7 @@ MonoBehaviour:
   - continue _save
   - new game part1
   - tutorial _tutorial
+  - endless _endless
   - test scene sample
   - quit _quit
   music: {fileID: 11400000, guid: 60a77ee9a65865d429d3efa3de888a17, type: 2}

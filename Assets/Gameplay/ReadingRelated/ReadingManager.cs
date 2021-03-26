@@ -530,7 +530,7 @@ public class ReadingManager: MonoBehaviour
 
             }
 
-
+            UpdateRenderedCursor();
             /*
             do
             {
@@ -626,7 +626,6 @@ public class ReadingManager: MonoBehaviour
             // see player controller
         }
 
-        UpdateRenderedCursor();
 
     }
 
@@ -666,54 +665,13 @@ public class ReadingManager: MonoBehaviour
         {
             //Debug.Log("testing " + cursor_raw[0] + ", " + cursor_raw[1]);
             cursor_rendered = words[cursor_raw[0]].GetCharacterInfo(cursor_raw[1]);
-
             //update destination based on the cursor position
-            player.destination_override.x =
+            player.UpdateDestination(
                 cursor_rendered.topLeft.x + words[cursor_raw[0]].L.x
-                - player.collider_bounds.width / 2f;
-
-            //Debug.Log(cursor_raw[0] + ", " + cursor_raw[1] + " -- " + player.destination_override.x);
-
-            player.destination_override.y = player.destination.y;
-            player.destination_override.z = player.destination.z;
+                - player.collider_bounds.width / 2f
+            );
+            Debug.Log("update destination!");
         }
-
-        //--------deprecated: raw tmp handling is delegated to the word obj itself
-        /*
-        for (int i = 0; i < loaded_words.Count; i++)
-        {
-            Word loaded_temp = loaded_words[i].GetComponent<WordBlockBehavior>().content;
-            if (loaded_temp.index == cursor_raw[0])
-            {
-                //Debug.Log("\trendered cursor currently on word: " + loaded_temp.content
-                //+"'s " + (cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)) + "'th letter " + 
-                //loaded_words[i].GetComponent<TextMeshPro>().text[
-                //(cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1))]);
-                
-                //reset tmp text to remove tag influence
-                loaded_words[i].GetComponent<TextMeshPro>().text = " " + words[cursor_raw[0]].content;
-
-                cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
-                    .textInfo.characterInfo[cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)];
-
-                //add in tags again
-                words[cursor_raw[0]].SetCharacterMech();
-
-                //cursor_rendered = loaded_words[i].GetComponent<TextMeshPro>()
-                    //.GetTextInfo(" " + words[cursor_raw[0]].content).characterInfo[
-                        //cursor_raw[1] + (cursor_raw[1] == 0 ? 0 : 1)
-                        //];
-
-                //update destination based on the cursor position
-                player.destination_override.x =
-                    cursor_rendered.topLeft.x + words[cursor_raw[0]].L.x
-                    - player.collider_bounds.width / 2f;
-                Debug.Log("destination override set to " + player.destination_override.x);
-
-                player.destination_override.y = player.destination.y;
-                player.destination_override.z = player.destination.z;   
-            }
-        }*/
     }
 
     private void UpdateRenderedCursor()
