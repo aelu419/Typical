@@ -15,7 +15,22 @@ MonoBehaviour:
   name_: _tutorial
   source: 0
   text_writer: {fileID: 0}
-  text: type this line to continue.
+  text: 'type this line to continue...
+
+    <O npc tutorial1/>
+
+    CAPITALIZATION,
+    punc''tua''tion, s p a c e s...
+
+    <O npc tutorial2/>
+
+    here: <H>nice!
+    you got the trick</H>
+
+    <O npc tutorial3/>
+
+    You are all set! Welcome
+    to...'
   previous: 
   next:
   - begin _mainmenu

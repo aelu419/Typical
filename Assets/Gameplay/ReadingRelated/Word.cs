@@ -281,10 +281,7 @@ public class Word
             {
                 is_npc = true;
                 string par = t.GetSpecAt(1);
-                if (par != null)
-                {
-                    cover_child.GetComponent<NPCBehaviour>().SendMessage("Initialize", par);
-                }
+                cover_child.GetComponent<NPCBehaviour>().Initialize(par == null ? "sample" : par);
             }
             else if (t.GetSpecAt(0).Equals("stump"))
             {
@@ -292,26 +289,6 @@ public class Word
                 txt.text = Stump.GetInitialText();
                 txt.ForceMeshUpdate(true, true);
             }
-            /*float[] cover_frame = { 0, 0 };
-            if (cover_sprite != null)
-            {
-                cover_frame = new float[]
-                {
-                    cover_sprite.bounds.size.x,
-                    cover_sprite.bounds.size.y
-                };
-            }
-            else
-            {
-                if (t.GetSpecAt(0).Equals("stump"))
-                {
-                    cover_frame = new float[]
-                    {
-                        cover_child.GetComponent<BoxCollider2D>().size.x,
-                        cover_child.GetComponent<BoxCollider2D>().size.y
-                    };
-                }
-            }*/
 
             BoxCollider2D box = cover_child.GetComponent<BoxCollider2D>();
             //initialize collider

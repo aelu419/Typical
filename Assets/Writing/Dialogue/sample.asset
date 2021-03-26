@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 190373802c45e524cac073a7ca3bae5f, type: 3}
-  m_Name: SampleNPC
+  m_Name: sample
   m_EditorClassIdentifier: 
-  name_: sample
-  script: {fileID: 4900000, guid: 35d783232ec193e46a67b94b11c4ebc3, type: 3}
+  sprites:
+  - {fileID: 21300000, guid: c88b040c425751d43b08edcec13d6570, type: 3}
+  segments:
+  - name: 
+    script: Lorem Ipsum Dolor Sit Amet

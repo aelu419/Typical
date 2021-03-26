@@ -5,6 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Typical Customs / NPC")]
 public class NPCScriptable : ScriptableObject
 {
-    public string name_;
-    public TextAsset script;
+    [System.Serializable]
+    public class NPCSegment
+    {
+        public string name;
+        [TextArea]
+        public string script;
+    }
+
+    public Sprite[] sprites;
+    public NPCSegment[] segments;
 }

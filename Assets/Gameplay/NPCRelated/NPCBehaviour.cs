@@ -20,6 +20,9 @@ public class NPCBehaviour : MonoBehaviour
     string[] script;
     int index;
 
+    public NPCScriptable default_content;
+    NPCScriptable content;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +37,42 @@ public class NPCBehaviour : MonoBehaviour
         {
             Engage();
         }
+    }
+
+    bool is_talking;
+    const int UPDATES_PER_FRAME = 5;
+    public IEnumerator Talk()
+    {
+        if (!is_talking && content.sprites.Length > 1)
+        {
+            is_talking = true;
+            for(int i = 1; i < content.sprites.Length; i++)
+            {
+                sprite.sprite = content.sprites[i];
+                for(int j = 0; j < UPDATES_PER_FRAME; j++)
+                {
+                    yield return null;
+                }
+            }
+        }
+        else
+        {
+            //jump up and down
+            System.Func<float, float> parabola = x => -4 * x * x + 4 * x;
+            float duration = 0.5f, height = 0.3f;
+            float t = 0.0f;
+            Vector3 cached = transform.position;
+            while (t < duration)
+            {
+                transform.position = cached + new Vector3(
+                    0, parabola(t / duration) * height, 0);
+                t += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = cached;
+        }
+        sprite.sprite = content.sprites[0];
+        is_talking = false;
     }
 
     // Update is called once per frame
@@ -81,7 +120,8 @@ public class NPCBehaviour : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                PlayerControl.Instance.SendMessage("OnTalkToNPC");
+                PlayerControl.Instance.OnTalkToNPC();
+                StartCoroutine(Talk());
                 NextLine();
             }
         }   
@@ -92,13 +132,25 @@ public class NPCBehaviour : MonoBehaviour
     {
         foreach (NPCScriptable n in ScriptableObjectManager.Instance.NPCManager.npcs)
         {
-            if (n.name_.Equals(identifier))
+            foreach (NPCScriptable.NPCSegment s in n.segments)
             {
-                script = n.script.text.Split('\n');
-                index = -1;
-                NextLine();
+                if (identifier.ToLower().Equals((n.name+s.name).ToLower()))
+                {
+                    Debug.Log("Fetching npc: " + n.name + s.name);
+                    Materialize(n, s);
+                    return;
+                }
             }
         }
+        Materialize(default_content, default_content.segments[0]);
+    }
+
+    private void Materialize(NPCScriptable n, NPCScriptable.NPCSegment s)
+    {
+        content = n;
+        script = s.script.Split('\n');
+        index = -1;
+        NextLine();
     }
 
     private void NextLine()
@@ -116,9 +168,11 @@ public class NPCBehaviour : MonoBehaviour
 
     public void Engage()
     {
-        PlayerControl.Instance.SendMessage("OnReachNPC");
+        PlayerControl.Instance.OnReachNPC();
         bubble.gameObject.SetActive(true);
         engaged = true;
+        is_talking = false;
+        StartCoroutine(Talk());
     }
 
     public void Disengage()
