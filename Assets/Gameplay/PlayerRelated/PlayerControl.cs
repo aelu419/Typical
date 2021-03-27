@@ -30,8 +30,8 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either 
                                                        //arrived or rushed pass the destination
-    public bool new_order;
-    public bool direction; //true when facing right
+    [ReadOnly] public bool new_order;
+    [ReadOnly] public bool direction; //true when facing right
     //private Vector3 relation_temp;
     //private ContactPoint2D[] cp;
 
@@ -48,6 +48,8 @@ public class PlayerControl : MonoBehaviour
     [ReadOnly]
     public HeadLightControl head_light_controller;
 
+    [ReadOnly]
+    public List<string> neighbours;
     public ContactPoint2D[] contacts;
     //[ReadOnly] public List<GameObject> word_blocks_in_contact;
     //[ReadOnly] public string word_blocks_in_contact_str;
@@ -176,7 +178,6 @@ public class PlayerControl : MonoBehaviour
 
         if (!in_climb)
         {
-
             if (!Approximately(relation_to_destination.x, 0))
             {
                 float x_vel = rigid.velocity.x;
@@ -220,12 +221,16 @@ public class PlayerControl : MonoBehaviour
 
                 float yMax = rigid.position.y - charSize / 2f;
                 int n_contacts = rigid.GetContacts(contacts);
+                neighbours = new List<string>();
+
                 for(int i = 0; i < n_contacts; i++)
                 {
                     if (!contacts[i].collider.gameObject.CompareTag("Word Block")) break;
+                    neighbours.Add(contacts[i].collider.gameObject.name);
                     //WordBlockBehavior block_content = word_blocks_in_contact[i].GetComponent<WordBlockBehavior>();
                     float block_top = contacts[i].collider.bounds.max.y;
                     //word_blocks_in_contact[i].GetComponent<BoxCollider2D>().bounds.max.y;
+                    
                     //Debug.Log(contacts[i] + " with " + contacts[i].collider.gameObject.name);
                     float hdiff = block_top - yMax;
                     if (hdiff > 0.0f || Mathf.Approximately(Mathf.Abs(contacts[i].normal.x), 1))
@@ -242,15 +247,18 @@ public class PlayerControl : MonoBehaviour
                         //climb for large height gaps
                         else
                         {
-                            yMax = block_top + charSize / 2f + 0.1f;
+                            //Debug.Log("\t" + "climbing");
+                            destination.y = block_top + charSize / 2f + 0.1f;
+                            //yMax = Mathf.Max(block_top + charSize / 2f + 0.1f, yMax);
                             in_climb = true;
+                            break;
                         }
                     }
                 }
 
                 if (in_climb)
                 {
-                    destination.y = yMax;
+                    //destination.y = yMax;
                     //climb_extent = yMax - rigid.position.y;
                     animator.SetBool("in_climb", true);
                 }
@@ -261,7 +269,9 @@ public class PlayerControl : MonoBehaviour
             }
             else
             {
-                rigid.position = destination;
+                rigid.position = new Vector2(
+                    destination.x,
+                    rigid.position.y);
                 relation_to_destination.x = 0;
                 rigid.velocity = new Vector2(0, rigid.velocity.y);
             }
@@ -283,6 +293,7 @@ public class PlayerControl : MonoBehaviour
                     in_climb = false;
                     animator.SetBool("in_climb", false);
                     rigid.velocity = Vector2.zero;
+                    Debug.Log("stop climbing");
                     //climb_extent = 0;
                 }
             }
@@ -290,34 +301,6 @@ public class PlayerControl : MonoBehaviour
             {
                 rigid.velocity = Vector2.zero;
             }
-
-            /*
-            if (relation_to_destination.y < 0)
-            {
-                if (climb_buffer_ <= climb_buffer)
-                {
-                    rigid.velocity = new Vector2(0, 0);
-                    climb_buffer_ += Time.deltaTime;
-                }
-                else
-                {
-                    rigid.velocity = new Vector2(0, climb_speed);
-                }
-            }
-            else
-            {
-                //stop climbing when destination is reached
-                rigid.velocity = new Vector2(0, 0);
-                if (climb_buffer_ > 0)
-                {
-                    climb_buffer_ -= Time.deltaTime;
-                }
-                else
-                {
-                    in_climb = false;
-                    climb_extent = 0;
-                }
-            }*/
         }
 
         //glitch jump when stuck
@@ -442,7 +425,7 @@ public class PlayerControl : MonoBehaviour
         GameObject other = collision.gameObject;
         if (other.CompareTag("Cover Object"))
         {
-            Debug.Log("coming into contact with cover object");
+            //Debug.Log("coming into contact with cover object");
             NPCBehaviour n = other.GetComponent<NPCBehaviour>();
             if (n != null)
             {
@@ -456,7 +439,7 @@ public class PlayerControl : MonoBehaviour
         GameObject other = collision.gameObject;
         if (other.CompareTag("Cover Object"))
         {
-            Debug.Log("exiting contact with cover object");
+            //Debug.Log("exiting contact with cover object");
             NPCBehaviour n = other.GetComponent<NPCBehaviour>();
             if (n != null)
             {

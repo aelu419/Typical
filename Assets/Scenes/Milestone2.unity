@@ -724,6 +724,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 507486619242034053, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
+      propertyPath: climb_threshold
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 507486619498317133, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
       propertyPath: m_BlendStyleIndex
       value: 0

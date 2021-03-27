@@ -77,11 +77,13 @@ public class CameraController : MonoBehaviour
         //RuntimeManager.PauseAllEvents(muted);
         if (muted)
         {
+            Debug.Log("muting game");
             pauseAfterDelay(1);
             masterBus.setMute(true);
         }
         else
         {
+            Debug.Log("unmuting game");
             masterBus.setMute(false);
             MusicManager.Instance.Restart();
         }

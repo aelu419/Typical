@@ -204,6 +204,6 @@ public class ScriptDispenser : ScriptableObject
         }
 
         load_mode = true;
-        _current = LoadSaved();
+        //_current = LoadSaved();
     }
 }

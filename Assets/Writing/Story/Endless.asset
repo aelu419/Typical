@@ -16,8 +16,9 @@ MonoBehaviour:
   source: 1
   text_writer: {fileID: 11400000, guid: 84f16ca10eb5a9445810d435bf05f7a7, type: 2}
   text: 
-  previous: 
-  next: []
+  previous: _mainmenu
+  next:
+  - it goes on... _endless
   music: {fileID: 0}
-  background: {fileID: 0}
+  background: {fileID: 2100000, guid: b26a14a6216a134488f6104a95adb720, type: 2}
   slope_min_max: {x: 0, y: 0}
