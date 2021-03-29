@@ -346,11 +346,11 @@ public class PlayerControl : MonoBehaviour
             //play oneshot squeaking sound for helmet raising/lowering
             if (light_toggle)
             {
-                FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.helm_open, rigid.position);
+                MusicManager.Instance.PlayOneShot(sfx_lib.helm_open, rigid.position);
             }
             else
             {
-                FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.helm_close, rigid.position);
+                MusicManager.Instance.PlayOneShot(sfx_lib.helm_close, rigid.position);
             }
             
         }
@@ -379,12 +379,12 @@ public class PlayerControl : MonoBehaviour
 
     public void OnReachNPC()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.npc_encounter, rigid.position);
+        MusicManager.Instance.PlayOneShot(sfx_lib.npc_encounter, rigid.position);
     }
 
     public void OnTalkToNPC()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.npc_talk, rigid.position);
+        MusicManager.Instance.PlayOneShot(sfx_lib.npc_talk, rigid.position);
     }
 
     //handle collisions
@@ -393,7 +393,7 @@ public class PlayerControl : MonoBehaviour
         //Debug.LogError("IMPLEMENT COLLISION ANIMATION, collision speed: " + collision.relativeVelocity.y);
         if (collision.relativeVelocity.y > 0.3f)
         {
-            FMODUnity.RuntimeManager.PlayOneShot(sfx_lib.collision, rigid.position);
+            MusicManager.Instance.PlayOneShot(sfx_lib.collision, rigid.position);
             StartCoroutine(CameraController.Instance.Shake(collision.relativeVelocity.y, 0.25f));
             ParticleSystem sprinkle = GetComponent<ParticleSystem>();
             sprinkle.Emit(2

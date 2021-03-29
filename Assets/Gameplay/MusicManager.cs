@@ -40,15 +40,10 @@ public class MusicManager : MonoBehaviour
         timer = 0.0f;
         beat = 0.0f;
         BeatLength = 1.0f / (BPM / 60.0f);
-        EventManager.Instance.OnScriptLoaded += PlaySong;
+        EventManager.Instance.OnScriptLoaded += LoadSong;
     }
 
-    public void Restart()
-    {
-        PlaySong(ScriptableObjectManager.Instance.ScriptManager.CurrentScript);
-    }
-
-    private void PlaySong(ScriptObjectScriptable current)
+    private void LoadSong(ScriptObjectScriptable current)
     {
         CustomSong song = current.music;
         if (song == null)
@@ -64,15 +59,17 @@ public class MusicManager : MonoBehaviour
 
         playing.Initialize(this);
 
-        //kickstart all the atonal instruments
-        foreach (Atonal a in playing.atonals)
+        if (!GameSave.Muted)
         {
-            if (a != null)
-            {
-                StartCoroutine(a.Iterate());
-                a.Start();
-            }
+            PlaySong();
         }
+    }
+
+    void PlaySong ()
+    {
+        playing.enabled = true;
+        //kickstart all the atonal instruments
+        playing.Start();
     }
 
     // Update is called once per frame
@@ -84,11 +81,35 @@ public class MusicManager : MonoBehaviour
 
     }
 
-    /*
-    public void PlayOneShot(CustomOneShot oneshot, Vector3 position)
+    IEnumerator pauseAfterDelay(float t)
     {
+        yield return new WaitForSeconds(t);
+        //masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
+        //masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        playing.enabled = false;
+        //masterBus.setPaused(true);
+        yield return null;
+    }
 
-    }*/
+
+    string masterBusString = "bus:/";
+    FMOD.Studio.Bus masterBus;
+    public void Mute(bool muted)
+    {
+        //RuntimeManager.PauseAllEvents(muted);
+        if (muted)
+        {
+            //Debug.Log("muting game");
+            masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
+            masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            pauseAfterDelay(1);
+        }
+        else
+        {
+            //Debug.Log("unmuting game");
+            PlaySong();
+        }
+    }
 
     public float BeatToMS(float b)
     {
@@ -104,5 +125,13 @@ public class MusicManager : MonoBehaviour
     {
         timer = 0.0f;
         beat = 0.0f;
+    }
+
+    public void PlayOneShot(string path, Vector3 position)
+    {
+        if (!GameSave.Muted)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(path, position);
+        }
     }
 }

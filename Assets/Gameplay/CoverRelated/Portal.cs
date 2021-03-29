@@ -57,7 +57,7 @@ public class Portal : MonoBehaviour
         {
             on_enter_camera += () =>
             {
-                FMODUnity.RuntimeManager.PlayOneShot(sound, gameObject.transform.position);
+                MusicManager.Instance.PlayOneShot(sound, gameObject.transform.position);
                 portal_animator.SetBool("open", true);
             };
         }
@@ -86,7 +86,7 @@ public class Portal : MonoBehaviour
     //transition forward to the next scene indicated by this portal's portal data
     public void OnPortalOpen()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(sound, gameObject.transform.position);
+        MusicManager.Instance.PlayOneShot(sound, gameObject.transform.position);
 
         portal_animator.SetBool("open", true);
         //force update player direction to face right (true)

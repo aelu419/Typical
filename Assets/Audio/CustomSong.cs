@@ -8,4 +8,11 @@ public abstract class CustomSong : ScriptableObject
     public MonoBehaviour player;
 
     public abstract void Initialize(MonoBehaviour mb);
+    public abstract void Start();
+
+    public bool enabled;
+    private void OnEnable()
+    {
+        enabled = false;
+    }
 }

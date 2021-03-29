@@ -56,7 +56,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void muteGame() {
         Debug.Log("Muting game....");
-        CameraController.Instance.Mute(!GameSave.ToggleMute());
+        MusicManager.Instance.Mute(!GameSave.ToggleMute());
 
         foreach (UnityEngine.UI.Button b in buttons)
         {

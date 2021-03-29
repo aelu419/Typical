@@ -21,6 +21,6 @@ public class OneshotPerioder : MonoBehaviour
 
     public void FireSound()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(sound, transform.position);
+        MusicManager.Instance.PlayOneShot(sound, transform.position);
     }
 }

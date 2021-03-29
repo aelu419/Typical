@@ -38,11 +38,12 @@ public class PureAmbient : CustomSong
         ambient_instrument = new Atonal(AMBIENT, this, ambient,
             ambient_flucuation_speed, ambient_fluctuation_amplitude, ambient_gain_master);
 
-        /*
-        StartCoroutine(whisper_instrument.Iterate());
-        StartCoroutine(ambient_instrument.Iterate());
-        whisper_instrument.Start();
-        ambient_instrument.Start();
-        */
+        
+    }
+
+    public override void Start()
+    {
+        player.StartCoroutine(whisper_instrument.Iterate());
+        player.StartCoroutine(ambient_instrument.Iterate());
     }
 }

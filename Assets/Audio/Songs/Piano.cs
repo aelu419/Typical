@@ -13,6 +13,11 @@ public class Piano : PureAmbient
     public override void Initialize(MonoBehaviour mb)
     {
         base.Initialize(mb);
+    }
+
+    public override void Start()
+    {
+        base.Start();
         player.StartCoroutine(PianoRoutine());
     }
 

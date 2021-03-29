@@ -65,38 +65,6 @@ public class CameraController : MonoBehaviour
         _instance = this;
     }
 
-    /**
-     * audio management
-     */
-    string masterBusString = "bus:/";
-    FMOD.Studio.Bus masterBus;
-    public void Mute(bool muted)
-    {
-        masterBus = RuntimeManager.GetBus(masterBusString);
-        masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        //RuntimeManager.PauseAllEvents(muted);
-        if (muted)
-        {
-            Debug.Log("muting game");
-            pauseAfterDelay(1);
-            masterBus.setMute(true);
-        }
-        else
-        {
-            Debug.Log("unmuting game");
-            masterBus.setMute(false);
-            MusicManager.Instance.Restart();
-        }
-    }
-    IEnumerator pauseAfterDelay(float t)
-    {
-        yield return new WaitForSeconds(t);
-        masterBus = RuntimeManager.GetBus(masterBusString);
-        masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        masterBus.setPaused(true);
-        yield return null;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -126,9 +94,6 @@ public class CameraController : MonoBehaviour
         shake = Vector3.zero;
 
         GetComponent<StudioListener>().attenuationObject = gameObject;
-        GetComponent<StudioListener>().enabled = !GameSave.Muted;
-
-        Mute(GameSave.Muted);
     }
 
     public IEnumerator Shake(float magnitude, float duration)
