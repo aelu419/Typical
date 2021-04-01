@@ -191,12 +191,13 @@ public class Word
 
         //handle objects that cover the word
         cover_type = "";
+        GameObject cov = null;
         float cover_w = 0;
         foreach(Tag t in tags)
         {
             if (t.type.Equals("O"))
             {
-                GameObject cov = FetchCover(t, go);
+                cov = FetchCover(t, go);
                 cover_w = cov.GetComponent<BoxCollider2D>().size.x;
                 break;
             }
@@ -204,7 +205,7 @@ public class Word
 
         //set collider boundaries
         Vector2 box_size = rendered_vals;
-        box_size.x = Mathf.Max(rendered_vals.x, cover_w);
+        box_size.x = Mathf.Max(rendered_vals.x, cover_w * (cov == null ? 1 : cov.transform.localScale.x));
         R = new Vector2(lCursor.x + box_size.x, lCursor.y + slope_delta);
 
         //(deprecated)pad the collider to either sides for a bit to avoid not detecting collision
@@ -237,7 +238,7 @@ public class Word
         {
             if (c.name_.Equals(cover_type))
             {
-                Debug.Log("instantiating type " + cover_type);
+                //Debug.Log("instantiating type " + cover_type);
                 cover_child = GameObject.Instantiate(
                     c.prefab, parent_obj.transform
                     );

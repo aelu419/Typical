@@ -15,4 +15,5 @@ public class NPCScriptable : ScriptableObject
 
     public Sprite[] sprites;
     public NPCSegment[] segments;
+    public bool randomize = false;
 }

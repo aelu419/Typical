@@ -15,9 +15,11 @@ MonoBehaviour:
   name_: sample
   source: 0
   text_writer: {fileID: 0}
-  text: 123% Lorem <O npc sample/> <O img decoration1/> <O stump/> Ipsum <P Continue
-    sample/>
+  text: '123% Lorem <O npc sample/> <O img decoration1/> <O stump/> Ipsum hostile:
+    <O npc hostile/> random: <O npc random/> animated: <O npc walking1/> <O grass
+    />'
   previous: _mainmenu
   next: []
   music: {fileID: 0}
+  background: {fileID: 0}
   slope_min_max: {x: 0, y: 0}

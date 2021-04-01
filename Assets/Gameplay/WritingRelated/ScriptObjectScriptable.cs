@@ -10,7 +10,7 @@ public class ScriptObjectScriptable : ScriptableObject
     public ScriptTextSource source;
     public Writer text_writer;
     //public TextAsset text_asset;
-    [TextArea]
+    [TextArea(20, 20)]
     public string text;
     public string previous;
     public string [] next;
@@ -18,6 +18,9 @@ public class ScriptObjectScriptable : ScriptableObject
     public CustomSong music;
     public Material background;
     public Vector2 slope_min_max = Vector2.zero;
+
+    [System.NonSerialized]
+    public string CleansedText;
 
     public string Text
     {
@@ -32,6 +35,31 @@ public class ScriptObjectScriptable : ScriptableObject
                 return text_writer.Output();
             }
         }
+    }
+
+    private static ReadingManager rm = new ReadingManager();
+
+    public void CheckSyntax()
+    {
+        rm.slope_min_max = slope_min_max;
+        rm.perlin_map1 = new Perlin(10, 2);
+        rm.perlin_map2 = new Perlin(10, 2);
+
+        List<Word> lst;
+        if (source == ScriptTextSource.SCRIPT)
+        {
+            lst = rm.ParseScript(text);
+        }
+        else
+        {
+            lst = rm.ParseScript(text_writer.Output());
+        }
+        System.Text.StringBuilder sb = new System.Text.StringBuilder(lst.Count * 10);
+        foreach (Word w in lst)
+            sb.Append(w.ToString());
+        Debug.Log(sb.ToString());
+
+        ScriptDispenser.CheckValidity(this);
     }
 }
 

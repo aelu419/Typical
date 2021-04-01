@@ -20,6 +20,8 @@ public class NPCBehaviour : MonoBehaviour
     string[] script;
     int index;
 
+    int sprite_rand_index;
+
     public NPCScriptable default_content;
     NPCScriptable content;
 
@@ -43,7 +45,7 @@ public class NPCBehaviour : MonoBehaviour
     const int UPDATES_PER_FRAME = 5;
     public IEnumerator Talk()
     {
-        if (!is_talking && content.sprites.Length > 1)
+        if (!is_talking && !content.randomize && content.sprites.Length > 1)
         {
             is_talking = true;
             for(int i = 1; i < content.sprites.Length; i++)
@@ -54,10 +56,12 @@ public class NPCBehaviour : MonoBehaviour
                     yield return null;
                 }
             }
+            sprite.sprite = content.sprites[0];
         }
         else
         {
             //jump up and down
+            sprite.sprite = content.sprites[sprite_rand_index];
             System.Func<float, float> parabola = x => -4 * x * x + 4 * x;
             float duration = 0.5f, height = 0.3f;
             float t = 0.0f;
@@ -71,7 +75,6 @@ public class NPCBehaviour : MonoBehaviour
             }
             transform.position = cached;
         }
-        sprite.sprite = content.sprites[0];
         is_talking = false;
     }
 
@@ -132,14 +135,27 @@ public class NPCBehaviour : MonoBehaviour
     {
         foreach (NPCScriptable n in ScriptableObjectManager.Instance.NPCManager.npcs)
         {
+            List<NPCScriptable.NPCSegment> matching = new List<NPCScriptable.NPCSegment>();
             foreach (NPCScriptable.NPCSegment s in n.segments)
             {
                 if (identifier.ToLower().Equals((n.name+s.name).ToLower()))
                 {
-                    Debug.Log("Fetching npc: " + n.name + s.name);
-                    Materialize(n, s);
-                    return;
+                    //Debug.Log("Fetching npc: " + n.name + s.name);
+                    if (!n.randomize)
+                    {
+                        Materialize(n, s);
+                        return;
+                    }
+                    else
+                    {
+                        matching.Add(s);
+                    }
                 }
+            }
+            if (matching.Count > 0)
+            {
+                Materialize(n, matching[Mathf.FloorToInt(Random.value * matching.Count)]);
+                return;
             }
         }
         Materialize(default_content, default_content.segments[0]);
@@ -148,6 +164,8 @@ public class NPCBehaviour : MonoBehaviour
     private void Materialize(NPCScriptable n, NPCScriptable.NPCSegment s)
     {
         content = n;
+        sprite_rand_index = Mathf.FloorToInt(Random.value * n.sprites.Length); 
+        GetComponent<SpriteRenderer>().sprite = content.sprites[sprite_rand_index];
         script = s.script.Split('\n');
         index = -1;
         NextLine();

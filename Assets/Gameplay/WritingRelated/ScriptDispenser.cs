@@ -7,7 +7,7 @@ public class ScriptDispenser : ScriptableObject
 {
     public ScriptObjectScriptable[] init_scripts;
     [System.NonSerialized]
-    public ScriptObjectScriptable[] scripts;
+    public static ScriptObjectScriptable[] scripts;
 
     public ScriptObjectScriptable main_menu_no_save;
     public ScriptObjectScriptable main_menu_has_save;
@@ -140,6 +140,34 @@ public class ScriptDispenser : ScriptableObject
         }
     }
 
+    public static void CheckValidity(ScriptObjectScriptable sos)
+    {
+        OnLoad();
+        List<PortalData> portals = new List<PortalData>();
+        foreach (string n in sos.next)
+        {
+            portals.Add(PortalData.Fetch(n));
+        }
+        portals.Add(PortalData.Fetch(sos.previous));
+
+        foreach (PortalData p in portals)
+        {
+            bool found = false;
+            foreach (ScriptObjectScriptable s in scripts)
+            {
+                if (p.destination.Equals(s.name_))
+                {
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                throw new System.Exception(p.destination + " cannot be found!");
+            }
+        }
+    }
+
+    /*
     private List<ScriptObjectScriptable> Parse()
     {
         List<ScriptObjectScriptable> s = new List<ScriptObjectScriptable>();
@@ -190,18 +218,41 @@ public class ScriptDispenser : ScriptableObject
         int start = full.IndexOf('[');
         int end = full.IndexOf(']');
         return full.Substring(start + 1, end - start - 1);
+    }*/
+
+    public static event System.Action OnLoad;
+
+    public void LoadScripts()
+    {
+        ScriptObjectScriptable[] fwd = Resources.LoadAll<ScriptObjectScriptable>("PlotFwd/");
+        ScriptObjectScriptable[] bwd = Resources.LoadAll<ScriptObjectScriptable>("PlotBwd/");
+        List<ScriptObjectScriptable> all = new List<ScriptObjectScriptable>();
+        all.AddRange(fwd);
+        all.AddRange(bwd);
+        all.AddRange(init_scripts);
+
+        scripts = all.ToArray();
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        sb.Append("loaded scripts:\n\t");
+        foreach (ScriptObjectScriptable s in scripts)
+        {
+            sb.Append(s.name_);
+        }
+        Debug.Log(sb);
     }
 
     private void OnEnable()
     {
-        List<ScriptObjectScriptable> all = Parse();
+        LoadScripts();
+        OnLoad = LoadScripts;
+        /*List<ScriptObjectScriptable> all = Parse();
         all.AddRange(init_scripts);
         scripts = all.ToArray();
 
         foreach (ScriptObjectScriptable s in scripts)
         {
             Debug.Log("script loaded: " + s.name_);
-        }
+        }*/
 
         load_mode = true;
         //_current = LoadSaved();

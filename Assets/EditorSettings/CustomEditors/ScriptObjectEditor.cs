@@ -3,25 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-/*
+
 [CustomEditor(typeof(ScriptObjectScriptable))]
 public class ScriptObjectEditor : Editor
 {
-    SerializedProperty TA;
-    SerializedProperty TW;
-    SerializedProperty ST;
-    SerializedProperty P;
 
     public void OnEnable()
     {
-        ST = serializedObject.FindProperty("source");
-        TA = serializedObject.FindProperty("text_asset");
-        TW = serializedObject.FindProperty("text_writer");
-        P = serializedObject.FindProperty("previous");
     }
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+        /*
         serializedObject.Update();
 
         ScriptObjectScriptable sos = (ScriptObjectScriptable)target;
@@ -45,12 +38,15 @@ public class ScriptObjectEditor : Editor
             sos.text_writer = null;
             EditorGUILayout.PropertyField(TA);
         }
-        serializedObject.ApplyModifiedProperties();
+        serializedObject.ApplyModifiedProperties();*/
+        if (GUILayout.Button("Compile"))
+        {
+            ((ScriptObjectScriptable)target).CheckSyntax();
+        }
 
         if (GUI.changed)
         {
-            EditorUtility.SetDirty(sos);
+            EditorUtility.SetDirty(target);
         }
     }
 }
-*/
