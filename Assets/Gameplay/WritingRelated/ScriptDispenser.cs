@@ -9,13 +9,14 @@ public class ScriptDispenser : ScriptableObject
     [System.NonSerialized]
     public static ScriptObjectScriptable[] scripts;
 
-    public ScriptObjectScriptable main_menu_no_save;
-    public ScriptObjectScriptable main_menu_has_save;
+    public ScriptObjectScriptable[] main_menus;
     public ScriptObjectScriptable tutorial;
 
     private static ScriptObjectScriptable _current;
 
-    public TextAsset parseable;
+    public const int PASSED = 2, HAS_SAVE = 1;
+
+    //public TextAsset parseable;
 
 
     public const string
@@ -47,15 +48,11 @@ public class ScriptDispenser : ScriptableObject
                 //Debug.Log("loading for the first time");
                 if (GameSave.PassedTutorial)
                 {
+                    int main_menu_flag =
+                        (GameSave.HasSavedScene ? HAS_SAVE : 0)
+                        | (GameSave.PassedGame ? PASSED : 0);
                     //fetch main menu
-                    if (GameSave.HasSavedScene)
-                    {
-                        _current = main_menu_has_save;
-                    }
-                    else
-                    {
-                        _current = main_menu_no_save;
-                    }
+                    _current = main_menus[main_menu_flag];
                 }
                 else
                 {
@@ -114,14 +111,12 @@ public class ScriptDispenser : ScriptableObject
     {
         if (name.Equals(MAINMENU))
         {
-            if (GameSave.HasSavedScene)
-            {
-                return main_menu_has_save;
-            }
-            else
-            {
-                return main_menu_no_save;
-            }
+            GameSave.SavePassedGame(true);
+            int main_menu_flag =
+                (GameSave.HasSavedScene ? HAS_SAVE : 0)
+                | (GameSave.PassedGame ? PASSED : 0);
+            //fetch main menu
+            return main_menus[main_menu_flag];
         }
         else if (name.Equals(SAVE))
         {
@@ -230,13 +225,14 @@ public class ScriptDispenser : ScriptableObject
         all.AddRange(fwd);
         all.AddRange(bwd);
         all.AddRange(init_scripts);
+        all.AddRange(main_menus);
 
         scripts = all.ToArray();
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
         sb.Append("loaded scripts:\n\t");
         foreach (ScriptObjectScriptable s in scripts)
         {
-            sb.Append(s.name_);
+            sb.Append(s.name_+", ");
         }
         Debug.Log(sb);
     }

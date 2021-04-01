@@ -7,7 +7,8 @@ public class GameSave
     public const string 
         VOLUME = "_volume", 
         SCENE = "_scene", 
-        TUTORIAL = "_tutorial";
+        TUTORIAL = "_tutorial",
+        PASS = "_pass";
 
     public static void ClearSave()
     {
@@ -16,6 +17,7 @@ public class GameSave
         PlayerPrefs.SetInt(VOLUME, 1);
         PlayerPrefs.SetString(SCENE, "");
         PlayerPrefs.SetInt(TUTORIAL, 0);
+        PlayerPrefs.SetInt(PASS, 0);
         PlayerPrefs.Save();
     }
 
@@ -83,11 +85,35 @@ public class GameSave
         }
     }
 
+    public static bool PassedGame
+    {
+        get
+        {
+            if (PlayerPrefs.HasKey(PASS)) return PlayerPrefs.GetInt(PASS) == 1;
+            else
+            {
+                ClearSave();
+                return PassedGame;
+            }
+        }
+    }
+
     public static void SaveTutorial(bool passed)
     {
         PlayerPrefs.SetInt(TUTORIAL, passed ? 1 : 0);
         PlayerPrefs.Save();
         Debug.Log("tutorial state set to: " + PlayerPrefs.GetInt(TUTORIAL));
         return;
+    }
+
+    public static void SavePassedGame(bool passed)
+    {
+        PlayerPrefs.SetInt(PASS, passed ? 1 : 0);
+        if (passed)
+        {
+            Debug.Log("Game complete! Now deleting old save:)");
+            PlayerPrefs.SetString(SCENE, "");
+        }
+        PlayerPrefs.Save();
     }
 }

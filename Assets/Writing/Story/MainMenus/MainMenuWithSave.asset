@@ -15,7 +15,7 @@ MonoBehaviour:
   name_: _mainmenu
   source: 0
   text_writer: {fileID: 0}
-  text: <O img title/><O lamp/>...
+  text: <O img title/><O lamp/>x
   previous: 
   next:
   - continue _save

@@ -9,7 +9,7 @@ public class NPCScriptable : ScriptableObject
     public class NPCSegment
     {
         public string name;
-        [TextArea]
+        [TextArea (minLines: 3, maxLines: 15)]
         public string script;
     }
 

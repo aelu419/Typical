@@ -179,11 +179,13 @@ public class Word
 
         //set slope
         float slope_delta = slope;// * rendered_vals.x;
+        /*
         //trim small steps to avoid collision bug
-        if (slope_delta < 0.1f)
+        if (Mathf.Abs(slope_delta) < 0.1f)
         {
             slope_delta = 0;
         }
+        */
 
         //store dimensions of the text block
         L = new Vector2(lCursor.x, lCursor.y);

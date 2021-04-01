@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 190373802c45e524cac073a7ca3bae5f, type: 3}
+  m_Name: narrator
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: bb0d1e66cd2562c43a5ef56ae8b4d237, type: 3}
+  segments:
+  - name: 1
+    script: 'Seems like you''ve finished the game!
+
+      How was it?
+
+      ...Listening...
+
+      (As
+      if I actually care about the reply)
+
+      Well ok, I''m the narrator
+
+      I''m
+      officially outside the game now
+
+      As free as I could be!
+
+      I''m thinking
+      of writing my own story someday
+
+      Not gonna wait for somebody else to
+      feed it to me
+
+      But the weather isn''t quite as lovely as...
+
+      ...
+      well, as what I expect to be ...
+
+      ... on that hypothetical day that I
+      start writing
+
+      So let''s just put the task off as of now :)'
+  randomize: 0

@@ -10,29 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01e605533d030a0408fbb64405f77198, type: 3}
-  m_Name: Tutorial
+  m_Name: MainMenuPassedWithSave
   m_EditorClassIdentifier: 
-  name_: _tutorial
+  name_: _mainmenu
   source: 0
   text_writer: {fileID: 0}
-  text: 'type this line to continue...
-
-    <O npc tutorial1/>
-
-    CAPITALIZATION,
-    punc''tua''tion, s p a c e s...
-
-    <O npc tutorial2/>
-
-    here: <H>nice! you
-    got the trick!</H>
-
-    <O npc tutorial3/>
-
-    You are all set! Welcome to...'
+  text: <O img title/> <O lamp/> <O grass /> <O npc narrator1/> <O grass />x
   previous: 
   next:
-  - begin _mainmenu
-  music: {fileID: 0}
+  - continue _save
+  - new game part1
+  - still need tutorial? _tutorial
+  - restart your subscription _endless
+  - do the right thing _quit
+  music: {fileID: 11400000, guid: 60a77ee9a65865d429d3efa3de888a17, type: 2}
   background: {fileID: 2100000, guid: c464e0f0a275ba747960164c5dac62f3, type: 2}
-  slope_min_max: {x: -1, y: 0}
+  slope_min_max: {x: 0, y: 0}
