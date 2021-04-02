@@ -17,7 +17,7 @@ MonoBehaviour:
   text_writer: {fileID: 0}
   text: '123% Lorem <O npc sample/> <O img decoration1/> <O stump/> Ipsum hostile:
     <O npc hostile/> random: <O npc random/> animated: <O npc walking1/> <O grass
-    />'
+    /> x'
   previous: _mainmenu
   next:
   - ... sample

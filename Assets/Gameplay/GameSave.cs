@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSave
+[CreateAssetMenu(menuName = "Typical Customs/Game Save Manager")]
+public class GameSave : ScriptableObject
 {
     public const string 
         VOLUME = "_volume", 
         SCENE = "_scene", 
         TUTORIAL = "_tutorial",
         PASS = "_pass";
+
+    public string override_scene;
 
     public static void ClearSave()
     {
@@ -27,6 +30,12 @@ public class GameSave
         PlayerPrefs.SetInt(VOLUME, old_mute_state ? 1 : 0);
         PlayerPrefs.Save();
         return old_mute_state;
+    }
+
+    public static void SaveScene(string scene_name)
+    {
+        PlayerPrefs.SetString(SCENE, scene_name);
+        PlayerPrefs.Save();
     }
 
     public static void SaveProgress()
