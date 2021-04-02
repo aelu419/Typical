@@ -19,7 +19,8 @@ MonoBehaviour:
     <O npc hostile/> random: <O npc random/> animated: <O npc walking1/> <O grass
     />'
   previous: _mainmenu
-  next: []
+  next:
+  - ... sample
   music: {fileID: 0}
   background: {fileID: 0}
   slope_min_max: {x: 0, y: 0}
