@@ -35,4 +35,5 @@ MonoBehaviour:
   - event:/ShortNotes/Tambourine_Motif_2
   - event:/ShortNotes/Tambourine_Bar
   - event:/ShortNotes/Tambourine_Bar
+  - event:/ShortNotes/Vibraslap_Breath
   drum_gain: 0.474

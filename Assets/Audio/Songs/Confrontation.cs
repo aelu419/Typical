@@ -33,13 +33,9 @@ public class Confrontation : PureAmbient
         //the beat at which the note in the pattern occur
         float[][] patterns = { 
             new float[]{ 0, 2, 2.5f, 4, 5, 6, 6.5f },
-            new float[] {0, 2, 2.5f, 4, 5.5f, 7f }
-        };
-        //for each note above, the probability of spawning a decorative note at random
-        float[][] decorative_spawn =
-        {
-            new float[] { 0.75f, 0, 0, 0.5f, 0, 0, 0 },
-            new float[] { 0.75f, 0, 0, 0.5f, 0, 0 }
+            new float[] { 0, 2, 2.5f, 4, 5.5f, 7f },
+            new float[] { 0, 2, 2.5f, 4.5f, 5.5f, 6.5f, 7f },
+            new float[] { 0, 2, 2.5f, 4, 5, 6, 6.5f, 7.5f}
         };
 
         float duration = 8;
@@ -78,7 +74,8 @@ public class Confrontation : PureAmbient
                             coupled = mark0 + pattern[(int)note_index] + coupling_gap;
                         }
 
-                        if (deco_handle < decorative_spawn[pattern_id][(int)note_index])
+                        //at pattern head, there is a possibility to spawn a decorative note
+                        if (note_index == 0 && Random.value < 0.5f)
                         {
                             FMOD.Studio.EventInstance dec = FMODUnity.RuntimeManager.CreateInstance(
                                 decoratives[Mathf.FloorToInt(Random.value * decoratives.Length)]
