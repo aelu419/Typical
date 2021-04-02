@@ -4,7 +4,9 @@ using UnityEngine;
 
 public abstract class CustomSong : ScriptableObject
 {
+    [ReadOnly]
     public Atonal[] atonals;
+    [ReadOnly]
     public MonoBehaviour player;
 
     public abstract void Initialize(MonoBehaviour mb);

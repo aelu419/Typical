@@ -33,6 +33,6 @@ MonoBehaviour:
   previous: 
   next:
   - begin _mainmenu
-  music: {fileID: 0}
+  music: {fileID: 11400000, guid: 5cf3c63f9978e7042847b299e605a6b8, type: 2}
   background: {fileID: 2100000, guid: c464e0f0a275ba747960164c5dac62f3, type: 2}
   slope_min_max: {x: -1, y: 0}

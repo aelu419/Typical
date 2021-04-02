@@ -701,7 +701,6 @@ public class ReadingManager: MonoBehaviour
         if (index == 0) return 0;
         float n = 0.75f * perlin_map1.Noise(new VecN(3 * index, index / 10f))
             + 0.25f * perlin_map2.Noise(new VecN(index * 9, index / 30f));
-        Debug.Log(slope_min_max.x + " " + slope_min_max.y + " <-- " + n);
         return Mathf.Lerp(slope_min_max.x, slope_min_max.y, n);
     }
 

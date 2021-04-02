@@ -5,7 +5,7 @@
 			<value>Tambourine_Motif_1</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{0d073c71-6377-48ef-b69e-f9460c25e71e}</destination>
@@ -116,6 +116,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{b903cc2d-7201-40f0-838b-e206431a08a2}">
+		<property name="volume">
+			<value>-7.5</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{74edded4-2100-476f-8f18-68a7aebe072a}</destination>
 		</relationship>
