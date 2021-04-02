@@ -4,5 +4,6 @@ using UnityEngine;
 
 public abstract class Writer : ScriptableObject
 {
+    public string input;
     public abstract string Output();
 }

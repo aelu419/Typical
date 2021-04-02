@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 [System.Serializable]
@@ -20,7 +21,8 @@ public class ScriptObjectScriptable : ScriptableObject
     public Vector2 slope_min_max = Vector2.zero;
 
     [System.NonSerialized]
-    public string CleansedText;
+    private string cleansed_text;
+    public string CleansedText { get { return cleansed_text; } }
 
     public string Text
     {
@@ -46,7 +48,7 @@ public class ScriptObjectScriptable : ScriptableObject
         rm.perlin_map2 = new Perlin(10, 2);
 
         List<Word> lst;
-        if (source == ScriptTextSource.SCRIPT)
+        if (source == ScriptTextSource.TEXT_ASSET)
         {
             lst = rm.ParseScript(text);
         }
@@ -60,6 +62,19 @@ public class ScriptObjectScriptable : ScriptableObject
         Debug.Log(sb.ToString());
 
         ScriptDispenser.CheckValidity(this);
+    }
+
+    public void Cleanse()
+    {
+        if (source != ScriptTextSource.TEXT_ASSET)
+        {
+            cleansed_text = "";
+            return;
+        }
+        //extract raw text
+        cleansed_text = Regex.Replace(text, @"<[^>]*>", " ");
+        cleansed_text = Regex.Replace(cleansed_text, @"\s+", " ");
+
     }
 }
 

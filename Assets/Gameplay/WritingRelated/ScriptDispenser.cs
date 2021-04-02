@@ -138,12 +138,20 @@ public class ScriptDispenser : ScriptableObject
     public static void CheckValidity(ScriptObjectScriptable sos)
     {
         OnLoad();
+        Debug.Log("checking validity for " + sos.name);
         List<PortalData> portals = new List<PortalData>();
+        if (sos.next == null || sos.next.Length == 0)
+        {
+            throw new System.Exception("script has no next");
+        }
         foreach (string n in sos.next)
         {
             portals.Add(PortalData.Fetch(n));
         }
-        portals.Add(PortalData.Fetch(sos.previous));
+        if (!sos.previous.Equals(""))
+        {
+            portals.Add(PortalData.Fetch(sos.previous));
+        }
 
         foreach (PortalData p in portals)
         {
@@ -230,9 +238,24 @@ public class ScriptDispenser : ScriptableObject
         scripts = all.ToArray();
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
         sb.Append("loaded scripts:\n\t");
+        ScriptObjectScriptable generator;
+        //screen for raw text
+        System.Text.StringBuilder raw = new System.Text.StringBuilder();
         foreach (ScriptObjectScriptable s in scripts)
         {
+            s.Cleanse();
+            raw.Append(s.CleansedText);
             sb.Append(s.name_+", ");
+        }
+        Debug.Log("all raw text:\n\t" + raw.ToString());
+        //feed raw text into generators
+        foreach (ScriptObjectScriptable s in scripts)
+        {
+            if (s.source == ScriptTextSource.SCRIPT)
+            {
+                s.text_writer.input = raw.ToString();
+                Debug.Log("sample generated text: " + s.Text);
+            }
         }
         Debug.Log(sb);
     }
