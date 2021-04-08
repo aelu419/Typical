@@ -13,15 +13,20 @@ MonoBehaviour:
   m_Name: tutorial
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: c88b040c425751d43b08edcec13d6570, type: 3}
+  - {fileID: 21300000, guid: 01168618a93ee1d468e5786221a5651e, type: 3}
   segments:
   - name: 1
-    script: 'Now, this game isn''t made for torturing you...
+    script: 'Hi!
 
-      Well, at least
-      not primarily.
+      I''m here to guide you through the tutorial!
 
-      You can progress when you type the right letter
+      Now,
+      this game isn''t made for torturing your fingers...
+
+      Well, at least not
+      primarily.
+
+      You can progress as long as you type the right letter
 
       Capitalization,
       punctuation, and spacing can be ignored completely!
@@ -32,18 +37,21 @@ MonoBehaviour:
       Although I''m not sure why there''s such a feature
 
       I
-      mean... who wants to "un-play" a game?'
+      mean... who wants to un-play a game?'
   - name: 2
     script: 'You may already know that SPACE toggles your light
 
-      You can use
-      it to reveal hidden text
+      Or not! And
+      that''s totally fine :)
 
-      If you can''t see the road ahead, use the light!'
+      You can use it to reveal hidden text
+
+      If
+      you can''t see the road ahead, use the light!'
   - name: 3
     script: 'ESC pauses the game
 
-      And that''s all the normal controls
+      And that''s all of the normal controls
 
       Now,
       the game may glitch and you may get stuck,
@@ -52,3 +60,4 @@ MonoBehaviour:
       but just in case...
 
       Try to save and reload if that happens.'
+  randomize: 0

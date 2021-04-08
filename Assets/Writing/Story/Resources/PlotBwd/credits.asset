@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01e605533d030a0408fbb64405f77198, type: 3}
-  m_Name: MainMenuPassNoSave
+  m_Name: credits
   m_EditorClassIdentifier: 
-  name_: _mainmenu
+  name_: _credits
   source: 0
   text_writer: {fileID: 0}
-  text: <O img title/> <O lamp/> <O grass /> <O npc narrator1/> <O grass />x
-  previous: 
+  text: "And that\u2019s it, that\u2019s how you, or I, or the narrator, or the robot,
+    got out of this game. It\u2019s all very confusing\u2026"
+  previous: _mainmenu
   next:
-  - new game start1
-  - still need tutorial? _tutorial
-  - restart your subscription _endless
-  - do the right thing _quit
+  - _endless
   music: {fileID: 11400000, guid: 60a77ee9a65865d429d3efa3de888a17, type: 2}
-  background: {fileID: 2100000, guid: c464e0f0a275ba747960164c5dac62f3, type: 2}
-  slope_min_max: {x: 0, y: 0}
+  background: {fileID: 2100000, guid: 88febf8a68d05164ab2a1b2b4a548d65, type: 2}
+  slope_min_max: {x: -0.2, y: 0}

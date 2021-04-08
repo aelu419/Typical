@@ -18,7 +18,7 @@ MonoBehaviour:
   text: <O img title/><O lamp/>x
   previous: 
   next:
-  - new game part1
+  - new game start1
   - tutorial _tutorial
   - test scene sample
   - endless _endless

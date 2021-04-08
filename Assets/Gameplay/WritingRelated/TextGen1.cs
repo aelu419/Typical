@@ -7,13 +7,13 @@ public class TextGen1 : Writer
 {
     public override string Output()
     {
-        Markov m = new Markov(input, 4);
+        Markov m = new Markov(input, 5);
         string str = "";
         for (int i = 0; i < 10; i++)
         {
             try
             {
-                str += m.Run(10) + ' ';
+                str += m.Run(Mathf.CeilToInt(Random.value * 15f) + 5) + ' ';
                 
             }catch(System.Exception _)
             {

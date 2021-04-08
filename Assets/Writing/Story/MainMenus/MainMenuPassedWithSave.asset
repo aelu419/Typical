@@ -19,7 +19,7 @@ MonoBehaviour:
   previous: 
   next:
   - continue _save
-  - new game part1
+  - new game start1
   - still need tutorial? _tutorial
   - restart your subscription _endless
   - do the right thing _quit

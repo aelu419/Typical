@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e605533d030a0408fbb64405f77198, type: 3}
+  m_Name: continueA4
+  m_EditorClassIdentifier: 
+  name_: continueA4
+  source: 0
+  text_writer: {fileID: 0}
+  text: "What next? I think that\u2019s where I left off last time I rewrote of this
+    thing.\r\n<H>I think I had a version where the worm met some grown moth or butterfly,
+    but then the lifecycle thing would make no sense: how can they coexist at the
+    same time?\r\nOh God\u2026 what do I say next\u2026 should\u2019ve made a draft
+    before this\u2026\r\nWould those people hear it? I mean, I think it\u2019s only
+    gonna record the relevant lines, so my rambling wouldn\u2019t be up\u2026\r\nOr
+    not, it goes back and some poor inspector-director-guy will waste minutes listening
+    to bullshit on birds talking to worms. </H>\r\nWait, isn\u2019t my original goal
+    to troll them? Then it\u2019s better to let them hear!\r\nBut it feels weird
+    that my rambling is heard by\u2026 anyone else\u2026 feels almost <I>unethical</I>.
+    <O npc random/>\r\nI mean, I guess it\u2019s their fault for trolling with me.
+    Let\u2019s just ramble on\u2026 \r\n"
+  previous: continueA3
+  next:
+  - the worm replied... continueA5_1
+  - the worm came out... continueA5_2
+  - the worm... continueA5_3
+  - look for written draft continueA5_4
+  - ... continueA5_5
+  music: {fileID: 11400000, guid: 60a77ee9a65865d429d3efa3de888a17, type: 2}
+  background: {fileID: 2100000, guid: 0882bd794af0a20408af42f955cde607, type: 2}
+  slope_min_max: {x: -0.15, y: 0.15}

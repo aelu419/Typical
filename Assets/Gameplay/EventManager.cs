@@ -107,6 +107,11 @@ public class EventManager : MonoBehaviour
         {
             GameSave.SaveTutorial(true);
         }
+        else if (sManager.CurrentScript.name_.Equals("_credits"))
+        {
+            Debug.Log("credits reached, the game is passed.");
+            GameSave.SavePassedGame(true);
+        }
 
         Debug.Log("transitioning to " + next + " from " + (from_front ? "front" : "back"));
         sManager.SetCurrentScript(next);

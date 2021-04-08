@@ -111,7 +111,6 @@ public class ScriptDispenser : ScriptableObject
     {
         if (name.Equals(MAINMENU))
         {
-            GameSave.SavePassedGame(true);
             int main_menu_flag =
                 (GameSave.HasSavedScene ? HAS_SAVE : 0)
                 | (GameSave.PassedGame ? PASSED : 0);
@@ -231,6 +230,16 @@ public class ScriptDispenser : ScriptableObject
         ScriptObjectScriptable[] bwd = Resources.LoadAll<ScriptObjectScriptable>("PlotBwd/");
         List<ScriptObjectScriptable> all = new List<ScriptObjectScriptable>();
         all.AddRange(fwd);
+
+        //feed all forward plot to generator
+        //screen for raw text
+        System.Text.StringBuilder raw = new System.Text.StringBuilder();
+        foreach (ScriptObjectScriptable s in all)
+        {
+            s.Cleanse();
+            raw.Append(s.CleansedText);
+        }
+
         all.AddRange(bwd);
         all.AddRange(init_scripts);
         all.AddRange(main_menus);
@@ -238,15 +247,7 @@ public class ScriptDispenser : ScriptableObject
         scripts = all.ToArray();
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
         sb.Append("loaded scripts:\n\t");
-        ScriptObjectScriptable generator;
-        //screen for raw text
-        System.Text.StringBuilder raw = new System.Text.StringBuilder();
-        foreach (ScriptObjectScriptable s in scripts)
-        {
-            s.Cleanse();
-            raw.Append(s.CleansedText);
-            sb.Append(s.name_+", ");
-        }
+        
         Debug.Log("all raw text:\n\t" + raw.ToString());
         //feed raw text into generators
         foreach (ScriptObjectScriptable s in scripts)
@@ -256,6 +257,7 @@ public class ScriptDispenser : ScriptableObject
                 s.text_writer.input = raw.ToString();
                 Debug.Log("sample generated text: " + s.Text);
             }
+            sb.Append(s.name_+", ");
         }
         Debug.Log(sb);
     }

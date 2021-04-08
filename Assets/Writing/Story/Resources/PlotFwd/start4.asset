@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e605533d030a0408fbb64405f77198, type: 3}
+  m_Name: start4
+  m_EditorClassIdentifier: 
+  name_: start4
+  source: 0
+  text_writer: {fileID: 0}
+  text: "I wonder if someone will steal it if it stays outside the door like this.
+    It\u2019s been days and it\u2019s still standing there.\r\nBut again, everyone\u2019s
+    shut in nowadays, I guess the thieves have <B>hygiene</B> as well.\r\nShould
+    I let it in? <H>Does it even know how to get in?</H>\r\nI guess I\u2019ll just
+    wait some more, then. <O npc random/>\r\nWell, okay, not just waiting, I can
+    do some practice. Let\u2019s see\u2026 there\u2019s this pronunciation thing
+    I learned back then, I think I still remember it:\r\nOnce upon a time, there
+    was a young rat named Arthur who couldn\u2019t make up his mind.\r\nWhenever
+    the other rats asked him if he would go out with them, he would say, \u201CI
+    don\u2019t know.\u201D\r\nAnd when they said, \u201CWould you rather stay inside?\u201D\r\nHe
+    wouldn\u2019t say yes or no either. He never wanted to make a choice. <H>Hmm\u2026
+    this reads awfully like what we\u2019re in right now\u2026 </H>\r\nOne fine day,
+    his aunt appealed to him\u2026 <O npc random/>\r\n<H>Did it make a noise? I think
+    I heard something, some metallic sound. Let me check outside\u2026</H>\r\nHuh\u2026
+    the thing\u2019s moving\u2026? I can\u2019t tell what gesture it\u2019s doing--it
+    looks like it\u2019s\u2026 happy? Excited? Agitated? I remember they said it\u2019ll
+    give me feedback--is this what they were talking about?\r\n"
+  previous: start3
+  next:
+  - keep waiting start5
+  music: {fileID: 11400000, guid: 60a77ee9a65865d429d3efa3de888a17, type: 2}
+  background: {fileID: 2100000, guid: 0882bd794af0a20408af42f955cde607, type: 2}
+  slope_min_max: {x: -0.2, y: 0.2}
