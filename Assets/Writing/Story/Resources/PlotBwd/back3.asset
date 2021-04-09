@@ -15,24 +15,15 @@ MonoBehaviour:
   name_: back3
   source: 0
   text_writer: {fileID: 0}
-  text: '"See, after you finish building, do you know <O npc hostile/> what exactly
-    happens? <O stump/> Like, sure, some flyable thing comes out of it eventually,
-    but would that be you? Would it think like you, or feel like you?" <O stump/>
-
-    ...
-    ...
-
-    "I''ve heard <B>stories</B>, my friend. <O stump/> Some say you''ll
-    fall asleep and another mind takes over. You''ll know <O npc hostile/> how to
-    fly the instant you get <O npc hostile/> out, but are you--the worm you--born
-    with that knowledge? Or did anyone teach you to fly? <O stump/> The only explanation
-    is: this other spirit who is born with flight knowledge takes over. <O npc hostile/>
-    You''re just <B>dead</B>."
-
-'
+  text: "There was something <O stump/> of a frame already in place, <O npc hostile/>
+    but it looked nothing like a cocoon.\r\nThe worm had been working on it for <I>hours</I>,
+    and the initial excitement for starting something life changing (literally) was
+    starting to wear off. <O npc hostile/>\r\n... ... ... \r\nthe sun was like an
+    overseer, <O stump/> not a motivator... and the repetitive work adds a layer
+    of hypnosis on top of the nausea.\r\n"
   previous: back4
   next:
   - _endless
   music: {fileID: 11400000, guid: 5cf3c63f9978e7042847b299e605a6b8, type: 2}
   background: {fileID: 2100000, guid: 88febf8a68d05164ab2a1b2b4a548d65, type: 2}
-  slope_min_max: {x: -0.7, y: -0.4}
+  slope_min_max: {x: -0.4, y: 0}

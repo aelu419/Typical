@@ -15,13 +15,12 @@ MonoBehaviour:
   name_: back4
   source: 0
   text_writer: {fileID: 0}
-  text: "Ha... I actually kinda forgot <O npc hostile/> how it went... <O stump/>
-    <H>wrote it and rewrote it so many times and now I can't get a hold of it...
-    </H> <O stump/>\r\nOh, yeah, right, it <O npc hostile/> starts at afternoon...
-    alright: <O stump/>\r"
+  text: "Ha... I actually kinda forgot <O npc hostile/> how it went... <O stump/>wrote
+    it and rewrote it so many times and now I can't get a hold of it... <O stump/>\r\nOh,
+    yeah, right, it <O npc hostile/> starts at afternoon... alright: <O stump/>\r"
   previous: back5
   next:
   - _endless
   music: {fileID: 11400000, guid: 5cf3c63f9978e7042847b299e605a6b8, type: 2}
   background: {fileID: 2100000, guid: 88febf8a68d05164ab2a1b2b4a548d65, type: 2}
-  slope_min_max: {x: -1, y: -0.6}
+  slope_min_max: {x: -0.5, y: 0}

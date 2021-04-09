@@ -67,9 +67,16 @@ public class MusicManager : MonoBehaviour
 
     void PlaySong ()
     {
+        masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
+        masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         playing.enabled = true;
         //kickstart all the atonal instruments
         playing.Start();
+    }
+
+    private void OnDisable()
+    {
+        playing.enabled = false;
     }
 
     // Update is called once per frame

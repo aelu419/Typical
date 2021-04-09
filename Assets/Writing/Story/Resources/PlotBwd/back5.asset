@@ -15,7 +15,7 @@ MonoBehaviour:
   name_: back5
   source: 0
   text_writer: {fileID: 0}
-  text: 'What even is <O npc hostile/> going on, first that letter, then this...
+  text: 'What even is <O npc hostile/> going on? First that letter, then this...
     <I>helmet-can-machine-thing</I>, <O stump/>
 
     what do they want from me?
@@ -23,11 +23,11 @@ MonoBehaviour:
 
     Can it see, or hear?
 
-    <H>It''s all a trick isn''t it, just
+    It''s all a trick isn''t it, just
     to see me make myself look like a dumbass...
 
     I think I wasn''t even qualified,
-    they''re <O npc hostile/> just trolling me with this...</H> <O stump/>
+    they''re <O npc hostile/> just trolling me with this... <O stump/>
 
     Let
     me read the letter again, <O npc hostile/> just to see if I misread anything
@@ -38,4 +38,4 @@ MonoBehaviour:
   - _endless
   music: {fileID: 11400000, guid: 5cf3c63f9978e7042847b299e605a6b8, type: 2}
   background: {fileID: 2100000, guid: 88febf8a68d05164ab2a1b2b4a548d65, type: 2}
-  slope_min_max: {x: -1.5, y: -1}
+  slope_min_max: {x: -1, y: 0}

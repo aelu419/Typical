@@ -45,7 +45,7 @@ public class NPCBehaviour : MonoBehaviour
     const int UPDATES_PER_FRAME = 5;
     public IEnumerator Talk()
     {
-        if (!is_talking && !content.randomize && content.sprites.Length > 1)
+        if (!is_talking && content != null && !content.randomize && content.sprites.Length > 1)
         {
             is_talking = true;
             for(int i = 1; i < content.sprites.Length; i++)
