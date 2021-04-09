@@ -699,8 +699,8 @@ public class ReadingManager: MonoBehaviour
     private float GetSlope(int index)
     {
         if (index == 0) return 0;
-        float n = 0.75f * perlin_map1.Noise(new VecN(3 * index, index / 10f))
-            + 0.25f * perlin_map2.Noise(new VecN(index * 9, index / 30f));
+        float n = 0.5f * perlin_map1.Noise(new VecN(3 * index, index / 20f))
+            + 0.5f * perlin_map2.Noise(new VecN(index * 9, index / 50f));
         return Mathf.Lerp(slope_min_max.x, slope_min_max.y, n);
     }
 
@@ -867,6 +867,16 @@ public class ReadingManager: MonoBehaviour
                 //not white space or tag, just add the character to the cached word
                 hanging_word += raw[cursor];
             }
+        }
+
+        if (hanging_tags.Count > 0)
+        {
+            System.Text.StringBuilder hanging_tags_str = new System.Text.StringBuilder();
+            foreach (Tag t in hanging_tags)
+            {
+                hanging_tags_str.Append(t.ToString() + ", ");
+            }
+            throw new System.Exception("Hanging tags: " + hanging_tags_str);
         }
 
         /*

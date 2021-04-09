@@ -178,7 +178,7 @@ public class Word
         if (col == null) throw new System.Exception("prefab loading error: no collider");
 
         //set slope
-        float slope_delta = slope;// * rendered_vals.x;
+        float slope_delta = slope * rendered_vals.x;
         /*
         //trim small steps to avoid collision bug
         if (Mathf.Abs(slope_delta) < 0.1f)

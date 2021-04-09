@@ -118,11 +118,12 @@ public class GameSave : ScriptableObject
     public static void SavePassedGame(bool passed)
     {
         PlayerPrefs.SetInt(PASS, passed ? 1 : 0);
+        /*
         if (passed)
         {
             Debug.Log("Game complete! Now deleting old save:)");
             PlayerPrefs.SetString(SCENE, "");
-        }
+        }*/
         PlayerPrefs.Save();
     }
 }

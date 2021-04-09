@@ -74,10 +74,14 @@ public class ScriptObjectScriptable : ScriptableObject
         //extract raw text
         cleansed_text = Regex.Replace(text, @"<[^>]*>", " ");
         cleansed_text = Regex.Replace(cleansed_text, @"\s+", " ");
-        cleansed_text = cleansed_text.Replace("\u2026", "...");
-        cleansed_text = cleansed_text.Replace('\u2019', '\'');
-        cleansed_text = cleansed_text.Replace('\u201C', '\"');
-        cleansed_text = cleansed_text.Replace('\u201D', '\"');
+    }
+
+    private void OnEnable()
+    {
+        text = text.Replace("\u2026", "...");
+        text = text.Replace('\u2019', '\'');
+        text = text.Replace('\u201C', '\"');
+        text = text.Replace('\u201D', '\"');
     }
 }
 

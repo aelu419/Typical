@@ -91,11 +91,13 @@ public class Markov
                 do
                 {
                     next = NextLetter(window);
-                    result.Append(next);
-                    window = window.Substring(1) + next;
-
+                    if (next != '\0')
+                    {
+                        result.Append(next);
+                        window = window.Substring(1) + next;
+                    }
                     //terminate sentence if certain symbols are reached
-                    if (END_OF_LINE.Contains(next))
+                    if (END_OF_LINE.Contains(next) || next == '\0')
                     {
                         //Debug.Log("terminating line early: " + next);
                         early_termination = true;
@@ -229,12 +231,8 @@ public class Markov
                 if (index <= tally[i]) { return ALPHABET[i]; }
             }
         }
-        else
-        {
-            //TODO: find nearest key and substitute
-        }
+        //key is not found
 
-        //not found: throw error
         Debug.LogError(state + " has no corresponding next state!");
         return '\0';
     }
