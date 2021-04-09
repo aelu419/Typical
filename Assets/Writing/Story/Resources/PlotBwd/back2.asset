@@ -16,20 +16,21 @@ MonoBehaviour:
   source: 0
   text_writer: {fileID: 0}
   text: 'Who do you <O npc hostile/> think we are? <O stump/> How much effort do
-    you think I put into this--hell, do you even know what effort is? Have you worked
-    a <B>day</B> of your life? <O stump/> <O npc hostile/> You just know how to eat,
-    and eat, and when you stop eating you just cause <B>trouble</B>!"
+    you think <O npc hostile/> I put into this--hell, do you even know what effort
+    is? Have you worked a <B>day</B> of your life? <O stump/> <O npc hostile/> You
+    just know how to eat, and eat, and when you stop eating <O npc hostile/> you
+    just cause <B>trouble</B>!"
 
     ...
 
     ...
 
-    "I''ve
-    heard <B>stories</B>, my friend. Some say you''ll fall asleep and another mind
-    takes over. You''ll know how to fly the instant you get out, but are you--the
-    worm you--born with that knowledge? Or did anyone teach you to fly? <O stump/>
-    The only <O npc hostile/> explanation is: this other spirit who is born with
-    flight knowledge takes over. You''re just <B>dead</B>."
+    "I''ve heard <B>stories</B>,
+    <O npc hostile/> my friend. Some say you''ll fall asleep and another mind takes
+    over. You''ll know how to fly the instant you get out, but are you--the worm
+    you--born with that knowledge? Or did anyone teach you to fly? <O stump/> The
+    only <O npc hostile/> explanation is: this other spirit who is born with flight
+    knowledge takes over. ...
 
 '
   previous: back3
@@ -37,4 +38,4 @@ MonoBehaviour:
   - _endless
   music: {fileID: 11400000, guid: 5cf3c63f9978e7042847b299e605a6b8, type: 2}
   background: {fileID: 2100000, guid: 88febf8a68d05164ab2a1b2b4a548d65, type: 2}
-  slope_min_max: {x: -0.5, y: -0.2}
+  slope_min_max: {x: -0.3, y: 0}
