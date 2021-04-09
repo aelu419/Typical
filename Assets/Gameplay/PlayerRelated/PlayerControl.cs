@@ -406,7 +406,7 @@ public class PlayerControl : MonoBehaviour
         //Debug.LogError("IMPLEMENT COLLISION ANIMATION, collision speed: " + collision.relativeVelocity.y);
         if (collision.relativeVelocity.y > 2.5f)
         {
-            Debug.Log(collision.relativeVelocity.y);
+            //Debug.Log(collision.relativeVelocity.y);
             MusicManager.Instance.PlayOneShot(sfx_lib.collision, rigid.position);
             StartCoroutine(CameraController.Instance.Shake(collision.relativeVelocity.y - 2.5f, 0.25f));
             ParticleSystem sprinkle = GetComponent<ParticleSystem>();

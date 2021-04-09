@@ -220,3 +220,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d178fae0e9afba4a8b641eb917c09eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drop_sound: event:/ShortNotes/Tambourine_Bar

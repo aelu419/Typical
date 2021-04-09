@@ -14,6 +14,9 @@ public class Stump : MonoBehaviour
     TextMeshPro content;
     string orig_text;
 
+    [FMODUnity.EventRef]
+    public string drop_sound;
+
     private static string[] SOURCE = { "STOP", "HALT", "NO PASS", "WRONG WAY", "TURN BACK", "STOP", "STOP" };
 
     public static string GetInitialText()
@@ -29,17 +32,20 @@ public class Stump : MonoBehaviour
         engaged = false;
         content = GetComponent<TextMeshPro>();
         orig_text = content.text;
+        content.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         Rect cam = CameraController.Instance.CAM;
-        if (cam.xMin < transform.position.x
-            && transform.position.x < cam.xMax)
+        if (cam.xMin - 3 < transform.position.x
+            && transform.position.x < cam.xMax + 3)
         {
             if (fall_timer == -1.0f)
             {
+                content.enabled = true;
+
                 // initialize tmp appearance
                 content.text = "<material=\"" + Word.UNTYPED_PLAIN_MAT + "\">" + orig_text + "</material>";
 
@@ -55,6 +61,13 @@ public class Stump : MonoBehaviour
             {
                 fall_timer += Time.deltaTime;
             }
+        }
+        else
+        {
+            fall_timer = -1.0f;
+            engaged = false;
+            tag = "Untagged";
+            content.enabled = false;
         }
 
         if (engaged)
@@ -84,6 +97,10 @@ public class Stump : MonoBehaviour
         {
             engaged = true;
             InputGate.Instance.RegisterBackspaceBlocker(gameObject);
+        }
+        else if (content.enabled && other.CompareTag("Word Block"))
+        {
+            MusicManager.Instance.PlayOneShot(drop_sound, this.transform.position);
         }
     }
 
