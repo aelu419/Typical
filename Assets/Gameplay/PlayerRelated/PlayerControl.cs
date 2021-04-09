@@ -32,11 +32,11 @@ public class PlayerControl : MonoBehaviour
                                                        //arrived or rushed pass the destination
     [ReadOnly] public bool new_order;
     [ReadOnly] public bool direction; //true when facing right
+    private Vector2 velocity_temp;
+    private bool velocity_override;
     //private Vector3 relation_temp;
     //private ContactPoint2D[] cp;
 
-    //connect to other game components
-    private CameraController cControler;
     //private ReadingManager rManager;
     //private SpriteRenderer renderer_; //the sprite renderer assigned to the main character
     private Rigidbody2D rigid;
@@ -87,7 +87,7 @@ public class PlayerControl : MonoBehaviour
         //torso = transform.GetChild(1).GetComponent<SpriteRenderer>();
         head_light_controller = transform.GetChild(0).GetComponent<HeadLightControl>();
 
-        cControler = CameraController.Instance;
+        //cControler = CameraController.Instance;
 
         box = GetComponent<BoxCollider2D>();
 
@@ -176,6 +176,11 @@ public class PlayerControl : MonoBehaviour
 
         UpdateRelativePosition();
 
+        if (velocity_override)
+        {
+            rigid.velocity = new Vector2(velocity_temp.x, rigid.velocity.y);
+        }
+
         if (!in_climb)
         {
             if (!Approximately(relation_to_destination.x, 0))
@@ -238,11 +243,17 @@ public class PlayerControl : MonoBehaviour
                         //teleport for small height gaps
                         if (hdiff < climb_threshold)
                         {
+                            //the collision itself stops the player character
+                            //but since climbing animation should not occur, the stoppage
+                            //should only happen in the y direction
+                            //this means the x velocity must be overriden
                             rigid.position = new Vector3(
                                 rigid.position.x,
                                 block_top + charSize / 2f + 0.1f,
                                 transform.position.z
                             );
+
+                            velocity_override = true;
                         }
                         //climb for large height gaps
                         else
@@ -360,6 +371,8 @@ public class PlayerControl : MonoBehaviour
         head_light_controller.lerp_state = light_progress;
 
         transform.rotation = Quaternion.Euler(0, direction ? 0 : 180f, 0);
+
+        velocity_temp = rigid.velocity;
     }
 
 

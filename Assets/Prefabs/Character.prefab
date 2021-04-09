@@ -62,7 +62,7 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
-  climb_threshold: 0.22
+  climb_threshold: 0.15
   in_climb: 0
   climb_speed: 2
   accel: 10
@@ -73,6 +73,7 @@ MonoBehaviour:
   new_order: 0
   direction: 0
   head_light_controller: {fileID: 0}
+  neighbours: []
   light_progress: 0
 --- !u!50 &507486619242034054
 Rigidbody2D:

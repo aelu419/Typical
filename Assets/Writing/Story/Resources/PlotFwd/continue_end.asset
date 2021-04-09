@@ -15,12 +15,12 @@ MonoBehaviour:
   name_: continue_end
   source: 0
   text_writer: {fileID: 0}
-  text: "Why is it moving? Like, actual moving, <I>translating</I>, <I>mobilizing</I>,
-    whatever--not gesturing, it's leaving! No! Don't go! Come back!\r\n*imagine some
-    metal collision noise here*\r\nSh*t... I think I broke it... ... ... what have
-    I done... <O npc random/>\r\nLet me just get it back up, see if it still walks...
-    <H>it most definitely does not... and the \"upper lid\" got off, I can see all
-    the insides...</H> wait, what's this booklet? Could it be <B>the script</B>?\r\n...
+  text: "Why is it moving? <H>Like, actual moving, <I>translating</I>, <I>mobilizing</I>,
+    whatever--not gesturing, it's LEAVING!</H> No! Don't go! Come back!\r\n... ...
+    <O npc random/>...\nSh*t... I think I broke it... ... ... what have I done...
+    <O npc random/>\r\nLet me just get it back up, see if it still walks... <H>it
+    most definitely does not... and the \"upper lid\" got off, I can see all the
+    insides...</H> wait, what's this booklet? Could it be... <I>the script</I>?\r\n...
     ... <O npc random/> ... ... ...\r\nWhy have I never thought of this...\r\nThey
     even made it in the shape of a bin! And I never thought of checking inside it!\r\n<I>Of
     course</I> the script's inside it, <I>of course</I>, why would it be <I>anywhere</I>

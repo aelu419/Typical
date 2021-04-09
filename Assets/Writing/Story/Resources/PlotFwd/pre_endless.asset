@@ -15,12 +15,12 @@ MonoBehaviour:
   name_: pre_endless
   source: 0
   text_writer: {fileID: 0}
-  text: "Dear customer,\r\nThe Company always strive for the best quality using state
-    of the arts technology.\r\nSadly, due to the recent pandemic and shifts within
-    the company, the quality of <B>Typical</B> has yet to match the standards we
-    deem to be <I>presentable</I> to the wider audience.\r\nInstead of speeding through
-    the production process, we have decided to delay the release of the game until
-    later this year.\r\nAgain, thank you so much for your interest in our creative
+  text: "Dear customer,\r\nWe want you to know that The Company always strives for
+    the best quality for its products.\r\nBut sadly, due to the recent pandemic impacting
+    our work environment, the quality of <B>Typical</B> has yet to match the standards
+    we deem to be <I>presentable</I> to the wider audience.\r\nInstead of speeding
+    through the production process, we have decided to delay the release of the game
+    until later this year.\r\nAgain, thank you so much for your interest in our creative
     endeavors, and we sincerely apologize for the delay.\r\n... As an alternative,
     we have decided to give you one month of free trial for our newest, experimental,
     endless narration service.\r\nThis new service fuses creativity with the endless

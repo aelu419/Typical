@@ -15,17 +15,19 @@ MonoBehaviour:
   name_: continueA4
   source: 0
   text_writer: {fileID: 0}
-  text: "What next? I think that's where I left off last time I rewrote of this thing.\r\n<H>I
+  text: "What next? I think that's where I left off last time I rewrote this story.\r\n<H>I
     think I had a version where the worm met some grown moth or butterfly, but then
-    the lifecycle thing would make no sense: how can they coexist at the same time?\r\nOh
+    the lifecycle thing would make no sense: how could they coexist at the same time?\r\nOh
     God... what do I say next... should've made a draft before this...\r\nWould those
-    people hear it? I mean, I think it's only gonna record the relevant lines, so
-    my rambling wouldn't be up...\r\nOr not, it goes back and some poor inspector-director-guy
-    will waste minutes listening to bullshit on birds talking to worms. </H>\r\nWait,
-    isn't my original goal to troll them? Then it's better to let them hear!\r\nBut
-    it feels weird that my rambling is heard by... anyone else... feels almost <I>unethical</I>.
-    <O npc random/>\r\nI mean, I guess it's their fault for trolling with me. Let's
-    just ramble on... \r\n"
+    people hear it? I mean, I think the A4 only records relevant lines, so my rambling
+    wouldn't be get in there...\r\nOr not, it goes back and some poor inspector-director-guy
+    would have to waste <I>precious minutes</I> listening to bullsh*t on birds...
+    talking to worms. </H>\r\nWait, isn't my original goal to get back at them? For
+    letting me wait a week for <I>absolutely nothing</I>? Then it's better to let
+    them hear!\r Screw them!\nBut it feels weird that my rambling is heard by...
+    anyone else... feels almost <I>embarracing</I>... Haha, I'm probably punishing
+    myself more than getting back at them...<O npc random/>\r\nLet's just ramble
+    on... can we ramble on? Hmm... \r\n"
   previous: continueA3
   next:
   - the worm replied... continueA5_1

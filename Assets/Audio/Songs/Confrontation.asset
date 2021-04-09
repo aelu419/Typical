@@ -15,13 +15,13 @@ MonoBehaviour:
   player: {fileID: 0}
   enabled: 1
   whisper: event:/Ambient/Cave1
-  whisper_fluctuation_amplitude: 1
+  whisper_fluctuation_amplitude: 0.323
   whisper_flucuation_speed: 0.69
-  whisper_gain_master: 0.468
+  whisper_gain_master: 0.115
   ambient: event:/Ambient/Cave2
-  ambient_fluctuation_amplitude: 0.493
+  ambient_fluctuation_amplitude: 0.315
   ambient_flucuation_speed: 0.62
-  ambient_gain_master: 0.124
+  ambient_gain_master: 0.085
   drums:
   - event:/ShortNotes/Timpani_samples-01
   - event:/ShortNotes/Timpani_samples-02
@@ -36,4 +36,4 @@ MonoBehaviour:
   - event:/ShortNotes/Tambourine_Bar
   - event:/ShortNotes/Tambourine_Bar
   - event:/ShortNotes/Vibraslap_Breath
-  drum_gain: 0.474
+  drum_gain: 0.671

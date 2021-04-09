@@ -15,8 +15,8 @@ MonoBehaviour:
   name_: _credits
   source: 0
   text_writer: {fileID: 0}
-  text: "And that\u2019s it, that\u2019s how you, or I, or the narrator, or the robot,
-    got out of this game. It\u2019s all very confusing\u2026"
+  text: And that's it, that's how you, or I, or the narrator, or the robot, got out
+    of this game. It's all very confusing...
   previous: _mainmenu
   next:
   - _endless

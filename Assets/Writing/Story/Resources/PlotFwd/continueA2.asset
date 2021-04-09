@@ -15,7 +15,7 @@ MonoBehaviour:
   name_: continueA2
   source: 0
   text_writer: {fileID: 0}
-  text: "The ant is like someone with a slightly morbid obsession over wearing uniforms
+  text: "The ant was like someone with a slightly morbid obsession over wearing uniforms
     and waking up early.\r\nApparently on that day, the worm was building its cocoon
     over the ant's path, which was carefully marked with scent so the other ants
     could follow by tracing, all the way to some insect corpse up on the canopy,
@@ -28,13 +28,13 @@ MonoBehaviour:
     professional mannerisms, stepping right through one of the larger holes (the
     cocoon was still quite sparse at the time) and shouted, \r\n\"Can you please
     get your fat ass off the way! \r\nCan't you see that ordinary, hardworking insects
-    like me are using this path? \r\nAnd you just lay here like it's all just <B>nothing</B>?\r\nWho
-    do you think we are? How much effort do you think I put into this--hell, do you
-    even know what effort is? Have you worked a <B>day</B> of your life? You just
-    know how to eat, and eat, and when you stop eating you just cause <B>trouble</B>!\"
-    <O npc random/>\r\nBy the time the worm shifted off of auto pilot, it noticed
-    a bite mark on its stomach (maybe that's what caused it to wake up in the first
-    place).\r\nThe ant was gone, frustrated, worm-goo dripping off its teeth.\r\n"
+    like me are using this path? \r\nAnd you just lay here like it's all just <B>nothing</B>?\r\nHow
+    much effort do you think I put into this--<I>hell</I>, do you even know what
+    effort is? Have you worked a <B>day</B> of your life? You just know how to eat,
+    and eat, and when you stop eating you just cause <B>trouble</B>!\" <O npc random/>\r\nBy
+    the time the worm shifted off of auto pilot, it noticed a bite mark on its stomach
+    (maybe that's what caused it to wake up in the first place).\r\nThe ant was gone,
+    frustrated, worm-goo dripping off its teeth.\r\n"
   previous: continueA1
   next:
   - then it rained continueA3
