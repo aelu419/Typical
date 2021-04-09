@@ -20,12 +20,11 @@ MonoBehaviour:
     really isn't working isn't it... talking to a robotic trash bin...</H>\r\nI said,
     do <I>you</I>, have, the <I>script</I>, for <I>me</I>, from the <I>Company</I>?
     ... ...\r\nI guess not, then...\r\nOh wait, wait a second, let me look for it,
-    ..., here it is: <O img letter1/> do you recognize this?\r\nLook at the seal,
-    do you tell?\r\nThey sent me this weeks ago, told me I got a narrator role for
-    some weird typing game.\r\nDo you recognize the <I>T</I> here? ... ...\r\n<O
-    lamp/>\r\n<H>Can't believe I'm doing this...\r\nwhy would I think this trash
-    bin's got fancy <B>image recognition</B>...</H> <O npc random/>\r\nAh, well...
-    guess I'll have to wait for another day\r"
+    ..., here it is: <O img letter1/> do you recognize this?\r\nThey sent me this
+    weeks ago, told me I got a narrator role for some weird typing game.\r\nDo you
+    recognize the <I>T</I> here? ... ...\r\n<O lamp/>\r\n<H>Can't believe I'm doing
+    this...\r\nwhy would I think this trash bin's got fancy <B>image recognition</B>...</H>
+    <O npc random/>\r\nAh, well... guess I'll have to wait for another day\r"
   previous: _mainmenu
   next:
   - ... start2

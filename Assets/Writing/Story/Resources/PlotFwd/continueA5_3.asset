@@ -15,7 +15,7 @@ MonoBehaviour:
   name_: continueA5_3
   source: 0
   text_writer: {fileID: 0}
-  text: "And the worm replied, \u201C<I>you better give me that damn script, you\u2026</I>\u201D"
+  text: And the worm replied, "<I>you better give me that damn script, you...</I>"
   previous: continueA4
   next:
   - continue_end

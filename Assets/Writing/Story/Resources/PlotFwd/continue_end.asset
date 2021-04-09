@@ -16,18 +16,17 @@ MonoBehaviour:
   source: 0
   text_writer: {fileID: 0}
   text: "Why is it moving? Like, actual moving, <I>translating</I>, <I>mobilizing</I>,
-    whatever--not gesturing, it\u2019s leaving! No! Don\u2019t go! Come back!\r\n*imagine
-    some metal collision noise here*\r\nSh*t\u2026 I think I broke it\u2026 \u2026
-    \u2026 what have I done\u2026 <O npc random/>\r\nLet me just get it back up,
-    see if it still walks\u2026 <H>it most definitely does not\u2026 and the \u201Cupper
-    lid\u201D got off, I can see all the insides\u2026</H> wait, what\u2019s this
-    booklet? Could it be <B>the script</B>?\r\n\u2026 \u2026 <O npc random/> \u2026
-    \u2026 \u2026\r\nWhy have I never thought of this\u2026\r\nThey even made it
-    in the shape of a bin! And I never thought of checking inside it!\r\n<I>Of course</I>
-    the script\u2019s inside it, <I>of course</I>, why would it be <I>anywhere</I>
-    else?\r\nIf I start reading it now, would it still count? If this thing\u2019s
-    got the intelligence to go back on its own, I think it could tell that I\u2019m
-    starting the actual thing\u2026\r\n\u2003\r\n"
+    whatever--not gesturing, it's leaving! No! Don't go! Come back!\r\n*imagine some
+    metal collision noise here*\r\nSh*t... I think I broke it... ... ... what have
+    I done... <O npc random/>\r\nLet me just get it back up, see if it still walks...
+    <H>it most definitely does not... and the \"upper lid\" got off, I can see all
+    the insides...</H> wait, what's this booklet? Could it be <B>the script</B>?\r\n...
+    ... <O npc random/> ... ... ...\r\nWhy have I never thought of this...\r\nThey
+    even made it in the shape of a bin! And I never thought of checking inside it!\r\n<I>Of
+    course</I> the script's inside it, <I>of course</I>, why would it be <I>anywhere</I>
+    else?\r\nIf I start reading it now, would it still count? If this thing's got
+    the intelligence to go back on its own, I think it could tell that I'm starting
+    the actual thing...\r\n\u2003\r\n"
   previous: continueA4
   next:
   - read the script start1

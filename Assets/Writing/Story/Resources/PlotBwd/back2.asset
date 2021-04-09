@@ -15,15 +15,23 @@ MonoBehaviour:
   name_: back2
   source: 0
   text_writer: {fileID: 0}
-  text: "Who do you <O npc hostile/> think we are? <O stump/> How much effort do
+  text: 'Who do you <O npc hostile/> think we are? <O stump/> How much effort do
     you think I put into this--hell, do you even know what effort is? Have you worked
     a <B>day</B> of your life? <O stump/> <O npc hostile/> You just know how to eat,
-    and eat, and when you stop eating you just cause <B>trouble</B>!\u201D\r\n\u2026\r\n\u2026\r\n\u201CI\u2019ve
-    heard <B>stories</B>, my friend. Some say you\u2019ll fall asleep and another
-    mind takes over. You\u2019ll know how to fly the instant you get out, but are
-    you--the worm you--born with that knowledge? Or did anyone teach you to fly?
-    <O stump/> The only <O npc hostile/> explanation is: this other spirit who is
-    born with flight knowledge takes over. You\u2019re just <B>dead</B>.\u201D\r\n"
+    and eat, and when you stop eating you just cause <B>trouble</B>!"
+
+    ...
+
+    ...
+
+    "I''ve
+    heard <B>stories</B>, my friend. Some say you''ll fall asleep and another mind
+    takes over. You''ll know how to fly the instant you get out, but are you--the
+    worm you--born with that knowledge? Or did anyone teach you to fly? <O stump/>
+    The only <O npc hostile/> explanation is: this other spirit who is born with
+    flight knowledge takes over. You''re just <B>dead</B>."
+
+'
   previous: back3
   next:
   - _endless

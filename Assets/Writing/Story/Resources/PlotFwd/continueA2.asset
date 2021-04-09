@@ -17,25 +17,24 @@ MonoBehaviour:
   text_writer: {fileID: 0}
   text: "The ant is like someone with a slightly morbid obsession over wearing uniforms
     and waking up early.\r\nApparently on that day, the worm was building its cocoon
-    over the ant\u2019s path, which was carefully marked with scent so the other
-    ants could follow by tracing, all the way to some insect corpse up on the canopy,
+    over the ant's path, which was carefully marked with scent so the other ants
+    could follow by tracing, all the way to some insect corpse up on the canopy,
     waiting to be taken apart and fed to the larvae.\r\nThe rainclouds have gathered
     to a sheet that somewhat blocked the sun. Although the cocoon was in already
-    shielded by the canopy, an extra bit of coolness doesn\u2019t harm.\r\nIt was
-    then that the ant approached and formally complained about the blockage.\r\nThe
-    worm didn\u2019t really hear it, though, since it was still on autopilot--it
-    kept on working, and working, and working.\r\nEventually, the ant grew grumbly
-    and ditched its professional mannerisms, stepping right through one of the larger
-    holes (the cocoon was still quite sparse at the time) and shouted, \r\n\u201CCan
-    you please get your fat ass off the way! \r\nCan\u2019t you see that ordinary,
-    hardworking insects like me are using this path? \r\nAnd you just lay here like
-    it\u2019s all just <B>nothing</B>?\r\nWho do you think we are? How much effort
-    do you think I put into this--hell, do you even know what effort is? Have you
-    worked a <B>day</B> of your life? You just know how to eat, and eat, and when
-    you stop eating you just cause <B>trouble</B>!\u201D <O npc random/>\r\nBy the
-    time the worm shifted off of auto pilot, it noticed a bite mark on its stomach
-    (maybe that\u2019s what caused it to wake up in the first place).\r\nThe ant
-    was gone, frustrated, worm-goo dripping off its teeth.\r\n"
+    shielded by the canopy, an extra bit of coolness doesn't harm.\r\nIt was then
+    that the ant approached and formally complained about the blockage.\r\nThe worm
+    didn't really hear it, though, since it was still on autopilot--it kept on working,
+    and working, and working.\r\nEventually, the ant grew grumbly and ditched its
+    professional mannerisms, stepping right through one of the larger holes (the
+    cocoon was still quite sparse at the time) and shouted, \r\n\"Can you please
+    get your fat ass off the way! \r\nCan't you see that ordinary, hardworking insects
+    like me are using this path? \r\nAnd you just lay here like it's all just <B>nothing</B>?\r\nWho
+    do you think we are? How much effort do you think I put into this--hell, do you
+    even know what effort is? Have you worked a <B>day</B> of your life? You just
+    know how to eat, and eat, and when you stop eating you just cause <B>trouble</B>!\"
+    <O npc random/>\r\nBy the time the worm shifted off of auto pilot, it noticed
+    a bite mark on its stomach (maybe that's what caused it to wake up in the first
+    place).\r\nThe ant was gone, frustrated, worm-goo dripping off its teeth.\r\n"
   previous: continueA1
   next:
   - then it rained continueA3

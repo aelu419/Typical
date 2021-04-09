@@ -15,8 +15,8 @@ MonoBehaviour:
   name_: continueA5_2
   source: 0
   text_writer: {fileID: 0}
-  text: "The worm suddenly agreed and came out, for <I>reasons</I>. And then it\u2019s
-    dead! Ha! Just like how all good stories end, good ol\u2019 <B>dying</B>\u2026"
+  text: The worm suddenly agreed and came out, for <I>reasons</I>. And then it's
+    dead! Ha! Just like how all good stories end, good ol' <B>dying</B>...
   previous: continueA4
   next:
   - continue_end

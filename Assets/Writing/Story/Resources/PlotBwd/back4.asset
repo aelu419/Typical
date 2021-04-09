@@ -15,9 +15,9 @@ MonoBehaviour:
   name_: back4
   source: 0
   text_writer: {fileID: 0}
-  text: "Ha\u2026 I actually kinda forgot <O npc hostile/> how it went\u2026 <O stump/>
-    <H>wrote it and rewrote it so many times and now I can\u2019t get a hold of it\u2026
-    <O stump/>\r\nOh, yeah, right, it <O npc hostile/> starts at afternoon\u2026
+  text: "Ha... I actually kinda forgot <O npc hostile/> how it went... <O stump/>
+    <H>wrote it and rewrote it so many times and now I can't get a hold of it...
+    </H> <O stump/>\r\nOh, yeah, right, it <O npc hostile/> starts at afternoon...
     alright: <O stump/>\r"
   previous: back5
   next:

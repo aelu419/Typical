@@ -16,31 +16,30 @@ MonoBehaviour:
   source: 0
   text_writer: {fileID: 0}
   text: "The rain was quite boring, occasional drops broke into the unfinished cocoon,
-    and then just left\u2026\r\nThe path was mostly washed off, and so the worm never
-    got to meet the rest of the \u201Cordinary, hardworking insects\u201D.\r\nA bird--feathers
+    and then just left...\r\nThe path was mostly washed off, and so the worm never
+    got to meet the rest of the \"ordinary, hardworking insects\".\r\nA bird--feathers
     damped and heavy--approached the cocoon, took some chances poking at it, but
-    couldn\u2019t get the worm out. <O npc random/>\r\nSuddenly, a non-sense <B>idea</B>
+    couldn't get the worm out. <O npc random/>\r\nSuddenly, a non-sense <B>idea</B>
     flashed across its water-weighed head, and was immediately approved by its decisional
-    facility out of pure boredom.\r\n\u201CWill you please come out,\u201D asked
-    the bird, completely un-serious.\r\nThe worm had no idea how to react, but thanks
-    to an \u201Cequal but opposite\u201D boredom, it decided to reply: \u201CWhy?\u201D\r\n\u201CWell,
-    you see, what you\u2019re trying to do in this cocoon, I can help you do it faster,
-    and better.\u201D\r\n\u201CWait what? You\u2019re gonna finish building this
-    by\u2026 <I>letting me come out?</I> That makes no sense at all.\u201D\r\n\u201CSee,
-    after you finish building, do you know what exactly happens? Like, sure, some
-    <B>flyable thing</B> comes out of it eventually, but would that be <B>you</B>?
-    Would it <B>think</B> like you, or <B>feel</B> like you?\u201D\r\n\u201CWell,
-    who else could it be?\u201D\r\n\u201CI\u2019ve heard stories, my friend. Some
-    say you\u2019ll fall asleep and <B>another mind</B> takes over. You\u2019ll know
-    how to fly the instant you get out, but are you--the worm you--born with that
-    knowledge? Or did anyone teach you to fly? The only explanation is: this other
-    spirit, who is born with flight knowledge, replaces yourself. You\u2019re just
-    dead.\u201D <O npc random/>\r\n\u201CUhh\u2026 okay\u2026? Still no reason to
-    get <I>out</I>, though.\u201D\r\n\u201CWell, if you come out now, you\u2019ll
-    soon become <B>part of a flying creature</B>, aka <I>myself</I>: no tiring work
-    wiggling for days, no insomnia, no slow, lonely death. And besides, this <I>alternative<I>
-    flying creature gets to last way longer than some random moth you\u2019ll get
-    to be. Basically: better product, better experience, better efficiency!\u201D\r"
+    facility out of pure boredom.\r\n\"Will you please come out,\" asked the bird,
+    completely un-serious.\r\nThe worm had no idea how to react, but thanks to an
+    \"equal but opposite\" boredom, it decided to reply: \"Why?\"\r\n\"Well, you
+    see, what you're trying to do in this cocoon, I can help you do it faster, and
+    better.\"\r\n\"Wait what? You're gonna finish building this by... <I>letting
+    me come out?</I> That makes no sense at all.\"\r\n\"See, after you finish building,
+    do you know what exactly happens? Like, sure, some <B>flyable thing</B> comes
+    out of it eventually, but would that be <B>you</B>? Would it <B>think</B> like
+    you, or <B>feel</B> like you?\"\r\n\"Well, who else could it be?\"\r\n\"I've
+    heard stories, my friend. Some say you'll fall asleep and <B>another mind</B>
+    takes over. You'll know how to fly the instant you get out, but are you--the
+    worm you--born with that knowledge? Or did anyone teach you to fly? The only
+    explanation is: this other spirit, who is born with flight knowledge, replaces
+    yourself. You're just dead.\" <O npc random/>\r\n\"Uhh... okay...? Still no reason
+    to get <I>out</I>, though.\"\r\n\"Well, if you come out now, you'll soon become
+    <B>part of a flying creature</B>, aka <I>myself</I>: no tiring work wiggling
+    for days, no insomnia, no slow, lonely death. And besides, this <I>alternative</I>
+    flying creature gets to last way longer than some random moth you'll get to be.
+    Basically: better product, better experience, better efficiency!\"\r"
   previous: continueA2
   next:
   - what next? continueA4

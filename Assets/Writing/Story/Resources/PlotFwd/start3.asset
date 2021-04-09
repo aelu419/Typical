@@ -26,9 +26,9 @@ MonoBehaviour:
     <O npc random/>\r\nThen, we will pick favorable segments of your performance
     and mix it into the final product.\r\nRest assured, you will have more than one
     attempt at recording this, so no need to be nervous. The A4 will autonomously
-    return to us at deadline--before that, you can take as much attempts as you want
-    to.\r\nThank you for your enthusiasm, and we look forward to \u201Chearing\u201D
-    back from you!\r\n"
+    return to us at deadline--before that, you can take as many attempts as you want
+    to.\r\nThank you for your enthusiasm, and we look forward to \"hearing\" back
+    from you!\r\n"
   previous: start2
   next:
   - ... start4

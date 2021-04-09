@@ -15,15 +15,21 @@ MonoBehaviour:
   name_: back3
   source: 0
   text_writer: {fileID: 0}
-  text: "\u201CSee, after you finish building, do you know <O npc hostile/> what
-    exactly happens? <O stump/> Like, sure, some flyable thing comes out of it eventually,
-    but would that be you? Would it think like you, or feel like you?\u201D <O stump/>\r\n\u2026
-    \u2026\r\n\u201CI\u2019ve heard <B>stories</B>, my friend. <O stump/> Some say
-    you\u2019ll fall asleep and another mind takes over. You\u2019ll know <O npc
-    hostile/> how to fly the instant you get <O npc hostile/> out, but are you--the
-    worm you--born with that knowledge? Or did anyone teach you to fly? <O stump/>
-    The only explanation is: this other spirit who is born with flight knowledge
-    takes over. <O npc hostile/> You\u2019re just <B>dead</B>.\u201D\r\n"
+  text: '"See, after you finish building, do you know <O npc hostile/> what exactly
+    happens? <O stump/> Like, sure, some flyable thing comes out of it eventually,
+    but would that be you? Would it think like you, or feel like you?" <O stump/>
+
+    ...
+    ...
+
+    "I''ve heard <B>stories</B>, my friend. <O stump/> Some say you''ll
+    fall asleep and another mind takes over. You''ll know <O npc hostile/> how to
+    fly the instant you get <O npc hostile/> out, but are you--the worm you--born
+    with that knowledge? Or did anyone teach you to fly? <O stump/> The only explanation
+    is: this other spirit who is born with flight knowledge takes over. <O npc hostile/>
+    You''re just <B>dead</B>."
+
+'
   previous: back4
   next:
   - _endless

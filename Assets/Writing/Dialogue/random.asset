@@ -28,14 +28,19 @@ MonoBehaviour:
   - name: 
     script: Good stuff
   - name: 
-    script: My hand's getting tired lmao
+    script: 'My hands are getting tired lmao
+
+      THUMBS DED
+
+      Why do you
+      have to hold space for so long???'
   - name: 
     script: What even is this
   - name: 
-    script: 'What a deep and nuenced exporation of the hunan conditon
+    script: 'What a deep and nuenced exporaton of the hunan conditon
 
       10 out
-      of 10 would play again'
+      of 10 wuold play again'
   - name: 
     script: 'i got stuck on the map for some reason
 
@@ -66,9 +71,13 @@ MonoBehaviour:
       not forever
 
       but like, a long period of
-      time'
+      time
+
+      the above is better than the story of this game'
   - name: 
-    script: lmao imagine reading but QWOP
+    script: 'lmao imagine reading but QWOP
+
+      this is that'
   - name: 
     script: 'still don''t get it
 
@@ -84,25 +93,16 @@ MonoBehaviour:
   - name: 
     script: 'pretty sure there''s a better way to spend time
 
-'
+      than typing somebody
+      else''s BS'
   - name: 
-    script: 'What''s up with all this "writing about writing" nonsense?
+    script: 'oh god I think I overcooked something
 
-      Feels
-      like some gxxe of thxxxxs nonsense
+      let me go check the oven...'
+  - name: 
+    script: 'hey!
 
-      You know, the last season?
+      hi!
 
-      Where
-      the writers just ended the whole thing with
-
-      "Oh story writers are the
-      most important people out there"
-
-      Like, sure, gonna have some self love
-
-      But
-      isn''t there better things to write about?
-
-      REAL problems?'
+      hello world!'
   randomize: 1

@@ -15,7 +15,7 @@ MonoBehaviour:
   name_: continueA5_5
   source: 0
   text_writer: {fileID: 0}
-  text: "This is just nonsense, isn\u2019t it, what am I even\u2026"
+  text: This is just nonsense, isn't it, what am I even...
   previous: continueA4
   next:
   - continue_end

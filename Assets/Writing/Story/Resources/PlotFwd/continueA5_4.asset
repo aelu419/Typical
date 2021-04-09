@@ -15,8 +15,8 @@ MonoBehaviour:
   name_: continueA5_4
   source: 0
   text_writer: {fileID: 0}
-  text: "What about I find what I wrote earlier, one of those drafts where I went
-    a bit further--I think I got near the ending one of those times\u2026"
+  text: What about I find what I wrote earlier, one of those drafts where I went
+    a bit further--I think I got near the ending one of those times...
   previous: continueA4
   next:
   - continue_end

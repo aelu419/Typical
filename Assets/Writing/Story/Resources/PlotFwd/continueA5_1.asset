@@ -15,8 +15,8 @@ MonoBehaviour:
   name_: continueA5_1
   source: 0
   text_writer: {fileID: 0}
-  text: "And the worm replied\u2026 hell\u2026 what did it reply? What <I>would</I>
-    it reply? How would I know? <I>I\u2019m</I> not a\u2026"
+  text: And the worm replied... hell... what did it reply? What <I>would</I> it reply?
+    How would I know? <I>I'm</I> not a...
   previous: continueA4
   next:
   - continue_end

@@ -21,13 +21,13 @@ MonoBehaviour:
     then this... <I>helmet-can-machine-thing</I>,\r\nwhat do they want from me?\r\nCan
     it see, or hear? <O npc random/>\r\n<H>It's all a trick isn't it, just to see
     me make myself look like a dumbass...\r\nI think I wasn't even qualified, they're
-    just trolling me with this\u2026</H>\r\nLet me read the letter again, just to
-    see if I misread anything\r\n<H>Maybe it wasn't addressed to me at all!</H>\r\n:
+    just trolling me with this...</H>\r\nLet me read the letter again, just to see
+    if I misread anything\r\n<H>Maybe it wasn't addressed to me at all!</H>\r\n:
     <O lamp/>\r\nDear ..., Congratulations! You have been accepted as the narrator
     for <I>Typical</I>, one of the 107 variations of our currently developing proto-game,
     model <I><B>T</B></I>, specialized on focus group E7.\r\nWithin a few days, you
-    will receive the game's script\u2026 blah blah blah, nothing new \u2026 \r\n<O
-    lamp/> <O npc random/>\r\n... wait... there's a back side?!\r\n"
+    will receive the game's script... blah blah blah, nothing new ... \r\n<O lamp/>
+    <O npc random/>\r\n... wait... there's a back side?!\r\n"
   previous: start1
   next:
   - the back side start3

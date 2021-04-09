@@ -17,9 +17,9 @@ MonoBehaviour:
   text_writer: {fileID: 0}
   text: "Or not, <O stump/> it goes back and some poor inspector-director-guy will
     waste minutes listening to bullshit on birds talking to worms. <O stump/>\r\nI
-    mean, I guess it\u2019s their fault for trolling with me. \r\n\u2026 \u2026\r\n<I>Of
-    course</I> the script\u2019s inside it, <I>of course</I>, <O stump/> why would
-    it be <I>anywhere</I> else?\r\n"
+    mean, I guess it's their fault for trolling with me. \r\n... ...\r\n<I>Of course</I>
+    the script's inside it, <I>of course</I>, <O stump/> why would it be <I>anywhere</I>
+    else?\r\n"
   previous: back2
   next:
   - _endless
