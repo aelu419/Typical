@@ -35,4 +35,16 @@ MonoBehaviour:
     script: 'Why would you delete your own progress?
 
       Please go back'
+  - name: 
+    script: 'Why would you delete your own progress?
+
+      Please go back'
+  - name: 
+    script: 'GO RIGHT
+
+      One way only'
+  - name: 
+    script: You can always enter endless mode from the start screen
+  - name: 
+    script: 'loading tp: don''t use backspace'
   randomize: 1

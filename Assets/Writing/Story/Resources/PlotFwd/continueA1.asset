@@ -15,41 +15,42 @@ MonoBehaviour:
   name_: continueA1
   source: 0
   text_writer: {fileID: 0}
-  text: 'Ha... I actually kinda forgot how it went... <H>wrote it and rewrote it
-    so many times and now I can''t get a hold of it...</H>
+  text: 'Ha... <O lamp/> I actually kinda forgot how it went... <H>wrote it and rewrote
+    it so many times and now I can''t get a hold of it...</H> <O lamp/>
 
-    Oh, yeah, right,
-    it starts at afternoon... alright:
+    Oh,
+    yeah, right, it starts at afternoon... alright:
 
-    It was a summer afternoon. Rain clouds
-    were gathering on the distant horizon, but they weren''t tinted pink yet, not
-    with the sun up high. <O npc random/>
+    It was a summer afternoon.
+    Rain clouds were gathering on the distant horizon, but they weren''t tinted pink
+    yet, not with the sun up high. <O lamp/> <O npc random/>
 
-    There was a <B>silkworm</B> knitting
-    itself a cocoon. The worm was absolutely <I>filled</I> with chewed leaves, almost
-    to the brink of bursting--the early months of its life were just endless binge-eating,
-    afterall. "Now it''s time to put it all to use, I guess," it told itself.
+    There was a <B>silkworm</B>
+    knitting itself a cocoon. <O lamp/> The worm was absolutely <I>filled</I> with
+    chewed leaves, almost to the brink of bursting--the early months of its life
+    were just endless binge-eating, afterall. "Now it''s time to put it all to use,
+    I guess," it told itself. <O lamp/>
 
-    It
-    dragged the silk to the left, stuck it in place, fixed it steady, and started
-    over to the right--then up, and down, and left again. <O npc random/>
+    It dragged the silk to the left, stuck
+    it in place, fixed it steady, and started over to the right--then up, and down,
+    and left again. <O npc random/>
 
-    There
-    was something of a frame already in place, but it looked nothing like a cocoon.
+    There was something of a frame already in
+    place, but it looked nothing like a cocoon.
 
-    The
-    worm had been working on it for <I>hours</I>, and the initial excitement for
-    starting something life changing (literally) was starting to wear off.
+    The worm had been working on
+    it for <I>hours</I>, and the initial excitement for starting something life changing
+    (literally) was starting to wear off. <O lamp/>
 
-    It
-    felt all the chewed leaves tumbling in its stomach, making it <I>nauseated</I>,
-    and the summer heat didn''t help at all--the sun was like an overseer, not a
-    motivator... and the repetitive work adds a layer of hypnosis on top of the nausea.
+    It felt all the chewed leaves
+    tumbling in its stomach, making it <I>nauseated</I>, and the summer heat didn''t
+    help at all--the sun was like an overseer, not a motivator... <O lamp/> and the
+    repetitive work adds a layer of hypnosis on top of the nausea. <O lamp/>
 
     As
-    the worm drilled the routine into its subconscious: <I>left, right, up, down</I>,
-    it began to lose sight over what''s around it, shifting instead to a sort of
-    "autopilot".
+    the worm drilled the routine <O lamp/> into its subconscious: <I>left, right,
+    up, down</I>, it began to lose sight over what''s around it, <O lamp/> shifting
+    instead to a sort of "autopilot".
 
 '
   previous: start5

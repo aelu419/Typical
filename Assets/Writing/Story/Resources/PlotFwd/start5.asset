@@ -15,23 +15,25 @@ MonoBehaviour:
   name_: start5
   source: 0
   text_writer: {fileID: 0}
-  text: "Yesterday was so weird. Why would the thing start moving all of a sudden?\r\nDid
-    it hear what I was saying?\r\n<H>But shouldn't it only react to the actual story?</H>
-    And when I went back to practicing, I think I heard it moving while I spoke.
-    <O npc random/>\r\nLet me try again... see if it still reacts... I think this
-    is where I left off yesterday:\r\nThe old rat caught sight of young Arthur, who
-    wasn't in the line, and wasn't exactly outside it. He stood just nearby, hesitating.
-    \"You are coming too, aren't you?\" Asked the old rat. \"I don't know,\" said
-    Arthur calmly, \"I'm not certain, the roof may not fall down yet.\" ...\r\nHere
-    it is again! That sound! And it's moving again, how perfectly un-strange! Damn
-    it, why... what... why? Does it not care about what I say? <O npc random/>\r\nIt's
-    almost deadline right, or is it deadline already? Is it returning to The Company?\r\nBut
-    I haven't even started yet!\n...\nWhat to DO...\n...\nThey can't just...\nI mean--
-    Um... Uh...\n<H>What should I do?? It's not giving me any chance isn't it...
-    Like it's... ... ... </H> \r\nOh... I know what to do, I've got this PERFECT
-    story I've been wanting to tell <I>all this time</I>, and since they're not giving
-    me the script, I'll read <I>that</I> instead! They'll <I>love</I> it so much,
-    just like what I feel for their non-existent <I>masterpiece</I>"
+  text: "<O lamp/> Yesterday was so weird. Why would the thing start moving all of
+    a sudden?\r <O lamp/>\nDid it hear what I was saying?\r\n<H>But shouldn't it
+    only react to the actual story?</H> And when I went back to practicing, I think
+    I heard it moving while I spoke. <O npc random/>\r\nLet me try again... <O lamp/>
+    see if it still reacts... I think this is where I left off yesterday:\r\nThe
+    old rat caught sight of young Arthur, who wasn't in the line, and wasn't exactly
+    outside it. <O lamp/> He stood just nearby, hesitating. \"You are coming too,
+    aren't you?\" Asked the old rat. \"I don't know,\" said Arthur calmly, \"I'm
+    not certain, the roof may not fall down yet.\" ...\r <O lamp/>\nHere it is again!
+    That sound! And it's moving again, how perfectly un-strange! Damn it, why...
+    what... why? Does it not care about what I say? <O npc random/>\r\nIt's almost
+    deadline right, or is it deadline already? Is it returning to The Company?\r
+    <O lamp/>\nBut I haven't even started yet!\n...\nWhat to DO...\n... <O lamp/>\nThey
+    can't just...\nI mean-- Um... Uh...\n<H>What should I do?? It's not giving me
+    any chance isn't it... Like it's... ... ... </H> \r\nOh... <O lamp/> I know what
+    to do, I've got this PERFECT story I've been wanting to tell <I>all this time</I>,
+    and since they're not giving me the script, I'll read <I>that</I> instead! They'll
+    <I>love</I> <O lamp/> it so much, just like what I feel for their non-existent
+    <I>masterpiece</I>"
   previous: start4
   next:
   - tell the story continueA1

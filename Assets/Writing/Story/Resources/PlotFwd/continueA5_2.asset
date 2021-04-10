@@ -16,7 +16,8 @@ MonoBehaviour:
   source: 0
   text_writer: {fileID: 0}
   text: The worm suddenly agreed, for... <I>reasons</I>... and came out. And then
-    it's dead! Ha! ... ... ... Just like how all good stories end, good ol' <B>dying</B>...
+    it's dead! <O lamp/> Ha! ... ... ... Just like how all good stories end, good
+    ol' <B>dying</B>...
   previous: continueA4
   next:
   - continue_end

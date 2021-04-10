@@ -16,19 +16,19 @@ MonoBehaviour:
   source: 0
   text_writer: {fileID: 0}
   text: "Due to recent circumstances, we have been developing a new mode of work
-    to engage talented individuals like you in our creative process. \r\nInstead
+    to engage talented individuals like you in our creative process. \r<O lamp/>\nInstead
     of auditioning, casting, and recording your performances face to face, the new
-    work flow would be fully remote, utilizing our state of the arts technologies.\r\nAlong
-    with the script itself, you will receive an <B>automatic audiomotive augmented
-    audience</B> (short as A4)\u2014one of our newest inventions\u2014that records
-    your performance and provides live feedback.\r\nInstead of performing short segments
-    for casting, you will narrate the entire script to the A4 in the span of a week.
-    <O npc random/>\r\nThen, we will pick favorable segments of your performance
-    and mix it into the final product.\r\nRest assured, you will have more than one
-    attempt at recording this, so no need to be nervous. The A4 will autonomously
-    return to us at deadline--before that, you can take as many attempts as you want
-    to.\r\nThank you for your enthusiasm, and we look forward to \"hearing\" back
-    from you!\r\n"
+    work flow would be fully remote, utilizing our state of the arts technologies.\r
+    <O lamp/>\nAlong with the script itself, you will receive an <B>automatic audiomotive
+    augmented audience</B> (short as A4)\u2014<O lamp/> one of our newest inventions\u2014that
+    records your performance and provides live feedback.\r <O lamp/>\nInstead of
+    performing short segments for casting, you will narrate the entire script to
+    the A4 in the span of a week. <O npc random/>\r<O lamp/>\nThen, we will pick
+    favorable segments of your performance and mix it into the final product.\r<O
+    lamp/>\nRest assured, you will have more than one attempt at recording this,
+    so no need to be nervous. <O lamp/>The A4 will autonomously return to us at deadline--before
+    that, you can take as many attempts as you want to.\r<O lamp/>\nThank you for
+    your enthusiasm, and we look forward to \"hearing\" back from you!\r\n"
   previous: start2
   next:
   - ... start4

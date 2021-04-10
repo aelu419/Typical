@@ -15,18 +15,18 @@ MonoBehaviour:
   name_: continue_end
   source: 0
   text_writer: {fileID: 0}
-  text: "Why is it moving? <H>Like, actual moving, <I>translating</I>, <I>mobilizing</I>,
-    whatever--not gesturing, it's LEAVING!</H> No! Don't go! Come back!\r\n... ...
-    <O npc random/>...\nSh*t... I think I broke it... ... ... what have I done...
-    <O npc random/>\r\nLet me just get it back up, see if it still walks... <H>it
+  text: "<O lamp/>Why is it moving? <H>Like, actual moving, <I>translating</I>, <I>mobilizing</I>,
+    whatever--not gesturing, it's LEAVING!</H> No! Don't go! Come back!\r <O lamp/>\n...
+    ... <O npc random/>...\nSh*t... I think I broke it... ... ... what have I done...
+    <O npc random/>\r\nLet me just get it back up, see if it still walks... <O lamp/><H>it
     most definitely does not... and the \"upper lid\" got off, I can see all the
-    insides...</H> wait, what's this booklet? Could it be... <I>the script</I>?\r\n...
+    insides...</H> wait, what's this booklet? <O lamp/> Could it be... <I>the script</I>?\r\n...
     ... <O npc random/> ... ... ...\r\nWhy have I never thought of this...\r\nThey
-    even made it in the shape of a bin! And I never thought of checking inside it!\r\n<I>Of
-    course</I> the script's inside it, <I>of course</I>, why would it be <I>anywhere</I>
-    else?\r\nIf I start reading it now, would it still count? If this thing's got
-    the intelligence to go back on its own, I think it could tell that I'm starting
-    the actual thing...\r\n\u2003\r\n"
+    even made it in the shape of a bin! And I never thought of checking inside it!\r
+    <O lamp/>\n<I>Of course</I> the script's inside it, <I>of course</I>, why would
+    it be <I>anywhere</I> else? <O lamp/>\r\nIf I start reading it now, would it
+    still count? <O lamp/> If this thing's got the intelligence to go back on its
+    own, I think it could tell that I'm starting the actual thing...\r\n\u2003\r\n"
   previous: continueA4
   next:
   - read the script start1
