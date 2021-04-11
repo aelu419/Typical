@@ -8,7 +8,7 @@ public class WalkSpeed : MonoBehaviour
     public float vMin, vMax;
     public AnimationCurve lerp;
 
-    [ReadOnly]
+    [HideInInspector]
     public float playback;
 
     Animator player_anim, anim;

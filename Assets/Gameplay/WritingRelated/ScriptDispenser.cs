@@ -59,6 +59,12 @@ public class ScriptDispenser : ScriptableObject
                     _current = tutorial;
                 }
             }
+
+            string script_state = _current.name_;
+            script_state += "\n\tfirst load:" + first_load;
+            script_state += ", \n\tpassed tutorial: " + GameSave.PassedTutorial;
+            script_state += ", \n\tcurrent: " + (_current == null ? "null" : _current.name_);
+            Debug.LogError(script_state);
             return _current;
         }
     }
@@ -246,25 +252,26 @@ public class ScriptDispenser : ScriptableObject
 
         scripts = all.ToArray();
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        sb.Append("loaded scripts:\n\t");
+        //sb.Append("loaded scripts:\n\t");
         
-        Debug.Log("all raw text:\n\t" + raw.ToString());
+        //Debug.Log("all raw text:\n\t" + raw.ToString());
         //feed raw text into generators
         foreach (ScriptObjectScriptable s in scripts)
         {
             if (s.source == ScriptTextSource.SCRIPT)
             {
                 s.text_writer.input = raw.ToString();
-                Debug.Log("sample generated text: " + s.Text);
+                //Debug.Log("sample generated text: " + s.Text);
             }
-            sb.Append(s.name_+", ");
+            //sb.Append(s.name_+", ");
         }
-        Debug.Log(sb);
+        //Debug.Log(sb);
     }
 
     private void OnEnable()
     {
         LoadScripts();
+        //GameSave.ClearSave();
         OnLoad = LoadScripts;
         /*List<ScriptObjectScriptable> all = Parse();
         all.AddRange(init_scripts);
@@ -276,6 +283,8 @@ public class ScriptDispenser : ScriptableObject
         }*/
 
         load_mode = true;
+        first_load = true;
+        _current = null;
         //_current = LoadSaved();
     }
 }

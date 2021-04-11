@@ -9,26 +9,26 @@ public class Word
     public Tag[] tags;
     public string content;
 
-    [ReadOnly] public Vector2 L, R; //left and right positions of the cursor associated with this word
-    [ReadOnly] public float top;
-    [ReadOnly] public float slope;
-    [ReadOnly] public int index;
-    [ReadOnly] public string cover_type;
-    [ReadOnly] public Sprite cover_sprite;
+    [HideInInspector] public Vector2 L, R; //left and right positions of the cursor associated with this word
+    [HideInInspector] public float top;
+    [HideInInspector] public float slope;
+    [HideInInspector] public int index;
+    [HideInInspector] public string cover_type;
+    [HideInInspector] public Sprite cover_sprite;
     //private static Sprite default_cover_sprite;
 
-    [ReadOnly] public int typed; //number of typed letters in the word
-    [ReadOnly] public WORD_TYPES word_mech; //the mechanism that the word block follows
+    [HideInInspector] public int typed; //number of typed letters in the word
+    [HideInInspector] public WORD_TYPES word_mech; //the mechanism that the word block follows
 
-    [ReadOnly] public TextMeshPro tmp;
+    [HideInInspector] public TextMeshPro tmp;
     private TMP_CharacterInfo[] char_infos;
 
     //markers for texual contents of the word block
-    [ReadOnly] public bool has_typable; //if the word has any typable letter in it
-    [ReadOnly] public int first_typable, last_typable;
+    [HideInInspector] public bool has_typable; //if the word has any typable letter in it
+    [HideInInspector] public int first_typable, last_typable;
 
     //marks if the word is actually an npc
-    [ReadOnly] public bool is_npc;
+    [HideInInspector] public bool is_npc;
 
     public static string
         TYPED_MAT = "AveriaRegular Typed",

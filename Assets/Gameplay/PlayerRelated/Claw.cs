@@ -8,8 +8,8 @@ public class Claw : MonoBehaviour
     PlayerControl player_ctrl;
     Animator player_anim, claw_anim;
 
-    [ReadOnly] public Vector3 base_pos, regular_pos;
-    [ReadOnly] public float extension;
+    [HideInInspector] public Vector3 base_pos, regular_pos;
+    [HideInInspector] public float extension;
 
     [FMODUnity.EventRef]
     public string continuous, hit;

@@ -16,11 +16,11 @@ public class MusicManager : MonoBehaviour
     }
 
     public float BPM;
-    [ReadOnly]
+    [HideInInspector]
     public float timer;
-    [ReadOnly]
+    [HideInInspector]
     public float BeatLength; //length of 1 beat in SECONDS
-    [ReadOnly]
+    [HideInInspector]
     public float beat;
 
     [Range(0, 1)]

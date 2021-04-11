@@ -5,7 +5,7 @@ using UnityEngine;
 public class Wobbler : MonoBehaviour
 {
     Animator player_anim, anim;
-    //[ReadOnly]
+    //[HideInInspector]
     //public float speed;
 
     public float wobble_magnitude, wobble_speed;

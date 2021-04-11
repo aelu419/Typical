@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Oscillator : MonoBehaviour
 {
-    [ReadOnly]
+    [HideInInspector]
     public MonoWave wave;
 
     private void OnAudioFilterRead(float[] data, int channels)

@@ -7,7 +7,7 @@ using FMODUnity;
 public class CameraController : MonoBehaviour
 {
     [ExecuteAlways]
-    [ReadOnly] public Rect CAM; //the range of the camera as a rectangle, in world units
+    [HideInInspector] public Rect CAM; //the range of the camera as a rectangle, in world units
     public float BUFFER_SIZE;
 
     //[Range(0, 10)]
@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     public float shift_magnitude, shift_duration; // the magnitude of shift, and the speed of the shift transition
     [Range(0, 10)]
     public int key_threshold; // amount of weight until camera shift is triggered
-    [ReadOnly]
+    [HideInInspector]
     public float shift; // the amount of horizontal shift (%) to the camera position, relative to player
     [Range(0, 1)]
     public float key_efficacy; // amount of time until the last key press loses efficacy

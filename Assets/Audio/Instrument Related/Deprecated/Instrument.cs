@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEngine;
-using UnityEditor;
+//using UnityEngine;
+//using UnityEditor;
 /*
 public class Instrument : MonoBehaviour
 {
@@ -27,21 +27,21 @@ public class Instrument : MonoBehaviour
     public float pop_cutoff;
     public float atk, dec, rel;
 
-    [ReadOnly]
+    [HideInInspector]
     public Note note;
-    [ReadOnly]
+    [HideInInspector]
     public Note override_note = null;
-    [ReadOnly]
+    [HideInInspector]
     public float strength;
     
     private List<MonoWave> playable_waves;
     private List<Oscillator> channels;
 
     //the current status of the instrument
-    [ReadOnly]
+    [HideInInspector]
     public double t_ms; //time in MILISECOND
     private double ta, td, ts, tr;
-    [ReadOnly]
+    [HideInInspector]
     public AnimationCurve envelope_curve;
 
     private void Start()

@@ -23,14 +23,14 @@ public class ReadingManager: MonoBehaviour
 
     private List<GameObject> loaded_words;
 
-    [ReadOnly]
+    [HideInInspector]
     public int[] cursor_raw; //first coordinate is index of the word, 
                              //second coordinate is index of letter
     TMP_CharacterInfo cursor_rendered; //the pixel position of the cursor
                                        //set to the boundaries of the next letter
 
-    [ReadOnly] public char next_letter; //the next letter to be typed out
-    [ReadOnly] public Word typing_word;
+    [HideInInspector] public char next_letter; //the next letter to be typed out
+    [HideInInspector] public Word typing_word;
     private static Word EMPTY_WORD;
     
     private int first_typable_word; //the first word in the script that contains typable letters
@@ -151,7 +151,7 @@ public class ReadingManager: MonoBehaviour
                     {
                         br = true;
                         player.direction = true;
-                        player.SendMessage("SpawnAtRoot", words[i].R);
+                        player.SpawnAtRoot(words[i].R);
                         break;
                     }
                 }
@@ -175,7 +175,7 @@ public class ReadingManager: MonoBehaviour
                     {
                         br = true;
                         player.direction = false;
-                        player.SendMessage("SpawnAtRoot", words[i].L);
+                        player.SpawnAtRoot(words[i].L);
                         break;
                     }
                 }
@@ -735,7 +735,7 @@ public class ReadingManager: MonoBehaviour
         //add portal at end
         s += " <O portal/>";
 
-        Debug.Log(s);
+        //Debug.Log(s);
 
         char[] raw = s.ToCharArray();
 

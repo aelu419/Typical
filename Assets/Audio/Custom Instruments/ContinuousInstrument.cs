@@ -10,7 +10,7 @@ public class ContinuousInstrument
     protected float noise_velocity;
     protected float noise_amplitude;
 
-    [ReadOnly]
+    [HideInInspector]
     public int index;
     protected CustomSong song;
     protected string fmod_event_address;

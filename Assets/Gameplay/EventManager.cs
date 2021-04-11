@@ -8,7 +8,7 @@ public class EventManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Event Manager instantiated");
+        //Debug.Log("Event Manager instantiated");
         _instance = this;
 
         front_portal = false;

@@ -14,24 +14,24 @@ public class PlayerControl : MonoBehaviour
     public PlayerSFXLibrary sfx_lib;
 
     public float charSize; //the height of the main character, in world units
-    [ReadOnly] public Rect collider_bounds;
+    [HideInInspector] public Rect collider_bounds;
 
     //player state machine related 
     public float climb_threshold; //the threshold for height difference, above it triggers climbing
-    [ReadOnly] public bool in_climb;
+    [HideInInspector] public bool in_climb;
     //private float climb_extent; //the initial height difference when initiating a climb
 
     private bool light_toggle;
 
     //movement related
     public float climb_speed, accel, x_vel_max;
-    [ReadOnly] public Vector3 destination;
-    [ReadOnly] public Vector3 destination_override;
-    [ReadOnly] public Vector3 relation_to_destination; //negative or positive; 
+    [HideInInspector] public Vector3 destination;
+    [HideInInspector] public Vector3 destination_override;
+    [HideInInspector] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either 
                                                        //arrived or rushed pass the destination
-    [ReadOnly] public bool new_order;
-    [ReadOnly] public bool direction; //true when facing right
+    [HideInInspector] public bool new_order;
+    [HideInInspector] public bool direction; //true when facing right
     private Vector2 velocity_temp;
     private bool velocity_override;
     //private Vector3 relation_temp;
@@ -45,28 +45,28 @@ public class PlayerControl : MonoBehaviour
 
     private BoxCollider2D box;
 
-    [ReadOnly]
+    [HideInInspector]
     public HeadLightControl head_light_controller;
 
-    [ReadOnly]
+    [HideInInspector]
     public List<string> neighbours;
     public ContactPoint2D[] contacts;
-    //[ReadOnly] public List<GameObject> word_blocks_in_contact;
-    //[ReadOnly] public string word_blocks_in_contact_str;
+    //[HideInInspector] public List<GameObject> word_blocks_in_contact;
+    //[HideInInspector] public string word_blocks_in_contact_str;
 
     //private float stuck_time = 0.0f; //to deal with really weird situations
 
     public float light_progress; //0 is shut off, 1 is up
     //private SpriteRenderer torso;
 
-    private event System.Action on_first_frame;
+    private event System.Action OnFirstFrame;
 
     void Awake()
     {
         destination = Vector3.zero;
         destination_override = Vector3.zero;
 
-        on_first_frame = null;
+        OnFirstFrame = null;
 
         _instance = this;
     }
@@ -115,11 +115,12 @@ public class PlayerControl : MonoBehaviour
 
     public void SpawnAtRoot(Vector2 spawn_root)
     {
-        on_first_frame += () =>
+        OnFirstFrame += () =>
         {
+            //Debug.LogError(spawn_root.x + ", " + spawn_root.y);
             rigid.position = new Vector3(
                spawn_root.x,
-               spawn_root.y + charSize / 2f + 0.2f,
+               spawn_root.y + charSize / 2f + 1f,
                0
                );
 
@@ -136,10 +137,10 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (on_first_frame != null)
+        if (OnFirstFrame != null)
         {
-            on_first_frame();
-            on_first_frame = null;
+            OnFirstFrame();
+            OnFirstFrame = null;
         }
 
         //basic variables for the rest of the method
@@ -262,6 +263,7 @@ public class PlayerControl : MonoBehaviour
                             destination.y = block_top + charSize / 2f + 0.1f;
                             //yMax = Mathf.Max(block_top + charSize / 2f + 0.1f, yMax);
                             in_climb = true;
+                            Debug.LogError(destination.y);
                             break;
                         }
                     }
@@ -443,7 +445,7 @@ public class PlayerControl : MonoBehaviour
             NPCBehaviour n = other.GetComponent<NPCBehaviour>();
             if (n != null)
             {
-                n.SendMessage("Engage");
+                n.Engage();
             }
         }
     }
@@ -457,7 +459,7 @@ public class PlayerControl : MonoBehaviour
             NPCBehaviour n = other.GetComponent<NPCBehaviour>();
             if (n != null)
             {
-                n.SendMessage("Disengage");
+                n.Disengage();
             }
         }
     }

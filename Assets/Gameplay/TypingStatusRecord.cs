@@ -5,11 +5,11 @@ using UnityEngine;
 /*
 public class TypingStatusRecord : MonoBehaviour
 {
-    [ReadOnly] public float timer;
-    [ReadOnly] public int correct_presses;
-    [ReadOnly] public int incorrect_presses;
-    [ReadOnly] public float accuracy;
-    [ReadOnly] public float speed;
+    [HideInInspector] public float timer;
+    [HideInInspector] public int correct_presses;
+    [HideInInspector] public int incorrect_presses;
+    [HideInInspector] public float accuracy;
+    [HideInInspector] public float speed;
 
     // Start is called before the first frame update
     void Start()

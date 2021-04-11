@@ -5,18 +5,18 @@ using TMPro;
 
 public class WordBlockBehavior : MonoBehaviour
 {
-    [ReadOnly] public Word content;
-    [ReadOnly] public string word_status;
+    [HideInInspector] public Word content;
+    [HideInInspector] public string word_status;
 
     //private bool collider_width_sync;
-    [ReadOnly]
+    [HideInInspector]
     public float light_intensity;
-    //[ReadOnly] public Cover cover;
+    //[HideInInspector] public Cover cover;
 
-    [ReadOnly]
+    [HideInInspector]
     //list of font materials currently rendered on this word block
     public Material[] mats;//, mats_;
-    [ReadOnly]
+    [HideInInspector]
     public int typed;
 
     private PlayerControl player;

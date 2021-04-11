@@ -12,7 +12,7 @@ public class HeadLightControl : MonoBehaviour
     public Vector4 light_min_max_off;
     public Vector4 light_min_max_on;
 
-    [ReadOnly] public Vector4 current_setting;
+    [HideInInspector] public Vector4 current_setting;
 
     private UnityEngine.Experimental.Rendering.Universal.Light2D head_light;
     private float speed = 5;

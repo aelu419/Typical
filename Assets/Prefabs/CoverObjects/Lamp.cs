@@ -8,7 +8,7 @@ public class Lamp : MonoBehaviour
     private UnityEngine.Experimental.Rendering.Universal.Light2D light_;
     private float initial_outer_radius;
     private float n; //for noise purposes
-    [ReadOnly] public float l;
+    [HideInInspector] public float l;
     // Start is called before the first frame update
     void Start()
     {
