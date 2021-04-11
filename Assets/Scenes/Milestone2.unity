@@ -736,10 +736,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 507486619242034053, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
-      propertyPath: climb_speed
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 507486619498317133, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
       propertyPath: m_BlendStyleIndex
       value: 0
@@ -763,18 +759,6 @@ PrefabInstance:
     - target: {fileID: 1199507573621729195, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
       propertyPath: m_Enabled
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1261284409209358229, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
-      propertyPath: m_PointLightInnerRadius
-      value: 0.5992254
-      objectReference: {fileID: 0}
-    - target: {fileID: 1261284409209358229, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
-      propertyPath: m_ApplyToSortingLayers.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1261284409209358229, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
-      propertyPath: m_ApplyToSortingLayers.Array.data[0]
-      value: 867339835
       objectReference: {fileID: 0}
     - target: {fileID: 3570179037569336872, guid: 81433e71b653fc943ae82e9936c5d2cb, type: 3}
       propertyPath: m_LocalRotation.w
