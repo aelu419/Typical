@@ -81,7 +81,7 @@ SpriteRenderer:
   m_Size: {x: 6, y: 6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6730224259639204550
@@ -97,9 +97,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 63eefa145d49c014a9ff883d5360f026, type: 3}
-  - {fileID: 21300000, guid: dcc10351d2295e8498f756a41f90434e, type: 3}
-  - {fileID: 21300000, guid: f03fc0b861e8bbe4aa6141d007bde7d0, type: 3}
+  - {fileID: -2275671996767240752, guid: c3675580f5ab61b48b9ccd7914da2964, type: 3}
+  - {fileID: -1954668102362219404, guid: c3675580f5ab61b48b9ccd7914da2964, type: 3}
+  - {fileID: 52555898968431857, guid: c3675580f5ab61b48b9ccd7914da2964, type: 3}
+  - {fileID: 3082677547224051497, guid: c3675580f5ab61b48b9ccd7914da2964, type: 3}
+  - {fileID: 1932460866122672550, guid: c3675580f5ab61b48b9ccd7914da2964, type: 3}
+  - {fileID: 6056272580072687880, guid: c3675580f5ab61b48b9ccd7914da2964, type: 3}
   l: 0
 --- !u!1 &6059793270013718032
 GameObject:
