@@ -35,11 +35,12 @@ public class ScriptDispenser : ScriptableObject
     public ScriptObjectScriptable CurrentScript {
         get
         {
-            if (first_load && _current == null)
+            if (first_load)
             {
                 if (AnalyticsSessionInfo.sessionFirstRun)
                 {
                     GameSave.ClearSave();
+                    Debug.LogError("cleared save");
                     _current = tutorial;
                 }
                 else if (GameSave.PassedTutorial)
@@ -56,8 +57,9 @@ public class ScriptDispenser : ScriptableObject
                 }
             }
 
+            Debug.LogError(AnalyticsSessionInfo.sessionCount);
             string script_state = _current.name_;
-            script_state += "\n\tfirst load:" + first_load;
+            script_state += "\n\tfirst load:" + AnalyticsSessionInfo.sessionFirstRun;
             script_state += ", \n\tpassed tutorial: " + GameSave.PassedTutorial;
             script_state += ", \n\tcurrent: " + (_current == null ? "null" : _current.name_);
             Debug.LogError(script_state);
@@ -226,8 +228,8 @@ public class ScriptDispenser : ScriptableObject
         }*/
 
         load_mode = true;
-        first_load = true;
         //_current = null;
         _ = CurrentScript;
+        first_load = false;
     }
 }

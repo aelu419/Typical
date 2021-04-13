@@ -45,12 +45,36 @@ public class PauseMenu : MonoBehaviour
         gamePaused = true;
 
         buttons = GetComponentsInChildren<UnityEngine.UI.Button>();
+
+        string scene =
+            ScriptableObjectManager.Instance.ScriptManager.CurrentScript.name_;
+
+        bool save_enabled =
+            scene.Equals(ScriptDispenser.MAINMENU) || scene.Equals(ScriptDispenser.TUTORIAL);
+
         foreach (UnityEngine.UI.Button b in buttons)
         {
-            if (b.gameObject.name.Equals("MuteButton"))
+            switch (b.gameObject.name)
             {
-                b.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text
+                case "MuteButton":
+                    b.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text
                     = GameSave.Muted ? "Unmute" : "Mute";
+                    break;
+
+                case "SaveButton":
+                    b.gameObject.SetActive(!(
+                        scene.Equals(ScriptDispenser.MAINMENU) 
+                        || scene.Equals(ScriptDispenser.TUTORIAL)
+                        ));
+                    break;
+
+                case "QuitButton":
+                    b.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text =
+                        scene.Equals(ScriptDispenser.MAINMENU) ? "Quit" : "Quit to Menu";
+                    break;
+
+                default:
+                    break;
             }
         }
     }
@@ -69,22 +93,21 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    public void saveGame()
+    {
+        GameSave.SaveProgress();
+    }
+
     public void quitGame()
     {
         if (ScriptableObjectManager.Instance.ScriptManager.CurrentScript.name_.Equals(ScriptDispenser.MAINMENU))
         {
-            Debug.Log("Currently in main menu, quit directly!");
+            //Debug.Log("Currently in main menu, quit directly!");
             Application.Quit();
-        } else if (ScriptableObjectManager.Instance.ScriptManager.CurrentScript.name_.Equals(ScriptDispenser.TUTORIAL))
-        {
-            Debug.Log("Currently in tutorial, not saving");
-            EventManager.Instance.TransitionTo(ScriptDispenser.MAINMENU, false);
-            Time.timeScale = 1.0f;
         }
         else
         {
-            Debug.Log("Currently in plot, saving and then quitting!");
-            GameSave.SaveProgress();
+            //Debug.Log("Currently in tutorial, not saving");
             EventManager.Instance.TransitionTo(ScriptDispenser.MAINMENU, false);
             Time.timeScale = 1.0f;
         }
