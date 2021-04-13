@@ -23,8 +23,8 @@ public class MusicManager : MonoBehaviour
     [HideInInspector]
     public float beat;
 
-    [Range(0, 1)]
-    public float GLOBAL_VOLUME;
+    //[Range(0, 1)]
+    //public float GLOBAL_VOLUME;
 
     public CustomSong ambient;
     CustomSong playing;
@@ -91,11 +91,9 @@ public class MusicManager : MonoBehaviour
     IEnumerator pauseAfterDelay(float t)
     {
         yield return new WaitForSeconds(t);
-        //masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
-        //masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        Debug.Log("song paused");
         playing.enabled = false;
-        //masterBus.setPaused(true);
-        yield return null;
+        //yield return null;
     }
 
 
@@ -106,14 +104,12 @@ public class MusicManager : MonoBehaviour
         //RuntimeManager.PauseAllEvents(muted);
         if (muted)
         {
-            //Debug.Log("muting game");
             masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
             masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            pauseAfterDelay(1);
+            StartCoroutine(pauseAfterDelay(1));
         }
         else
         {
-            //Debug.Log("unmuting game");
             PlaySong();
         }
     }
@@ -134,8 +130,14 @@ public class MusicManager : MonoBehaviour
         beat = 0.0f;
     }
 
+    public void PlayOneShot(string path)
+    {
+        PlayOneShot(path, transform.position);
+    }
+
     public void PlayOneShot(string path, Vector3 position)
     {
+        Debug.Log("prompt oneshot: " + GameSave.Muted);
         if (!GameSave.Muted)
         {
             FMODUnity.RuntimeManager.PlayOneShot(path, position);

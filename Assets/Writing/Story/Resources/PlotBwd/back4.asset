@@ -16,8 +16,9 @@ MonoBehaviour:
   source: 0
   text_writer: {fileID: 0}
   text: "Ha... I actually kinda forgot <O npc hostile/> how it went... <O stump/>wrote
-    it and rewrote it so many times and now I can't get a hold of it... <O stump/>\r\nOh,
-    yeah, right, it <O npc hostile/> starts at afternoon... alright: <O stump/>\r"
+    it and rewrote it so many times and now I can't get a hold of it... <O stump/>\r\n<O
+    npc walking1/>\nOh, yeah, right, it <O npc hostile/> starts at afternoon... alright:
+    <O stump/>\r"
   previous: back5
   next:
   - _endless

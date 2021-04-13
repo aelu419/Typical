@@ -25,7 +25,7 @@ public class Tambourine : OneShot
 
     public new void PlayNote()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(event_path, MusicManager.Instance.transform.position);
+        MusicManager.Instance.PlayOneShot(event_path);
     }
 
     public void PlayNote(float gain, Vector3 pos)
@@ -53,7 +53,7 @@ public class Tambourine : OneShot
 
     public void PlayStreak(int index)
     {
-        FMODUnity.RuntimeManager.PlayOneShot(streaks[index], MusicManager.Instance.transform.position);
+        MusicManager.Instance.PlayOneShot(streaks[index], MusicManager.Instance.transform.position);
     }
 
     public void PlayStreak(int index, float gain)

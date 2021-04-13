@@ -92,6 +92,7 @@ public class Stump : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (content == null) return;
         GameObject other = collision.gameObject;
         if (other.CompareTag("Player"))
         {

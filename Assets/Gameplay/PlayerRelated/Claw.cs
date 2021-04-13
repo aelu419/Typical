@@ -68,7 +68,7 @@ public class Claw : MonoBehaviour
         if (time > 1.0f && extension > 0.85f & hit_playable)
         {
             hit_playable = false;
-            FMODUnity.RuntimeManager.PlayOneShot(hit, transform.position);
+            MusicManager.Instance.PlayOneShot(hit, transform.position);
         }
         else
         {
