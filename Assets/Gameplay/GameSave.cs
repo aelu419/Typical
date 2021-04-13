@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 [CreateAssetMenu(menuName = "Typical Customs/Game Save Manager")]
 public class GameSave : ScriptableObject
@@ -12,6 +13,14 @@ public class GameSave : ScriptableObject
         PASS = "_pass";
 
     public string override_scene;
+
+    private void OnEnable()
+    {
+        if (AnalyticsSessionInfo.sessionFirstRun)
+        {
+            ClearSave();
+        }
+    }
 
     public static void ClearSave()
     {

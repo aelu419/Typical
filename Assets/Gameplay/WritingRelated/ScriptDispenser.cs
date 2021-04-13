@@ -1,7 +1,7 @@
 using UnityEngine;
+using UnityEngine.Analytics;
 using System.Collections.Generic;
 
-[System.Serializable]
 [CreateAssetMenu(menuName = "Typical Customs/Dispensers/Script Dispenser")]
 public class ScriptDispenser : ScriptableObject
 {
@@ -37,17 +37,12 @@ public class ScriptDispenser : ScriptableObject
         {
             if (first_load && _current == null)
             {
-                /*
-                //during first load, debug all the scripts by trying to parse each of them
-                foreach (ScriptObjectScriptable s in scripts)
+                if (AnalyticsSessionInfo.sessionFirstRun)
                 {
-                    ReadingManager.ParseScript(
-                        s.text
-                        );
-                }*/
-
-                //Debug.Log("loading for the first time");
-                if (GameSave.PassedTutorial)
+                    GameSave.ClearSave();
+                    _current = tutorial;
+                }
+                else if (GameSave.PassedTutorial)
                 {
                     int main_menu_flag =
                         (GameSave.HasSavedScene ? HAS_SAVE : 0)
@@ -176,59 +171,6 @@ public class ScriptDispenser : ScriptableObject
         }
     }
 
-    /*
-    private List<ScriptObjectScriptable> Parse()
-    {
-        List<ScriptObjectScriptable> s = new List<ScriptObjectScriptable>();
-        string p = parseable.text;
-        string[] lines = p.Split('\n');
-
-        for (int i = 0; i < lines.Length;)
-        {
-            string header = Extract(lines[i++]);
-            string previous = Extract(lines[i++]);
-            List<string> nexts = new List<string>();
-            while (lines[i][0] == '[')
-            {
-                nexts.Add(Extract(lines[i++]));
-            }
-
-            string script = "";
-            while (i < lines.Length)
-            {
-                if (lines[i].Length == 0)
-                {
-                    i++;
-                    if (i >= lines.Length) break;
-                }
-                else if (lines[i][0] == '[')
-                {
-                    break;
-                }
-                script += " " + lines[i];
-                i++;
-            }
-            
-            ScriptObjectScriptable chapter = CreateInstance<ScriptObjectScriptable>();
-
-            chapter.name_ = header;
-            chapter.previous = previous;
-            chapter.next = nexts.ToArray();
-            chapter.text = script;
-
-            s.Add(chapter);
-        }
-        return s;
-    }
-
-    private string Extract (string full)
-    {
-        //Debug.Log(full);
-        int start = full.IndexOf('[');
-        int end = full.IndexOf(']');
-        return full.Substring(start + 1, end - start - 1);
-    }*/
-
     public static event System.Action OnLoad;
 
     public void LoadScripts()
@@ -285,7 +227,7 @@ public class ScriptDispenser : ScriptableObject
 
         load_mode = true;
         first_load = true;
-        _current = null;
-        //_current = LoadSaved();
+        //_current = null;
+        _ = CurrentScript;
     }
 }
