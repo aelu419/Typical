@@ -15,7 +15,7 @@ MonoBehaviour:
   name_: _credits
   source: 0
   text_writer: {fileID: 0}
-  text: <O npc credits/> And that's it, that's how you, or I, or the narrator, or
+  text: <O npc credits1/> And that's it, that's how you, or I, or the narrator, or
     the robot, got out of this game. It's all very confusing...
   previous: _mainmenu
   next:

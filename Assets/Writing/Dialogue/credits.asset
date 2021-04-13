@@ -13,8 +13,53 @@ MonoBehaviour:
   m_Name: credits
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 69835c1067d40ce42a443b2fed4a8eac, type: 3}
+  - {fileID: 21300000, guid: 0662b90caa58aa84c9106b05fcc552c8, type: 3}
   segments:
-  - name: 
-    script: credits!
+  - name: 1
+    script: 'Execuse me sir?
+
+      Would you like to hear about the names of our
+      creators?
+
+      It would take just a short moment:
+
+      Writing & Programming:
+      Alan Tao
+
+      Illustrations: Aparna Arul
+
+      Music: Isaiah McElvain
+
+      User
+      Interface: Tamjid Hossain
+
+      Resources:
+
+      Averia font by Dan Sayers
+
+      sounds
+      from Freesound.org
+
+      made with the Unity3D Engine
+
+      Special Thanks:
+
+      Yoon
+      bird
+
+      Fellow team leads at VGDev
+
+      and YOU!
+
+      (the YOU still
+      remains a mystery for me)
+
+      (the scripture mentions this YOU in all caps)
+
+      (should
+      I just give the creators'' thanks to random people on the road?)
+
+      (anyway...)
+
+'
   randomize: 0

@@ -16,7 +16,7 @@ MonoBehaviour:
   source: 0
   text_writer: {fileID: 0}
   text: <O img title/> <O lamp/> <O npc credits/> <O grass /> <O npc narrator1/>
-    <O grass />x
+    <O grass /> <O npc credits1/>
   previous: 
   next:
   - continue _save
