@@ -25,7 +25,7 @@ public class PlayerControl : MonoBehaviour
 
     //movement related
     public float climb_speed, accel, x_vel_max;
-    [HideInInspector] public Vector3 destination;
+    public Vector3 destination;
     [HideInInspector] public Vector3 destination_override;
     [HideInInspector] public Vector3 relation_to_destination; //negative or positive; 
                                                        //sign change means the player has either 
@@ -118,11 +118,16 @@ public class PlayerControl : MonoBehaviour
         OnFirstFrame += () =>
         {
             //Debug.LogError(spawn_root.x + ", " + spawn_root.y);
-            rigid.position = new Vector3(
+            rigid.position = new Vector2(
                spawn_root.x,
-               spawn_root.y + charSize / 2f + 1f,
-               0
+               spawn_root.y + charSize / 2f + 1f
                );
+
+            destination = new Vector3(
+                rigid.position.x, 
+                rigid.position.y, 
+                0
+                );
 
             light_progress = 0;
         };
@@ -263,7 +268,7 @@ public class PlayerControl : MonoBehaviour
                             destination.y = block_top + charSize / 2f + 0.1f;
                             //yMax = Mathf.Max(block_top + charSize / 2f + 0.1f, yMax);
                             in_climb = true;
-                            //Debug.LogError(destination.y);
+                            Debug.LogError(destination.y);
                             break;
                         }
                     }
