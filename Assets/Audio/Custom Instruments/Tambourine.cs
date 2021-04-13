@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class Tambourine : OneShot
 {
     [FMODUnity.EventRef]
@@ -74,3 +75,4 @@ public class Tambourine : OneShot
         hit.start();
     }
 }
+*/

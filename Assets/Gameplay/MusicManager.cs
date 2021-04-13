@@ -137,7 +137,7 @@ public class MusicManager : MonoBehaviour
 
     public void PlayOneShot(string path, Vector3 position)
     {
-        Debug.Log("prompt oneshot: " + GameSave.Muted);
+        //Debug.Log("prompt oneshot: " + GameSave.Muted);
         if (!GameSave.Muted)
         {
             FMODUnity.RuntimeManager.PlayOneShot(path, position);

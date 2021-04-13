@@ -11,15 +11,15 @@ public class ReadingManager: MonoBehaviour
     public List<Word> words;
     public string script_name;
 
-    private CameraController cControler;
+    //private CameraController cControler;
     private PlayerControl player;
 
     //whether use correct letter control or use letter pressed control
     public bool type_explicit;
 
     //slope related
-    public Vector2 slope_min_max;
-    public Perlin perlin_map1, perlin_map2;
+    private static Vector2 slope_min_max;
+    private static Perlin perlin_map1, perlin_map2;
 
     private List<GameObject> loaded_words;
 
@@ -40,12 +40,6 @@ public class ReadingManager: MonoBehaviour
 
     //stuff to do on the first frame of the scene
     private event System.Action first_frame;
-
-    private void Awake()
-    {
-        perlin_map1 = new Perlin(10, 2);
-        perlin_map2 = new Perlin(10, 2);
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +65,7 @@ public class ReadingManager: MonoBehaviour
         }
 
         //connect to rest of components
-        cControler = GetComponent<CameraController>();
+        //cControler = GetComponent<CameraController>();
         player = PlayerControl.Instance
             .GetComponent<PlayerControl>();
 
@@ -696,8 +690,14 @@ public class ReadingManager: MonoBehaviour
     }
 
     //get slope of some word by index
-    private float GetSlope(int index)
+    private static float GetSlope(int index)
     {
+        if (slope_min_max == null || perlin_map1 == null || perlin_map2 == null)
+        {
+            perlin_map1 = new Perlin(10, 2);
+            perlin_map2 = new Perlin(10, 2);
+            slope_min_max = Vector2.zero;
+        }
         if (index == 0) return 0;
         float n = 0.5f * perlin_map1.Noise(new VecN(3 * index, index / 20f))
             + 0.5f * perlin_map2.Noise(new VecN(index * 9, index / 50f));
@@ -707,7 +707,7 @@ public class ReadingManager: MonoBehaviour
     //parse the script
     //tags with the format <...></...> and <.../> are handled
     //line breaks and spaces are treated the same way
-    public List<Word> ParseScript(string s)
+    public static List<Word> ParseScript(string s)
     {
         List<Word> words = new List<Word>();
 

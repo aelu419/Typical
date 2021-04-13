@@ -39,22 +39,16 @@ public class ScriptObjectScriptable : ScriptableObject
         }
     }
 
-    private static ReadingManager rm = new ReadingManager();
-
     public void CheckSyntax()
     {
-        rm.slope_min_max = slope_min_max;
-        rm.perlin_map1 = new Perlin(10, 2);
-        rm.perlin_map2 = new Perlin(10, 2);
-
         List<Word> lst;
         if (source == ScriptTextSource.TEXT_ASSET)
         {
-            lst = rm.ParseScript(text);
+            lst = ReadingManager.ParseScript(text);
         }
         else
         {
-            lst = rm.ParseScript(text_writer.Output());
+            lst = ReadingManager.ParseScript(text_writer.Output());
         }
         System.Text.StringBuilder sb = new System.Text.StringBuilder(lst.Count * 10);
         foreach (Word w in lst)

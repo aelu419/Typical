@@ -37,13 +37,14 @@ public class ScriptDispenser : ScriptableObject
         {
             if (first_load && _current == null)
             {
+                /*
                 //during first load, debug all the scripts by trying to parse each of them
                 foreach (ScriptObjectScriptable s in scripts)
                 {
-                    GameObject.FindGameObjectWithTag("General Manager").GetComponent<ReadingManager>().ParseScript(
+                    ReadingManager.ParseScript(
                         s.text
                         );
-                }
+                }*/
 
                 //Debug.Log("loading for the first time");
                 if (GameSave.PassedTutorial)
@@ -163,7 +164,7 @@ public class ScriptDispenser : ScriptableObject
             bool found = false;
             foreach (ScriptObjectScriptable s in scripts)
             {
-                if (p.destination.Equals(s.name_))
+                if (p.destination.Equals(s.name_) || p.destination.Equals(SAVE) || p.destination.Equals(QUIT))
                 {
                     found = true;
                 }
